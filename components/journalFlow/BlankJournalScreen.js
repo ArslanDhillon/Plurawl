@@ -57,9 +57,11 @@ export default BlankJournalScreen = () => {
                                 <Text style={{ fontSize: 17, fontWeight: '700', color: '#FFFFFF50', textAlign: 'center' }}>Journal</Text>
                             </View>
                             {inputValue ? <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }}>
-                                <Image source={require('../../assets/doneBtn.png')}
-                                    style={{ height: 36 / 924 * height, width: 72 / 429 * width, }}
-                                />
+                                < View
+                                    style={{ height: 36 / 924 * height, width: 72 / 429 * width,  backgroundColor: '#FFFFFF30', borderRadius: '20%', justifyContent: 'center', alignItems: 'center'}}
+                                >
+                                    <Text style={{color: 'red'}}>Done</Text>
+                                </View>
                             </TouchableOpacity> : '' }
 
                         </View>
