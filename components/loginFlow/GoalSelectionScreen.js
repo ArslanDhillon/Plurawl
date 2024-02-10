@@ -13,8 +13,8 @@ const GoalSelectionScreen = ({route,navigation}) => {
 
     console.log('user get data from previouse screen'  ,userData)
 
-    const blankCircle = require("../assets/blankCircle.png");
-    const filledCircle = require("../assets/filledCircle.png");
+    const blankCircle = require("../../assets/blankCircle.png");
+    const filledCircle = require("../../assets/filledCircle.png");
 
 
     const nxtBtnHandle = () =>{
@@ -76,7 +76,7 @@ const GoalSelectionScreen = ({route,navigation}) => {
                     Select all that apply
                 </Text>
                 <View style = {{flexDirection:'row',alignItems:'center'}}>
-                    <Image source={require('../assets/PageControl1.png')} style = {{height:393/924*height,width:44/423*width}}/>
+                    <Image source={require('../../assets/PageControl1.png')} style = {{height:393/924*height,width:44/423*width}}/>
                     <ScrollView style={{ height: 630 / 924 * height, marginTop: 50 / 926 * height }}>
                         {
                             goals.map((item) => (

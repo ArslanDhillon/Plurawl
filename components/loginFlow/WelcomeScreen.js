@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dimensions, SafeAreaView, Text, View ,Image, TouchableOpacity} from 'react-native'
-import { globalStyles } from '../splashFlow/globalStyles/styles'
+import { globalStyles } from '../globalStyles/styles'
 
 const WelcomeScreen = (props) => {
 
@@ -12,11 +12,11 @@ const WelcomeScreen = (props) => {
 
     return (
         <SafeAreaView style={{ backgroundColor: '#0f0f0f', flex: 1, }}>
-            <View style={{ backgroundColor: '#0f0f0f', height: height, alignItems: "center", width: width, justifyContent: 'center' }}>
+            <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
                 <Text style = {{color:"#fff",fontSize:15,fontWeight:'700',marginTop:133/952*height}}>Welcome,</Text>
                 <Text style = {{color:"#fff",fontSize:25,fontWeight:'700',marginTop:10}}>Pabel</Text>
                 <Text style = {{color:"#fff",fontSize:12,fontWeight:'500',marginTop:10}}>New account created </Text>
-                <Image source={require('../assets/profileImage.png')} 
+                <Image source={require('../../assets/profileImage.png')} 
                     style = {{height:155/924*height ,width:155/924*height,borderRadius:77/924*height,marginTop: 20/924*height,resizeMode:'contain'}}
                 />
                 <Text style = {{color:"#fff",fontSize:15,fontWeight:'500',marginTop:200/924*height}}>Let's get started with a check-in. </Text>

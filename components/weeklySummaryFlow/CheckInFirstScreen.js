@@ -11,12 +11,12 @@ export default CheckInFirstScreen = (props) => {
 
     return (
         <View style={{ height: height, width: width }}>
-            <ImageBackground style={{ height: height, width: width }} source={require('../assets/yellowBg.png')}>
+            <ImageBackground style={{ height: height, width: width }} source={require('../../assets/yellowBg.png')}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60 }}>
                         <Text style={{ fontSize: 12, fontWeight: '700', color: '#12121250' }}>Your last mood was</Text>
                         <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                            <Image source={require('../assets/crossBtn.png')}
+                            <Image source={require('../../assets/crossBtn.png')}
                                 style={{ height: 40 / 924 * height, width: 40 / 924 * height, }} />
                         </TouchableOpacity>
 
@@ -56,7 +56,7 @@ export default CheckInFirstScreen = (props) => {
                                         })
 
                                     }} >
-                                    <Image source={require('../assets/pleasantMoodCircle.png')}
+                                    <Image source={require('../../assets/pleasantMoodCircle.png')}
                                         style={{ height: 62 / 924 * height, width: 64 / 924 * height, resizeMode: 'contain' }}
                                     />
                                     <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>Heigh energy</Text>
@@ -72,7 +72,7 @@ export default CheckInFirstScreen = (props) => {
                                         })
 
                                     }}  >
-                                    <Image source={require('../assets/unpleasantMoodCircle.png')}
+                                    <Image source={require('../../assets/unpleasantMoodCircle.png')}
                                         style={{ height: 62 / 924 * height, width: 64 / 924 * height, resizeMode: 'contain' }}
                                     />
                                     <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>Heigh energy</Text>
@@ -91,7 +91,7 @@ export default CheckInFirstScreen = (props) => {
 
                                     }} 
                                 >
-                                    <Image source={require('../assets/lowEnergyPleasant.png')}
+                                    <Image source={require('../../assets/lowEnergyPleasant.png')}
                                         style={{ height: 62 / 924 * height, width: 64 / 924 * height, resizeMode: 'contain' }}
                                     />
                                     <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>Low energy</Text>
@@ -107,7 +107,7 @@ export default CheckInFirstScreen = (props) => {
                                         })
 
                                     }}  >
-                                    <Image source={require('../assets/lowEnergyUnpleasant.png')}
+                                    <Image source={require('../../assets/lowEnergyUnpleasant.png')}
                                         style={{ height: 62 / 924 * height, width: 64 / 924 * height, resizeMode: 'contain' }}
                                     />
                                     <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>Low energy</Text>

@@ -1,22 +1,24 @@
 import React, { } from 'react'
 import { Text, StyleSheet, View, Dimensions, ImageBackground, Image, TouchableOpacity } from 'react-native'
-import { globalStyles } from '../splashFlow/globalStyles/styles';
+import { globalStyles } from '../globalStyles/styles';
 const { height, width } = Dimensions.get('window');
 
-export default CheckInFirstScreen = (props) => {
+export default CheckInFirstScreen = ({route,navigation}) => {
+
+    const userMood = route.params.mood;
 
     const closeBtnHandle = () =>{
-        props.navigation.navigate('WeeklySummaryMainScreen')
+        navigation.navigate('WeeklySummaryMainScreen')
     }
 
     return (
         <View style={{ height: height, width: width }}>
-            <ImageBackground style={{ height: height, width: width }} source={require('../assets/CheckIn2Bg.png')}>
+            <ImageBackground style={{ height: height, width: width }} source={require('../../assets/CheckIn2Bg.png')}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60 }}>
                         <Text style={{ fontSize: 12, fontWeight: '700', color: '#12121250' }}>Your new mood </Text>
-                        <TouchableOpacity onPress={()=>props.navigation.navigate('WeeklySummaryMainScreen`')} >
-                            <Image source={require('../assets/crossBtn.png')}
+                        <TouchableOpacity onPress={()=>navigation.navigate('WeeklySummaryMainScreen')} >
+                            <Image source={require('../../assets/crossBtn.png')}
                                 style={{ height: 40 / 924 * height, width: 40 / 924 * height, }} />
 
                         </TouchableOpacity>
@@ -26,7 +28,7 @@ export default CheckInFirstScreen = (props) => {
                         flexDirection: 'row', width: width - 60, alignItems: 'flex-start', gap: 10 / 952 * height,
                         marginTop: 32 / 924 * height,alignItems:'center'
                     }}>
-                        <Text style={{ fontSize: 25, fontWeight: '500', }}>Bliss</Text>
+                        <Text style={{ fontSize: 25, fontWeight: '500', }}>{userMood.feelings}</Text>
                         <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', }}>/ˈanəˌmādəd/</Text>
                     </View>
                     <Text style={{ fontSize: 12, fontWeight: '500', color: '#000', marginTop: 50 / 924 * height, width: width - 60 }}>Supreme happiness, joy, or a state of complete and utter contentment and peace.</Text>
