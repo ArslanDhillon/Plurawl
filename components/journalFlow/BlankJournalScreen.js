@@ -5,6 +5,8 @@ import {
 import React, { useEffect, useRef, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 
+//hello world
+
 export default BlankJournalScreen = () => {
     const { height, width } = Dimensions.get('window')
     const [text, setText] = useState('')
