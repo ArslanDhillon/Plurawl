@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, Dimensions, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react';
-import { globalStyles } from './globalStyles/styles';
+import { globalStyles } from '../globalStyles/styles';
 
 
 
@@ -38,21 +38,21 @@ const SlideScreen1 = (props) => {
 
     const images = [
         {
-            image: require("../assets/iphone.png"),
+            image: require("../../assets/iphone.png"),
             uperText: "Al Journal",
-            sideImage: require("../assets/pageIcon.png"),
+            sideImage: require("../../assets/pageIcon.png"),
             subUperTExt: 'Our AI assists in comprehending daily emotions and deep thoughts, offering a non-judgmental perspective.'
         },
         {
-            image: require("../assets/iphone.png"),
+            image: require("../../assets/iphone.png"),
             uperText: "Rewards",
-            sideImage: require("../assets/starIcon.png"),
+            sideImage: require("../../assets/starIcon.png"),
             subUperTExt: 'Expand your emotional intelligence by journaling everything from daily emotions to deep thought sessions with Plurawl.'
         },
         {
-            image: require("../assets/iphone.png"),
+            image: require("../../assets/iphone.png"),
             uperText: "Encryption",
-            sideImage: require("../assets/lockIcon.png"),
+            sideImage: require("../../assets/lockIcon.png"),
             subUperTExt: 'Expand your emotional intelligence by journaling everything from daily emotions to deep thought sessions with Plurawl.'
         },
     ];

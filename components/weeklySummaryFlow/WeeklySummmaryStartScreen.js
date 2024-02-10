@@ -5,19 +5,19 @@ const { height, width } = Dimensions.get('window')
 
 const WeeklySummaryMainScreen = (props) => {
 
-    const checkInPressHandle = () =>{
+    const checkInPressHandle = () => {
         props.navigation.navigate('CheckInFirstScreen')
     }
 
     return (
         <SafeAreaView style={{ backgroundColor: '#0f0f0f', flex: 1, }}>
-            <View style={{ backgroundColor: '#0f0f0f', height: height, alignItems: "center", width: width, justifyContent: 'center' }}>
-                <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', width: width - 40 / 429 * width }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', width: width - 40 / 429 * width, marginTop: 20 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, }}>
                         <TouchableOpacity>
-                            <Image source={require('../assets/profileImage.png')}
+                            <Image source={require('../../assets/profileImage.png')}
                                 style={{
-                                    height: 48 / 926 * height, width: 48 / 429 * width, resizeMode: 'contain', borderWidth: 4,
+                                    height: 48 / 926 * height, width: 48 / 924 * height, resizeMode: 'contain', borderWidth: 4,
                                     borderColor: "#252525", borderRadius: 24 / 924 * height
                                 }}
                             />
@@ -32,7 +32,7 @@ const WeeklySummaryMainScreen = (props) => {
                     </View>
 
                     <TouchableOpacity style={{
-                        borderWidth: 1, borderColor: "#FCD860", borderRadius: 80 / 924 * height,
+                        borderWidth: 1, borderColor: "#FCD860", borderRadius: 80 / 924 * height, alignItems: 'center',
                         padding: 10 / 924 * height, width: 120 / 429 * width, flexDirection: 'row', gap: 10
                     }} onPress={checkInPressHandle}>
                         <View style={{
@@ -45,41 +45,47 @@ const WeeklySummaryMainScreen = (props) => {
                 </View>
                 <View style={{ width: width, height: 1, backgroundColor: '#0F0F0F', marginTop: 15 / 924 * height }}></View>
                 <TouchableOpacity>
-                    <ImageBackground source={require("../assets/gradientImage.png")} style={{ height: 121 / 924 * height, width: 390 / 924 * height }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15 / 924 * height }}>
-                            <View style={{ flexDirection: 'column', }}>
+                    <View style={{ overflow: 'hidden', height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 20 / 924 * height, backgroundColor: 'red' }}>
+                        <ImageBackground source={require("../../assets/gradientImage.png")} style={{ height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 30 / 924 * height, backgroundColor: 'blue' }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15 / 924 * height }}>
+                                <View style={{ flexDirection: 'column', }}>
 
-                                <Text style={{ fontSize: 18, fontWeight: '500', }}>Last week's vibe</Text>
-                                <Text style={{ fontSize: 12, fontWeight: "500", color: '#000' }}>Dec 17 - 23</Text>
-                                <Text style={{ fontSize: 12, fontWeight: "500", color: '#000', marginTop: 23 / 924 * height }}>Summary • Tips • Soundtrack</Text>
+                                    <Text style={{ fontSize: 18, fontWeight: '500', }}>Last week's vibe</Text>
+                                    <Text style={{ fontSize: 12, fontWeight: "500", color: '#000' }}>Dec 17 - 23</Text>
+                                    <Text style={{ fontSize: 12, fontWeight: "500", color: '#000', marginTop: 23 / 924 * height }}>Summary • Tips • Soundtrack</Text>
+                                </View>
+
+                                <View style={{ height: 90 / 924 * height, width: 95 / 926 * height, overflow: 'hidden', borderRadius: 10 / 924 * height, }}>
+                                    <Image source={require('../../assets/Rectangle.gif')} style={{ height: 90 / 924 * height, width: 95 / 924 * height, }} />
+                                </View>
+
+
                             </View>
 
-                            <View style={{ height: 90 / 924 * height, width: 95 / 926 * height, overflow: 'hidden', borderRadius: 10 / 924 * height, }}>
-                                <Image source={require('../assets/Rectangle.gif')} style={{ height: 90 / 924 * height, width: 95 / 924 * height, }} />
-                            </View>
 
+                        </ImageBackground>
+                    </View>
 
-                        </View>
-
-
-                    </ImageBackground>
                 </TouchableOpacity>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, marginTop: 10 / 924 * height }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, marginTop: 10 / 924 * height, width: width - 40 / 429 * width ,marginTop:20/924*height}}>
                     <TouchableOpacity>
-                        <ImageBackground
-                            style={{ height: 174 / 924 * height, width: 191 / 426 * width, borderRadius: 15 / 924 * height }}
-                            source={require('../assets/QOTDbgImage.png')}>
-                            <View style={{ padding: 18 / 924 * height }}>
-                                <Text style={{ fontSize: 18, fontWeight: '500', color: '#fff' }}>Quote of the Day</Text>
+                        <View style = {{ overflow: 'hidden',height: 174 / 924 * height, width: 191 / 426 * width,borderRadius: 15 / 924 * height }}>
+                            <ImageBackground
+                                style={{ height: 174 / 924 * height, width: 191 / 426 * width, }}
+                                source={require('../../assets/QOTDbgImage.png')}>
+                                <View style={{ padding: 18 / 924 * height }}>
+                                    <Text style={{ fontSize: 18, fontWeight: '500', color: '#fff' }}>Quote of the Day</Text>
 
-                            </View>
-                        </ImageBackground>
+                                </View>
+                            </ImageBackground>
+                        </View>
+
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={{ height: 174 / 924 * height, width: 191 / 429 * width, backgroundColor: '#1C1C1C', borderRadius: 16 / 924 * height, padding: 15 / 924 * height }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 / 426 * width }}>
-                                <Image source={require('../assets/focusImage.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
+                                <Image source={require('../../assets/focusImage.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
                                 <Text style={{ color: '#fff', fontSize: 14, fontWeight: '500' }}>Focus</Text>
 
                             </View>
@@ -92,7 +98,7 @@ const WeeklySummaryMainScreen = (props) => {
                 <TouchableOpacity style={{ width: 390 / 426 * width, height: 87 / 924 * height, borderRadius: 16 / 924 * height, backgroundColor: "#1c1c1c", marginTop: 10 / 924 * height }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 15 / 924 * height, paddingBottom: 10 / 924 * height }}>
 
-                        <Image source={require('../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
+                        <Image source={require('../../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
                         <Text style={{ color: '#fff', fontSize: 14, fontWeight: '500', }}>Chat w/ Plurawl.ai</Text>
                     </View>
                     <Text style={{ color: '#F8EDDA75', fontSize: 14, fontWeight: '500', paddingLeft: 15 / 426 * width }}>Lorem ipsum dolor sit amet consectetur.</Text>
@@ -102,7 +108,7 @@ const WeeklySummaryMainScreen = (props) => {
                     <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
-                            <Image source={require('../assets/insightIcon.png')} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
+                            <Image source={require('../../assets/insightIcon.png')} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
                             <Text style={{ color: '#fff', fontSize: 14, fontWeight: '700', }}>Insights</Text>
                         </View>
 
@@ -111,15 +117,15 @@ const WeeklySummaryMainScreen = (props) => {
                     <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
-                            <Image source={require("../assets/pageIcon.png")} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
+                            <Image source={require("../../assets/pageIcon.png")} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
                             <Text style={{ color: '#fff', fontSize: 14, fontWeight: '700', }}>My journal</Text>
                         </View>
 
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={{ marginTop: 180 / 924 * height, }}>
-                    <Image source={require('../assets/addBtn.png')} style={{ height: 58 / 924 * height, width: 58 / 924 * height, resizeMode: 'contain' }} />
+                <TouchableOpacity style={{ marginTop: 150 / 924 * height, }}>
+                    <Image source={require('../../assets/addBtn.png')} style={{ height: 58 / 924 * height, width: 58 / 924 * height, resizeMode: 'contain' }} />
                 </TouchableOpacity>
 
             </View>

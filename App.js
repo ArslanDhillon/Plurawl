@@ -1,22 +1,23 @@
 import { StyleSheet, Text, View ,Dimensions} from 'react-native';
 import React from 'react';
-import SlideScreen1 from './splashFlow/SlideScreen1';
+import SlideScreen1 from './components/splashFlow/SlideScreen1';
 import { StatusBar } from 'react-native';
-import SignInScreen from './loginFlow/SignInScreen';
-import LoginScreen from './loginFlow/LoginScreen';
-import GoalSelectionScreen from './loginFlow/GoalSelectionScreen';
-import ProfileScreen from './loginFlow/ProfileScreen';
-import WelcomeScreen from './loginFlow/WelcomeScreen';
-import WeeklySummaryMainScreen from './weeklySummaryFlow/WeeklySummmaryStartScreen'
-import CheckInFirstScreen from './weeklySummaryFlow/CheckInFirstScreen';
-import CheckInSecondScreen from './weeklySummaryFlow/CheckInSecondScreen';
-import CheckInThirdScreen from './weeklySummaryFlow/CheckInThirdScreen';
-import CheckInFourthScreen from './weeklySummaryFlow/CheckInFourthScreen';
+import SignInScreen from './components/loginFlow/SignInScreen';
+import LoginScreen from './components/loginFlow/LoginScreen';
+import GoalSelectionScreen from './components/loginFlow/GoalSelectionScreen';
+import ProfileScreen from './components/loginFlow/ProfileScreen';
+import WelcomeScreen from './components/loginFlow/WelcomeScreen';
+import WeeklySummaryMainScreen from './components/weeklySummaryFlow/WeeklySummmaryStartScreen'
+import CheckInFirstScreen from './components/weeklySummaryFlow/CheckInFirstScreen';
+import CheckInSecondScreen from './components/weeklySummaryFlow/CheckInSecondScreen';
+import CheckInThirdScreen from './components/weeklySummaryFlow/CheckInThirdScreen';
+import CheckInFourthScreen from './components/weeklySummaryFlow/CheckInFourthScreen';
 import TestScreen from './TestScreen';
 
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BlankJournalScreen from './components/journalFlow/BlankJournalScreen';
 
 
 
@@ -32,7 +33,7 @@ const App = () => {
   
     <View style = {{height:height}}>
       <StatusBar barStyle={'light-content'}/>
-      <NavigationContainer>
+      {/* <NavigationContainer>
         <Stack.Navigator initialRouteName='SlideScreen1' screenOptions={{headerShown:false}}>
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
@@ -44,12 +45,12 @@ const App = () => {
           <Stack.Screen name='CheckInSecondScreen' component={CheckInSecondScreen} />
           <Stack.Screen name='CheckInThirdScreen' component={CheckInThirdScreen} />
           <Stack.Screen name='CheckInFourthScreen' component={CheckInFourthScreen} />
-          {/* <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} /> */}
+          <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} />
 
 
         </Stack.Navigator>
 
-      </NavigationContainer>
+      </NavigationContainer> */}
 
       {/* <Test/> */}
 
@@ -65,6 +66,7 @@ const App = () => {
       {/* <CheckInSecondScreen/> */}
       {/* <CheckInThirdScreen/> */}
       {/* <CheckInFourthScreen/> */}
+      <BlankJournalScreen/>
 
 
 
