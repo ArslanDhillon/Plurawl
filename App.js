@@ -52,8 +52,6 @@ const App = () => {
 
       </NavigationContainer> */}
 
-      {/* <Test/> */}
-
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}
       {/* <LoginScreen/> */}
