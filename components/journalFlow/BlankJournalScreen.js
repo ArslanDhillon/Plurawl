@@ -15,6 +15,7 @@ export default BlankJournalScreen = () => {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const [showEmotionalReasoningText, setShowEmotionalReasoning] = useState(true)
+    const [showExampleText, setShowExample] = useState(false)
 
     const scrollViewRef = useRef(null);
 
@@ -216,7 +217,10 @@ export default BlankJournalScreen = () => {
 
                 </View>
                 <TouchableOpacity style={{ alignSelf: 'center' }}
-                    onPress={() => setShowEmotionalReasoning(!showEmotionalReasoningText)}
+                    onPress={() => {
+                        setShowEmotionalReasoning(!showEmotionalReasoningText)
+                        setShowExample(false)
+                    }}
                 >
                     <Image source={showEmotionalReasoningText ? upArrow : downArrow}
                         style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }}
@@ -237,7 +241,12 @@ export default BlankJournalScreen = () => {
                 in existing stressful situations, and as such, is often associated with or triggered by panic disorder or anxiety disorder.
             </Text> : ''}
 
-            <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
+            <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}
+                onPress={() =>{ 
+                    setShowExample(!showExampleText),
+                    setShowEmotionalReasoning(false)
+                }}
+            >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
                     <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>Example</Text>
                     <Image source={require('../../assets/downArrowRed.png')}
@@ -245,6 +254,17 @@ export default BlankJournalScreen = () => {
                     />
                 </View>
             </TouchableOpacity>
+           {showExampleText? <Text style={{
+                fontSize: 17 / 924 * height,
+                fontWeight: '500',
+                color: '#fff',
+                marginTop: 15 / 924 * height,
+            }}>
+                Emotional reasoning is a cognitive process by which an individual concludes that their emotional reaction proves
+                something is true, despite contrary empirical evidence. Emotional reasoning creates an 'emotional truth', which may
+                be in direct conflict with the inverse 'perceptional truth'. It can create feelings of anxiety, fear, and apprehension
+                in existing stressful situations, and as such, is often associated with or triggered by panic disorder or anxiety disorder.
+            </Text> :''}
 
             <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
