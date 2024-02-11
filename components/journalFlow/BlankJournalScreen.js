@@ -1,6 +1,6 @@
 import {
     Text, StyleSheet, View, SafeAreaView, Dimensions, Image, TouchableOpacity, TextInput,
-    Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView
+    Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, Modal
 } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
@@ -10,10 +10,19 @@ export default BlankJournalScreen = () => {
     const [text, setText] = useState('')
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-    const [buttonPosition, setButtonPosition] = useState(Dimensions.get('window').height - 100); // Initially set to bottom
+    const [buttonPosition, setButtonPosition] = useState(Dimensions.get('window').height - 100); // Initially set to bottomy
     const [inputValue, setInputValue] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);
+    const [showEmotionalReasoningText, setShowEmotionalReasoning] = useState(true)
+
     const scrollViewRef = useRef(null);
+
+
     const screenHeight = Dimensions.get('window').height;
+
+    const upArrow = require('../../assets/upArrowWhight.png');
+    const downArrow = require('../../assets/downArrowWhight.png');
 
 
 
@@ -22,17 +31,24 @@ export default BlankJournalScreen = () => {
         const keyboardHeight = event.endCoordinates.height;
         setKeyboardHeight(keyboardHeight);
         setIsKeyboardVisible(true);
-        setButtonPosition(screenHeight - keyboardHeight - 500 / 924 * height); // Adjust button position based on keyboard height
-        scrollViewRef.current.scrollTo({ y: 0, animated: true }); // Scroll the ScrollView to the top
+        setButtonPosition(screenHeight - keyboardHeight - 550 / 924 * height); // Adjust button position based on keyboard height
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+        }
     };
 
     const handleKeyboardDidHide = () => {
         setIsKeyboardVisible(false);
-        setButtonPosition(screenHeight - 100 / 924 * height); // Set button to bottom when keyboard hides
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+        }
+        setButtonPosition(screenHeight - 30 / 924 * height); // Set button to bottom when keyboard hides
     };
 
-    const onPressButton = () => {
-        // Your button action
+
+
+    const floatBtnPressHandle = () => {
+
     };
 
 
@@ -44,7 +60,7 @@ export default BlankJournalScreen = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1, flexDirection: 'column', }}>
-                <TouchableWithoutFeedback style={{ height: height }} onPress={Keyboard.dismiss}>
+                <TouchableWithoutFeedback style={{}} onPress={Keyboard.dismiss}>
                     <View style={{ backgroundColor: '#0f0f0f', flex: 1, width: width }}>
                         <View style={{ flexDirection: 'row', width: width - 40 / 429 * width, alignItems: 'center', marginTop: 30 / 924 * height, justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'row', gap: 8 / 429 * width }}>
@@ -58,11 +74,11 @@ export default BlankJournalScreen = () => {
                             </View>
                             {inputValue ? <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }}>
                                 < View
-                                    style={{ height: 36 / 924 * height, width: 72 / 429 * width,  backgroundColor: '#FFFFFF30', borderRadius: '20%', justifyContent: 'center', alignItems: 'center'}}
+                                    style={{ height: 36 / 924 * height, width: 72 / 429 * width, backgroundColor: '#FFFFFF30', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}
                                 >
-                                    <Text style={{color: 'red'}}>Done</Text>
+                                    <Text style={{ color: '#D44740' }}>Done</Text>
                                 </View>
-                            </TouchableOpacity> : '' }
+                            </TouchableOpacity> : ''}
 
                         </View>
 
@@ -87,11 +103,13 @@ export default BlankJournalScreen = () => {
                                 onFocus={() => scrollViewRef.current.scrollTo({ y: 0, animated: true })} // Scroll to top when input is focused
                             />
                         </ScrollView>
-                        <View style={[styles.buttonContainer, { bottom: isKeyboardVisible ? buttonPosition : 50 }]}>
-                            <TouchableOpacity style={{ alignSelf: 'center', padding: 15, backgroundColor: '#252525', borderRadius: 80 }}>
+                        <View style={[styles.buttonContainer, { bottom: isKeyboardVisible ? buttonPosition : 30 }]}>
+                            <TouchableOpacity style={{ alignSelf: 'center', padding: 15, backgroundColor: '#252525', borderRadius: 80 }}
+                                onPress={() => { setShowModal(true) }}
+                            >
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 429 * width }}>
                                     <Image source={require('../../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }} />
-                                    {inputValue?<Text style={{ fontSize: 15, fontWeight: '500', color: '#fff' }}> Chat with Plural.ai</Text>:
+                                    {!inputValue ? <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff' }}> Chat with Plural.ai</Text> :
                                         <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff' }}>Analyze with Plurawl.ai</Text>
                                     }
                                 </View>
@@ -99,34 +117,145 @@ export default BlankJournalScreen = () => {
                             </TouchableOpacity>
                         </View>
 
-                        {/* 
-                        <TextInput placeholder='Jot your thoughts down here...'
-                            value={text}
-                            onChangeText={(item) => setText(item)}
-                            placeholderTextColor={"#fff"}
-                            style={{ fontSize: 17, fontWeight: '500', margin: 15 / 925 * height, color: '#fff', width: 380 / 429 * width, alignSelf: 'center', height: 600 / 924 * height }}
-                            multiline
-                            maxLength={10000}
-                            numberOfLines={100}
-                            textAlignVertical="top"
-                        /> */}
-                        {/* <TouchableOpacity style={{ alignSelf: 'center', padding: 15, backgroundColor: '#252525', borderRadius: 80 }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 429 * width }}>
-                                <Image source={require('../../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }} />
-                                <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff' }}> Chat with Plural.ai</Text>
-                            </View>
-
-                        </TouchableOpacity> */}
+                        <Modal
+                            transparent={true}
+                            visible={showModal}
+                            animationType='slide'
+                        >
+                            {firstModal()}
+                            <Modal
+                                transparent={true}
+                                visible={showModal2}
+                                animationType='slide'
+                            >
+                                {secondModal()}
+                            </Modal>
+                        </Modal>
 
 
 
                     </View>
                 </TouchableWithoutFeedback>
 
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+            </KeyboardAvoidingView >
+        </SafeAreaView >
 
     )
+
+
+    function firstModal() {
+        return <View style={{ height: 451 / 924 * height, width: width, backgroundColor: '#1c1c1c', borderRadius: 24 / 924 * height, position: 'absolute', bottom: 20, padding: 30 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 429 * width }}>
+                    <Image source={require('../../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }} />
+                    <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff' }}> Plural.ai</Text>
+                </View>
+                <TouchableOpacity onPress={() => setShowModal(false)}>
+
+                    <View
+                        style={{ height: 40 / 924 * height, width: 40 / 924 * height, backgroundColor: '#FFFFFF30', borderRadius: 20 / 924 * height, justifyContent: 'center', alignItems: 'center' }}
+                    >
+                        <Image source={require('../../assets/closeIcon.png')}
+                            style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
+                    </View>
+                </TouchableOpacity>
+
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 20 / 924 * height }}>
+                <Text style={styles.modalText}>
+                    You are experiencing
+                </Text>
+                <Text style={[styles.modalText, { color: '#D44740' }]}> emotional reasoning </Text>
+            </View>
+            <Text style={styles.modalText}>
+                . Self doubt can result in having anxiety.
+                That feeling of anxiety can prevent many people from taking risks, stepping outside
+                their comfort zone, being productive, reaching goals, and ultimately living their best life.
+            </Text>
+
+            <TouchableOpacity style={[globalStyles.capsuleBtn, { backgroundColor: '#611F1C', marginTop: 65 / 924 * height }]}
+                onPress={() => { setShowModal2(true) }}
+            >
+                <Text style={globalStyles.capsuleBtnText}>Help me understand</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[globalStyles.capsuleBtn, { backgroundColor: '#121212', marginTop: 12 / 924 * height }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Image source={require('../../assets/colorfullCircle.png')}
+                        style={{ height: 20 / 924 * height, width: 20 / 924 * height, resizeMode: 'contain' }} />
+                    <Text style={globalStyles.capsuleBtnText}>Discuss deeper</Text>
+
+                </View>
+
+            </TouchableOpacity>
+
+
+
+        </View>;
+    };
+
+    function secondModal() {
+
+        return <View style={{ backgroundColor: '#1c1c1c', height: 540 / 924 * height, alignSelf: 'center', position: 'absolute', bottom: 20, width: width - 20 / 429 * width, borderRadius: 16 / 924 * height, borderWidth: 2, borderColor: '#1C1C1C', padding: 30, paddingTop: 10 }}>
+            <TouchableOpacity onPress={() => setShowModal2(false)}>
+
+                < View
+                    style={{ height: 40 / 924 * height, width: 40 / 924 * height, backgroundColor: '#FFFFFF30', borderRadius: 20 / 924 * height, justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <Image source={require('../../assets/closeIcon.png')}
+                        style={{ height: 24 / 924 * height, width: 24 / 924 * height }}
+                    />
+                </View>
+            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Image source={require('../../assets/Emotionalreasoning.png')}
+                        style={globalStyles.circleImage}
+                    />
+                    <Text style={globalStyles.capsuleBtnText}>Emotional Reasoning</Text>
+
+                </View>
+                <TouchableOpacity style={{ alignSelf: 'center' }}
+                    onPress={() => setShowEmotionalReasoning(!showEmotionalReasoningText)}
+                >
+                    <Image source={showEmotionalReasoningText ? upArrow : downArrow}
+                        style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }}
+                    />
+                </TouchableOpacity>
+
+
+            </View>
+            {showEmotionalReasoningText ? <Text style={{
+                fontSize: 17 / 924 * height,
+                fontWeight: '500',
+                color: '#fff',
+                marginTop: 15 / 924 * height,
+            }}>
+                Emotional reasoning is a cognitive process by which an individual concludes that their emotional reaction proves
+                something is true, despite contrary empirical evidence. Emotional reasoning creates an 'emotional truth', which may
+                be in direct conflict with the inverse 'perceptional truth'. It can create feelings of anxiety, fear, and apprehension
+                in existing stressful situations, and as such, is often associated with or triggered by panic disorder or anxiety disorder.
+            </Text> : ''}
+
+            <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
+                    <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>Example</Text>
+                    <Image source={require('../../assets/downArrowRed.png')}
+                        style={{ height: 24, width: 24 }}
+                    />
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
+                    <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>How to recognize</Text>
+                    <Image source={require('../../assets/downArrowRed.png')}
+                        style={{ height: 24, width: 24 }}
+                    />
+                </View>
+            </TouchableOpacity>
+        </View>
+    };
 };
 
 
@@ -160,4 +289,9 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    modalText: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#fff'
+    }
 })
