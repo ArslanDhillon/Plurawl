@@ -1,96 +1,95 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TextInput, Keyboard, KeyboardAvoidingView, TouchableOpacity, Text, StyleSheet, Platform, Dimensions, ScrollView } from 'react-native';
+import { View, TextInput, Keyboard, KeyboardAvoidingView, TouchableOpacity, Text, StyleSheet, Platform, Dimensions, Image ,Modal} from 'react-native';
+import { globalStyles } from './components/globalStyles/styles';
 
 const TestScreen = () => {
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-  const [buttonPosition, setButtonPosition] = useState(Dimensions.get('window').height - 100); // Initially set to bottom
-  const [inputValue, setInputValue] = useState('');
-  const scrollViewRef = useRef(null);
-  const screenHeight = Dimensions.get('window').height;
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+    const { height, width } = Dimensions.get('window')
+    const [showModal2, setShowModal2] = useState(false);
 
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
+    return (
 
-  const handleKeyboardDidShow = (event) => {
-    const keyboardHeight = event.endCoordinates.height;
-    setKeyboardHeight(keyboardHeight);
-    setIsKeyboardVisible(true);
-    setButtonPosition(screenHeight - keyboardHeight - 100); // Adjust button position based on keyboard height
-    scrollViewRef.current.scrollTo({ y: 0, animated: true }); // Scroll the ScrollView to the top
-  };
+        <View style={{ alignItems: 'center', paddingTop: 50, flex: 1, backgroundColor: '#0f0f0f' }}>
 
-  const handleKeyboardDidHide = () => {
-    setIsKeyboardVisible(false);
-    setButtonPosition(screenHeight - 100); // Set button to bottom when keyboard hides
-  };
+            <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }} onPress={()=>setShowModal2(true)}>
+                < View
+                    style={{ height: 36 / 924 * height, width: 72 / 429 * width, backgroundColor: '#FFFFFF30', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <Text style={{ color: '#D44740' }}>Done</Text>
+                </View>
+            </TouchableOpacity>
+            <Modal
+                transparent={true}
+                visible={showModal2}
+                animationType='slide'
+            >
 
-  const onPressButton = () => {
-    // Your button action
-  };
+                <View style={{  position: 'absolute', bottom: 20,height: 514 / 924 * height, width: width - 20 / 429 * width, borderRadius: 16 / 924 * height, borderWidth: 2, borderColor: '#1C1C1C', padding: 30, paddingTop: 10 }}>
 
-  return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView
-        ref={scrollViewRef}
-        style={{ width: '100%', maxHeight: screenHeight - (isKeyboardVisible ? keyboardHeight + 100 : 0) }}
-      >
-        <TextInput
-          style={styles.input}
-          value={inputValue}
-          onChangeText={setInputValue}
-          maxLength={1000} // Allow up to 1000 characters
-          multiline={true} // Enable multiline input
-          autoFocus={true} // Set to false to prevent auto focus on input
-          onFocus={() => scrollViewRef.current.scrollTo({ y: 0, animated: true })} // Scroll to top when input is focused
-        />
-      </ScrollView>
-      <View style={[styles.buttonContainer, { bottom: isKeyboardVisible ? buttonPosition : 50 }]}>
-        <TouchableOpacity style={styles.button} onPress={onPressButton}>
-          <Text style={styles.buttonText}>Floating Button</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-  );
+                    <TouchableOpacity>
+
+                        < View
+                            style={{ height: 40 / 924 * height, width: 40 / 924 * height, backgroundColor: '#FFFFFF30', borderRadius: 20 / 924 * height, justifyContent: 'center', alignItems: 'center' }}
+                        >
+                            <Image source={require('./assets/closeIcon.png')}
+                                style={{ height: 24 / 924 * height, width: 24 / 924 * height }}
+                            />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                            <Image source={require('./assets/Emotionalreasoning.png')}
+                                style={globalStyles.circleImage}
+                            />
+                            <Text style={globalStyles.capsuleBtnText}>Emotional Reasoning</Text>
+
+                        </View>
+                        <TouchableOpacity style={{ alignSelf: 'center' }}>
+                            <Image source={require('./assets/upArrowWhight.png')}
+                                style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }}
+                            />
+                        </TouchableOpacity>
+
+
+                    </View>
+                    <Text style={{
+                        fontSize: 17 / 924 * height,
+                        fontWeight: '500',
+                        color: '#fff',
+                        marginTop: 15 / 924 * height,
+                    }}>
+                        Emotional reasoning is a cognitive process by which an individual concludes that their emotional reaction proves
+                        something is true, despite contrary empirical evidence. Emotional reasoning creates an 'emotional truth', which may
+                        be in direct conflict with the inverse 'perceptional truth'. It can create feelings of anxiety, fear, and apprehension
+                        in existing stressful situations, and as such, is often associated with or triggered by panic disorder or anxiety disorder.
+                    </Text>
+
+                    <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
+                            <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>Example</Text>
+                            <Image source={require('./assets/downArrowRed.png')}
+                                style={{ height: 24, width: 24 }}
+                            />
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
+                            <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>How to recognize</Text>
+                            <Image source={require('./assets/downArrowRed.png')}
+                                style={{ height: 24, width: 24 }}
+                            />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
+        </View>
+
+
+    );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  input: {
-    width: '100%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    textAlignVertical: 'top', // Align text to the top
-  },
-  buttonContainer: {
-    position: 'absolute',
-    right: 0,
-    left: 0,
-  },
-  button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    alignSelf: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-  },
-});
+const styles = StyleSheet.create({})
+
 
 export default TestScreen;

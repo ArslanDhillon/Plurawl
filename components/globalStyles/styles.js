@@ -13,7 +13,7 @@ const globalStyles = StyleSheet.create({
 
     },
     capsuleBtnText: {
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: '500',
         color: '#fff',
     },
@@ -59,6 +59,11 @@ const globalStyles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         marginTop: 4
+    },
+    circleImage :{
+        height:32/924*height,
+        width:32/924*height,
+        resizeMode:'contain'
     }
 })
 
