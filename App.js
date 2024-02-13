@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import React from 'react';
 import SlideScreen1 from './components/splashFlow/SlideScreen1';
 import { StatusBar } from 'react-native';
@@ -18,39 +18,55 @@ import TestScreen from './TestScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BlankJournalScreen from './components/journalFlow/BlankJournalScreen';
+import SettingsMainScreen from './components/settingsFlow/SettingsMainScreen';
+import ProfileSettingsScreen from './components/settingsFlow/profileSettingsScreen';
+import NotificationsSettingScreen from './components/settingsFlow/NotificationsSettingScreen';
+import PermissionsSetting from './components/settingsFlow/PermissionsSetting';
+import SubscriptionsSettingsScreen from './components/settingsFlow/SubscriptionsSettingsScreen';
+import PrivacyPolicyScreen from './components/settingsFlow/PrivacyPolicyScreen';
+import TermsAndConditionsScreen from './components/settingsFlow/TermsAndConditionsScreen';
+import profileSettingsScreen from './components/settingsFlow/profileSettingsScreen';
 
 
 
 
-const {height,width} = Dimensions.get("window")
+const { height, width } = Dimensions.get("window")
 
 const Stack = createNativeStackNavigator();
 
 
 const App = () => {
-  
+
   return (
-  
-    <View style = {{height:height}}>
-      <StatusBar barStyle={'light-content'}/>
-      {/* <NavigationContainer>
-        <Stack.Navigator initialRouteName='SlideScreen1' screenOptions={{headerShown:false}}>
+
+    <View style={{ height: height }}>
+      <StatusBar barStyle={'light-content'} />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SettingsMainScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
           <Stack.Screen name='GoalSelectionScreen' component={GoalSelectionScreen} />
-          <Stack.Screen name='ProfileScreen' component={ProfileScreen} />          
+          <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
           <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
           <Stack.Screen name='WeeklySummaryMainScreen' component={WeeklySummaryMainScreen} />
           <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} />
           <Stack.Screen name='CheckInSecondScreen' component={CheckInSecondScreen} />
           <Stack.Screen name='CheckInThirdScreen' component={CheckInThirdScreen} />
           <Stack.Screen name='CheckInFourthScreen' component={CheckInFourthScreen} />
-          <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} />
+          <Stack.Screen name='SettingsMainScreen' component={SettingsMainScreen} />
+          <Stack.Screen name='NotificationsSettingScreen' component={NotificationsSettingScreen} />
+          <Stack.Screen name='PermissionsSetting' component={PermissionsSetting} />
+          <Stack.Screen name='PrivacyPolicyScreen' component={PrivacyPolicyScreen} />
+          <Stack.Screen name='ProfileSettingsScreen' component={profileSettingsScreen} />
+          <Stack.Screen name='SubscriptionsSettingsScreen' component={SubscriptionsSettingsScreen} />
+          <Stack.Screen name='TermsAndConditionsScreen' component={TermsAndConditionsScreen} />
+
+
 
 
         </Stack.Navigator>
 
-      </NavigationContainer> */}
+      </NavigationContainer>
 
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}
@@ -64,8 +80,14 @@ const App = () => {
       {/* <CheckInSecondScreen/> */}
       {/* <CheckInThirdScreen/> */}
       {/* <CheckInFourthScreen/> */}
-      <BlankJournalScreen/>
-
+      {/* <BlankJournalScreen/> */}
+      {/* <SettingsMainScreen/> */}
+      {/* <ProfileSettingsScreen/> */}
+      {/* <NotificationsSettingScreen/> */}
+      {/* <PermissionsSetting/> */}
+      {/* <SubscriptionsSettingsScreen/> */}
+      {/* <PrivacyPolicyScreen/> */}
+      {/* <TermsAndConditionsScreen /> */}
 
 
     </View>

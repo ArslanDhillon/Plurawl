@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react'
 import { Text, StyleSheet, View, SafeAreaView, Image, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
+import SettingsMainScreen from '../settingsFlow/SettingsMainScreen'
 
 const { height, width } = Dimensions.get('window')
 
@@ -68,9 +69,9 @@ const WeeklySummaryMainScreen = (props) => {
 
                 </TouchableOpacity>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, marginTop: 10 / 924 * height, width: width - 40 / 429 * width ,marginTop:20/924*height}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, marginTop: 10 / 924 * height, width: width - 40 / 429 * width, marginTop: 20 / 924 * height }}>
                     <TouchableOpacity>
-                        <View style = {{ overflow: 'hidden',height: 174 / 924 * height, width: 191 / 426 * width,borderRadius: 15 / 924 * height }}>
+                        <View style={{ overflow: 'hidden', height: 174 / 924 * height, width: 191 / 426 * width, borderRadius: 15 / 924 * height }}>
                             <ImageBackground
                                 style={{ height: 174 / 924 * height, width: 191 / 426 * width, }}
                                 source={require('../../assets/QOTDbgImage.png')}>
@@ -123,6 +124,24 @@ const WeeklySummaryMainScreen = (props) => {
 
                     </TouchableOpacity>
                 </View>
+
+                <View style={{ flexDirection: 'row', width: 390 / 426 * width, marginTop: 10 / 924 * height, gap: 8 / 426 * width }}>
+
+                    <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}
+
+                    >
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
+                            <Image source={require('../../assets/settingsIcon.png')} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
+                            <Text style={{ color: '#fff', fontSize: 14, fontWeight: '700', }}>Settings</Text>
+                        </View>
+
+                    </TouchableOpacity>
+
+                    <View style={{ height: 56 / 924 * height, width: 191 / 423 * width,}}>
+                    </View>
+                </View>
+
 
                 <TouchableOpacity style={{ marginTop: 150 / 924 * height, }}>
                     <Image source={require('../../assets/addBtn.png')} style={{ height: 58 / 924 * height, width: 58 / 924 * height, resizeMode: 'contain' }} />
