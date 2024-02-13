@@ -2,11 +2,12 @@ import { SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TouchableOpaci
     Modal, FlatList ,TouchableWithoutFeedback,Keyboard,KeyboardAvoidingView,Platform} from 'react-native'
 import React, { useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
+import Api from '../Apis/ApiPaths';
 
 
 const { height, width } = Dimensions.get('window')
 
-const ProfileScreen = ({ route, navigation }) => {
+const ProfileScreen = (props) => {
 
     const [showModal1, setShowModal1] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
@@ -25,23 +26,47 @@ const ProfileScreen = ({ route, navigation }) => {
 
 
 
-    const userData = route.params.user;
-    userData.name = name,
-        userData.title = title,
-        userData.company = company,
-        userData.VateranStatus = selectedVateran,
-        userData.identity = selectedIdentity,
-        userData.Race = selectedRace,
-        userData.LGBTQ = selectedLGBTQ,
-        userData.industries = selectedIndustry,
+    // const userData = route.params.user;
+    // userData.name = name,
+    //     userData.title = title,
+    //     userData.company = company,
+    //     userData.VateranStatus = selectedVateran,
+    //     userData.identity = selectedIdentity,
+    //     userData.Race = selectedRace,
+    //     userData.LGBTQ = selectedLGBTQ,
+    //     userData.industries = selectedIndustry,
 
 
-        console.log(userData)
+    //     console.log(userData)
 
-    const nxtBtnHandle = () => {
-        navigation.navigate('WelcomeScreen', {
-            user: userData
-        })
+    const postData = {
+        name:name,
+        title:title,
+        company:company,
+        race:selectedRace,
+        gender:selectedIdentity,
+        lgbtq:selectedLGBTQ,
+        veteran:selectedVateran,
+        industry:selectedIndustry
+    }
+
+    const nxtBtnHandle = async () => {
+        try{
+            const result  = await fetch(Api.ApiUpdateProfile,{
+                method:'post',
+                headers:{"Content-Type": "application/json"},
+                body :postData
+            })
+            if (result){
+                let json = await result.json()
+                if(json.status === true){
+                    props.navigation.navigate('WelcomeScreen')
+
+                }
+            }
+        }catch (error) {
+            console.log("error finding ",error)
+        }
     }
     //madals array data
 

@@ -19,27 +19,35 @@ const SignInScreen = (props) => {
     const [password, setPassword] = useState('');
 
     const postData = {
-        name:name,
-        email:email,
-        password:password,
+        name: name,
+        email: email,
+        password: password,
     }
 
-    const nxtBtnHAndle =async () => {
+    const nxtBtnHAndle = async () => {
 
-        if(!name||!email||!password){
-            
+        if (!name || !email || !password) {
+
         }
+        try {
+            const result = await fetch(Api.ApiRegisterUser, {
+                method: 'post',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(postData)
+            })
+            if (result) {
+                let json = await result.json();
+                console.log(json)
+                if (json.status == true) {
+                    props.navigation.navigate("GoalSelectionScreen")
+                }
+                else {
+                    console.log(json.message)
+                }
 
-        const result = await fetch(Api.ApiRegisterUser,{
-            method:'post',
-            headers:{ "Content-Type": "application/json" },
-            body:JSON.stringify(postData)
-        })
-        if (result){
-            let json = result.json();
-            if(json.status == true){
-                props.navigation.navigate("GoalSelectionScreen")
             }
+        } catch (error) {
+            console.log('error finding', error)
         }
     };
 
