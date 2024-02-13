@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react'
 import { Text, StyleSheet, View, SafeAreaView, Image, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
 
 
+
 const { height, width } = Dimensions.get('window')
 
 const WeeklySummaryMainScreen = (props) => {
@@ -116,7 +117,7 @@ const WeeklySummaryMainScreen = (props) => {
                     </TouchableOpacity>
 {/* comment */}
                     <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}
-                      
+                      onPress={()=>props.navigation.navigate("BlankJournalScreen")}
                     >
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
@@ -145,7 +146,7 @@ const WeeklySummaryMainScreen = (props) => {
                 </View>
 
 
-                <TouchableOpacity style={{ marginTop: 150 / 924 * height, }}>
+                <TouchableOpacity style={{ marginTop: 50 / 924 * height, }}>
                     <Image source={require('../../assets/addBtn.png')} style={{ height: 58 / 924 * height, width: 58 / 924 * height, resizeMode: 'contain' }} />
                 </TouchableOpacity>
 

@@ -6,9 +6,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 
 //hello world
+const { height, width } = Dimensions.get('window')
 
-export default BlankJournalScreen = () => {
-    const { height, width } = Dimensions.get('window')
+export default BlankJournalScreen = (props) => {
+
+
     const [text, setText] = useState('')
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -70,7 +72,7 @@ export default BlankJournalScreen = () => {
                     <View style={{ backgroundColor: '#0f0f0f', flex: 1, width: width }}>
                         <View style={{ flexDirection: 'row', width: width - 40 / 429 * width, alignItems: 'center', marginTop: 30 / 924 * height, justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'row', gap: 8 / 429 * width }}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                                     <Image source={require('../../assets/backArrow.png')}
                                         style={{ height: 24 / 924 * height, width: 24 / 429 * width, resizeMode: 'contain', marginLeft: 20 / 429 * width }}
                                     />

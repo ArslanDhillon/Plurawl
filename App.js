@@ -28,8 +28,6 @@ import TermsAndConditionsScreen from './components/settingsFlow/TermsAndConditio
 import profileSettingsScreen from './components/settingsFlow/profileSettingsScreen';
 
 
-
-
 const { height, width } = Dimensions.get("window")
 
 const Stack = createNativeStackNavigator();
@@ -41,14 +39,16 @@ const App = () => {
 
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SettingsMainScreen" screenOptions={{ headerShown: false }}>
+      {/* <NavigationContainer>
+        <Stack.Navigator initialRouteName="SignInScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
           <Stack.Screen name='GoalSelectionScreen' component={GoalSelectionScreen} />
           <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
           <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
           <Stack.Screen name='WeeklySummaryMainScreen' component={WeeklySummaryMainScreen} />
+          <Stack.Screen name='BlankJournalScreen' component={BlankJournalScreen} />
+
           <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} />
           <Stack.Screen name='CheckInSecondScreen' component={CheckInSecondScreen} />
           <Stack.Screen name='CheckInThirdScreen' component={CheckInThirdScreen} />
@@ -66,14 +66,15 @@ const App = () => {
 
         </Stack.Navigator>
 
-      </NavigationContainer>
+      </NavigationContainer> */}
 
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}
       {/* <LoginScreen/> */}
       {/* <GoalSelectionScreen/> */}
       {/* <ProfileScreen/> */}
-      {/* <TestScreen/> */}
+      <SafeAreaPro
+      <TestScreen/>
       {/* <WelcomeScreen/> */}
       {/* <WeeklySummaryMainScreen/> */}
       {/* <CheckInFirstScreen/> */}

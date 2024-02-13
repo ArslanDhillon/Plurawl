@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
+import Api from '../Apis/ApiPaths';
 
 const { height, width } = Dimensions.get('window');
 
@@ -17,13 +18,29 @@ const SignInScreen = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const nxtBtnHAndle = () => {
-        props.navigation.navigate("GoalSelectionScreen", {
-            user: {
-                name: name, email: email, password: password
+    const postData = {
+        name:name,
+        email:email,
+        password:password,
+    }
 
-            }
+    const nxtBtnHAndle =async () => {
+
+        if(!name||!email||!password){
+            
+        }
+
+        const result = await fetch(Api.ApiRegisterUser,{
+            method:'post',
+            headers:{ "Content-Type": "application/json" },
+            body:JSON.stringify(postData)
         })
+        if (result){
+            let json = result.json();
+            if(json.status == true){
+                props.navigation.navigate("GoalSelectionScreen")
+            }
+        }
     };
 
     return (
