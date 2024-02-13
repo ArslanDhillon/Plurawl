@@ -114,7 +114,7 @@ const WeeklySummaryMainScreen = (props) => {
                         </View>
 
                     </TouchableOpacity>
-
+{/* comment */}
                     <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}
                       
                     >
