@@ -18,6 +18,7 @@ export default BlankJournalScreen = () => {
     const [showModal2, setShowModal2] = useState(false);
     const [showEmotionalReasoningText, setShowEmotionalReasoning] = useState(true)
     const [showExampleText, setShowExample] = useState(false)
+    const [showRecognizeText, setShowRecognizeText] = useState(false)
 
     const scrollViewRef = useRef(null);
 
@@ -25,7 +26,7 @@ export default BlankJournalScreen = () => {
     const screenHeight = Dimensions.get('window').height;
 
     const upArrow = require('../../assets/upArrowWhight.png');
-    const downArrow = require('../../assets/downArrowWhight.png');
+    const downArrow = require('../../assets/downArrowRed.png');
 
 
 
@@ -58,6 +59,8 @@ export default BlankJournalScreen = () => {
 
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+
+
     return (
         <SafeAreaView style={{ backgroundColor: "#0f0f0f", height: height }}>
             <KeyboardAvoidingView
@@ -147,11 +150,11 @@ export default BlankJournalScreen = () => {
 
 
     function firstModal() {
-        return <View style={{ height: 451 / 924 * height, width: width, backgroundColor: '#1c1c1c', borderRadius: 24 / 924 * height, position: 'absolute', bottom: 20, padding: 30 }}>
+        return <View style={{ height: 451 / 924 * height, width: width, backgroundColor: '#1c1c1c', borderRadius: 24 / 924 * height, position: 'absolute', bottom: 20, padding: 30 / 924 * height }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 429 * width }}>
                     <Image source={require('../../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }} />
-                    <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff' }}> Plural.ai</Text>
+                    <Text style={{ fontSize: 15 / 924 * height, fontWeight: '500', color: '#fff' }}> Plural.ai</Text>
                 </View>
                 <TouchableOpacity onPress={() => setShowModal(false)}>
 
@@ -176,7 +179,7 @@ export default BlankJournalScreen = () => {
                 their comfort zone, being productive, reaching goals, and ultimately living their best life.
             </Text>
 
-            <TouchableOpacity style={[globalStyles.capsuleBtn, { backgroundColor: '#611F1C', marginTop: 65 / 924 * height }]}
+            <TouchableOpacity style={[globalStyles.capsuleBtn, { backgroundColor: '#611F1C', marginTop: 40 / 924 * height }]}
                 onPress={() => { setShowModal2(true) }}
             >
                 <Text style={globalStyles.capsuleBtnText}>Help me understand</Text>
@@ -200,38 +203,69 @@ export default BlankJournalScreen = () => {
     function secondModal() {
 
         return <View style={{ backgroundColor: '#1c1c1c', height: 540 / 924 * height, alignSelf: 'center', position: 'absolute', bottom: 20, width: width - 20 / 429 * width, borderRadius: 16 / 924 * height, borderWidth: 2, borderColor: '#1C1C1C', padding: 30, paddingTop: 10 }}>
-            <TouchableOpacity onPress={() => setShowModal2(false)}>
+            <TouchableOpacity onPress={() => setShowModal2(false)} style={{ alignSelf: 'flex-end', paddingBottom: 10 / 924 * height }}>
 
                 < View
-                    style={{ height: 40 / 924 * height, width: 40 / 924 * height, backgroundColor: '#FFFFFF30', borderRadius: 20 / 924 * height, justifyContent: 'center', alignItems: 'center' }}
-                >
+                    style={{
+                        height: 40 / 924 * height, width: 40 / 924 * height, backgroundColor: '#FFFFFF30', borderRadius: 20 / 924 * height,
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
                     <Image source={require('../../assets/closeIcon.png')}
                         style={{ height: 24 / 924 * height, width: 24 / 924 * height }}
                     />
                 </View>
             </TouchableOpacity>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <Image source={require('../../assets/Emotionalreasoning.png')}
-                        style={globalStyles.circleImage}
-                    />
-                    <Text style={globalStyles.capsuleBtnText}>Emotional Reasoning</Text>
+            <TouchableOpacity
+                onPress={() => {
+                    setShowEmotionalReasoning(!showEmotionalReasoningText)
+                    setShowExample(false)
+                    setShowRecognizeText(false)
 
-                </View>
-                <TouchableOpacity style={{ alignSelf: 'center' }}
-                    onPress={() => {
-                        setShowEmotionalReasoning(!showEmotionalReasoningText)
-                        setShowExample(false)
-                    }}
-                >
+                }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <Image source={require('../../assets/Emotionalreasoning.png')}
+                            style={globalStyles.circleImage}
+                        />
+                        <Text style={[globalStyles.capsuleBtnText, { color: showEmotionalReasoningText ? "#fff" : '#D44740' }]}>Emotional Reasoning</Text>
+
+                    </View>
+
                     <Image source={showEmotionalReasoningText ? upArrow : downArrow}
                         style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }}
                     />
-                </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
 
 
-            </View>
             {showEmotionalReasoningText ? <Text style={{
+                fontSize: 17 / 924 * height,
+                fontWeight: '500',
+                color: "#fff",
+                marginTop: 15 / 924 * height,
+            }}>
+                Emotional reasoning is a cognitive process by which an individual concludes that their emotional reaction proves
+                something is true, despite contrary empirical evidence. Emotional reasoning creates an 'emotional truth', which may
+                be in direct conflict with the inverse 'perceptional truth'. It can create feelings of anxiety, fear, and apprehension
+                in existing stressful situations, and as such, is often associated with or triggered by panic disorder or anxiety disorder.
+            </Text> : ''}
+
+            <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}
+                onPress={() => {
+                        setShowExample(!showExampleText),
+                        setShowEmotionalReasoning(false),
+                        setShowRecognizeText(false)
+
+                }}
+            >
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
+                    <Text style={[globalStyles.capsuleBtnText, { color: showExampleText ? "#fff" : '#D44740' }]}>Example</Text>
+                    <Image source={showExampleText ? upArrow : downArrow}
+                        style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }}
+                    />
+                </View>
+            </TouchableOpacity>
+            {showExampleText ? <Text style={{
                 fontSize: 17 / 924 * height,
                 fontWeight: '500',
                 color: '#fff',
@@ -244,19 +278,20 @@ export default BlankJournalScreen = () => {
             </Text> : ''}
 
             <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}
-                onPress={() =>{ 
-                    setShowExample(!showExampleText),
+                onPress={() => {
+                    setShowRecognizeText(!showRecognizeText)
+                    setShowExample(false)
                     setShowEmotionalReasoning(false)
                 }}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
-                    <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>Example</Text>
-                    <Image source={require('../../assets/downArrowRed.png')}
+                    <Text style={[globalStyles.capsuleBtnText, {  color: showRecognizeText? "#fff" : '#D44740'  }]}>How to recognize</Text>
+                    <Image source={showRecognizeText ? upArrow : downArrow}
                         style={{ height: 24, width: 24 }}
                     />
                 </View>
             </TouchableOpacity>
-           {showExampleText? <Text style={{
+            {showRecognizeText ? <Text style={{
                 fontSize: 17 / 924 * height,
                 fontWeight: '500',
                 color: '#fff',
@@ -266,16 +301,7 @@ export default BlankJournalScreen = () => {
                 something is true, despite contrary empirical evidence. Emotional reasoning creates an 'emotional truth', which may
                 be in direct conflict with the inverse 'perceptional truth'. It can create feelings of anxiety, fear, and apprehension
                 in existing stressful situations, and as such, is often associated with or triggered by panic disorder or anxiety disorder.
-            </Text> :''}
-
-            <TouchableOpacity style={{ marginTop: 35 / 924 * height, alignSelf: 'flex-start' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 / 424 * width, justifyContent: 'center' }}>
-                    <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>How to recognize</Text>
-                    <Image source={require('../../assets/downArrowRed.png')}
-                        style={{ height: 24, width: 24 }}
-                    />
-                </View>
-            </TouchableOpacity>
+            </Text> : ''}
         </View>
     };
 };
