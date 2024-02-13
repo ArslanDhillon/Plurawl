@@ -1,24 +1,20 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
+import { globalStyles } from '../globalStyles/styles'
 
 const { height, width } = Dimensions.get("window")
 
-const GoalSelectionScreen = ({route,props}) => {
+const GoalSelectionScreen = (props) => {
 
     const [selected, setSelected] = useState('');
-
-
-    const userData = route.params.user;
-    userData.goal = selected
-
-    console.log('user get data from previouse screen'  ,userData)
 
     const blankCircle = require("../../assets/blankCircle.png");
     const filledCircle = require("../../assets/filledCircle.png");
 
 
-    const nxtBtnHandle = () =>{
-       
+    const nxtBtnHandle = () => {
+        props.navigation.navigate('ProfileScreen')
+
     }
 
     const goals = [
@@ -75,19 +71,14 @@ const GoalSelectionScreen = ({route,props}) => {
                     What would you like Plurawl to help you improve on?
                     Select all that apply
                 </Text>
-                <View style = {{flexDirection:'row',alignItems:'center'}}>
-                    <Image source={require('../../assets/PageControl1.png')} style = {{height:393/924*height,width:44/423*width}}/>
-                    <ScrollView style={{ height: 630 / 924 * height, marginTop: 50 / 926 * height }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Image source={require('../../assets/PageControl1.png')} style={{ height: 393 / 924 * height, width: 44 / 423 * width }} />
+                    <ScrollView style={{ height: 550 / 924 * height, marginTop: 50 / 926 * height }}>
                         {
                             goals.map((item) => (
 
-                                <TouchableOpacity key={item.id} onPress={()=>{
+                                <TouchableOpacity key={item.id} onPress={() => {
                                     setSelected(item.name)
-                                    props.navigation.navigate('ProfileScreen',{
-                                        user:{
-                                            goal:selected
-                                        }
-                                    })
                                 }}
                                 >
                                     <View style={{
@@ -101,9 +92,18 @@ const GoalSelectionScreen = ({route,props}) => {
                                 </TouchableOpacity>
                             ))
                         }
-
                     </ScrollView>
+
                 </View>
+
+
+                <TouchableOpacity style={[globalStyles.capsuleBtn,{marginTop:30/924*height}]}
+                    onPress={nxtBtnHandle}
+                >
+                    <Text style={globalStyles.capsuleBtnText}>
+                        Continoue
+                    </Text>
+                </TouchableOpacity>
 
             </View>
         </SafeAreaView>
