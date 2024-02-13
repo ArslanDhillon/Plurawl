@@ -13,8 +13,8 @@ export default PermissionsSetting = (props) => {
     const [fullAccess, setFullAccess] = useState(false);
 
     return (
-        <SafeAreaView style={{ height: height, backgroundColor: '@0f0f0f' }}>
-            <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center', }}>
+        <SafeAreaView style={{ height: height, backgroundColor: '#0f0f0f' }}>
+            <View style={{flex:1,  backgroundColor: '#0f0f0f', alignItems: 'center', }}>
                 <Text style={{ color: '#fff', fontSize: 42, fontWeight: "500", alignSelf: 'flex-start', marginTop: 35 / 924 * height }}> Settings </Text>
                 <View style={styles.mainView}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

@@ -32,7 +32,7 @@ export default SettingsMainScreen = (props) => {
             <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center',}}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 40 / 429 * width,marginTop:35/924*height }}>
                     <Text style={{ color: '#fff', fontSize: 42, fontWeight: "500" }}> Settings </Text>
-                    <TouchableOpacity style={{ alignSelf: 'center', }} >
+                    <TouchableOpacity style={{ alignSelf: 'center', }} onPress={()=>props.navigation.goBack()}>
                         <View style={{ height: 40 / 924 * height, width: 40 / 924 * height, justifyContent: 'center', alignItems: 'center', backgroundColor: "#FFFFFF15", borderRadius: 20 / 924 * height }}>
                             <Image source={require('../../assets/closeIconRed.png')}
                                 style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }}

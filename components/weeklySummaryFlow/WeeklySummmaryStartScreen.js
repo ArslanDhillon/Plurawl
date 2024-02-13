@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react'
 import { Text, StyleSheet, View, SafeAreaView, Image, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
-import SettingsMainScreen from '../settingsFlow/SettingsMainScreen'
+
 
 const { height, width } = Dimensions.get('window')
 
@@ -115,7 +115,9 @@ const WeeklySummaryMainScreen = (props) => {
 
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}>
+                    <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}
+                      
+                    >
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
                             <Image source={require("../../assets/pageIcon.png")} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
@@ -128,7 +130,7 @@ const WeeklySummaryMainScreen = (props) => {
                 <View style={{ flexDirection: 'row', width: 390 / 426 * width, marginTop: 10 / 924 * height, gap: 8 / 426 * width }}>
 
                     <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}
-
+                        onPress={()=>props.navigation.navigate("SettingsMainScreen")}
                     >
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
