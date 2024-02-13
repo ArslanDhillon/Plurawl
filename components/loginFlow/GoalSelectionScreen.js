@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 const { height, width } = Dimensions.get("window")
 
-const GoalSelectionScreen = ({route,navigation}) => {
+const GoalSelectionScreen = ({route,props}) => {
 
     const [selected, setSelected] = useState('');
 
@@ -83,8 +83,10 @@ const GoalSelectionScreen = ({route,navigation}) => {
 
                                 <TouchableOpacity key={item.id} onPress={()=>{
                                     setSelected(item.name)
-                                    navigation.navigate('ProfileScreen',{
-                                        user:userData
+                                    props.navigation.navigate('ProfileScreen',{
+                                        user:{
+                                            goal:selected
+                                        }
                                     })
                                 }}
                                 >

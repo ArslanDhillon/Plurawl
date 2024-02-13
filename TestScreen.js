@@ -1,25 +1,74 @@
-import Toggle from 'react-native-toggle-input'
-import React,{useState} from 'react';
+import React, { useState } from 'react';
+import { View, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native';
+import { Snackbar } from 'react-native-paper';
+
 const TestScreen = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [visible, setVisible] = useState(false);
 
-  const [toggle, setToggle] = useState(false);
-  
+  const handleLogin = () => {
+    if (username === 'correct_username' && password === 'correct_password') {
+      // Login successful
+      setVisible(false);
+      // Navigate to the next screen or perform other actions
+    } else {
+      // Login failed, show Snackbar
+      setVisible(true);
+    }
+  };
 
-  return(
-    <Toggle 
-        color={"#4C956C"}
-        size={30}
-        filled={true}
-        circleColor={"white"}
-        toggle={toggle}
-        setToggle={setToggle}
-    />
-  )
-
+  return (
+    <SafeAreaView>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Button title="Login" onPress={handleLogin} />
+      <Snackbar
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        duration={3000}
+        action={{
+          label: 'Dismiss',
+          onPress: () => setVisible(false)
+        }}
+      >
+        Incorrect username or password
+      </Snackbar>
+    </View>
+    </SafeAreaView>
+  );
 };
 
-export default TestScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+});
 
+export default TestScreen;
 
 
 
