@@ -41,7 +41,7 @@ const App = () => {
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="GoalSelectionScreen" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="SignInScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
           <Stack.Screen name='GoalSelectionScreen' component={GoalSelectionScreen} />

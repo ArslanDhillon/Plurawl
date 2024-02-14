@@ -1,11 +1,41 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { Text, StyleSheet, View, SafeAreaView, Image, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
+import Api from '../Apis/ApiPaths'
 
 
 
 const { height, width } = Dimensions.get('window')
 
 const WeeklySummaryMainScreen = (props) => {
+
+    const [checkIn,setCheckIn] = useState(false)
+
+    useEffect(()=>{
+        const getUserProfile = async ()=>{
+            try {
+                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1LCJuYW1lIjoiQXNhZCIsImVtYWlsIjoiQXNhZEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRSQkhibElaSkRaTHpUVXI2dkhqTWIudGNxcGJURlZoUzJmSlFIMGR5am9yN1FGOEVXWlZxUyIsInByb2ZpbGVfaW1hZ2UiOiIiLCJjb21wYW55IjpudWxsLCJ0aXRsZSI6bnVsbCwiY2l0eSI6bnVsbCwic3RhdGUiOm51bGwsImdlbmRlciI6bnVsbCwicmFjZSI6bnVsbCwibGdidHEiOm51bGwsInZldGVyYW4iOm51bGwsImZjbV90b2tlbiI6bnVsbCwicHJvdmlkZXJfaWQiOiIiLCJwcm92aWRlcl9uYW1lIjoiRW1haWwiLCJyb2xlIjoidXNlciIsInBvaW50cyI6MCwiY3JlYXRlZEF0IjoiMjAyNC0wMi0xM1QxNDo1MDoxMi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyNC0wMi0xM1QxNDo1MDoxMi4wMDBaIn0sImlhdCI6MTcwNzgzOTA0NywiZXhwIjoxNzM5Mzc1MDQ3fQ.1rL2H-75Ln2QwKDpuOYb8_9diWnvzZCjRsT3-QKL8vk"
+                const result = await fetch(Api.ApiGetProfile, {
+                    method: 'post',
+                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                })
+                if (result) {
+                    console.log("result is ", result)
+    
+                    let json = await result.json()
+                    if (json.status === true) {
+                        console.log("result is ", json)
+                        if(json.data.lastcheckin !== null){
+                            setCheckIn(true)
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log("error finding ", error)
+            }
+        };
+
+        getUserProfile();
+    },[])
 
     const checkInPressHandle = () => {
         props.navigation.navigate('CheckInFirstScreen')
@@ -38,8 +68,7 @@ const WeeklySummaryMainScreen = (props) => {
                         padding: 10 / 924 * height, width: 120 / 429 * width, flexDirection: 'row', gap: 10
                     }} onPress={checkInPressHandle}>
                         <View style={{
-                            height: 24 / 924 * height, width: 24 / 924 * height, backgroundColor: '#FCD860',
-                            borderRadius: 12 / 924 * height,
+                            height: 24 / 924 * height, width: 24 / 924 * height, backgroundColor:'#FCD860',borderRadius: 12 / 924 * height,             
                         }}></View>
                         <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff' }}>Check In</Text>
                     </TouchableOpacity>
