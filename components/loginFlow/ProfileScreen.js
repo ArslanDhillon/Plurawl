@@ -1,5 +1,7 @@
-import { SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput, 
-    Modal, FlatList ,TouchableWithoutFeedback,Keyboard,KeyboardAvoidingView,Platform} from 'react-native'
+import {
+    SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput,
+    Modal, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform,ActivityIndicator
+} from 'react-native'
 import React, { useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import Api from '../Apis/ApiPaths';
@@ -24,6 +26,9 @@ const ProfileScreen = (props) => {
     const [title, setTitle] = useState('');
     const [company, setCompany] = useState('');
 
+    const [showIndicater, setShowIndicater] = useState(false);
+
+
 
 
     // const userData = route.params.user;
@@ -40,32 +45,40 @@ const ProfileScreen = (props) => {
     //     console.log(userData)
 
     const postData = {
-        name:name,
-        title:title,
-        company:company,
-        race:selectedRace,
-        gender:selectedIdentity,
-        lgbtq:selectedLGBTQ,
-        veteran:selectedVateran,
-        industry:selectedIndustry
+        name: name,
+        title: title,
+        company: company,
+        race: selectedRace,
+        gender: selectedIdentity,
+        lgbtq: selectedLGBTQ,
+        veteran: selectedVateran,
+        industry: selectedIndustry
     }
 
     const nxtBtnHandle = async () => {
-        try{
-            const result  = await fetch(Api.ApiUpdateProfile,{
-                method:'post',
-                headers:{"Content-Type": "application/json"},
-                body :postData
+        setShowIndicater(true)
+        try {
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJuYW1lIjoiQWxpIiwiZW1haWwiOiJBbGkxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJG1FNFRWVWp1Mmo4bGpqVUJZQ1piLy4ySlVMcmdQSnFWdThtY2NFVkEwdFF5Ymx5VVRNL0plIiwicHJvZmlsZV9pbWFnZSI6IiIsImNvbXBhbnkiOm51bGwsInRpdGxlIjpudWxsLCJjaXR5IjpudWxsLCJzdGF0ZSI6bnVsbCwiZ2VuZGVyIjpudWxsLCJyYWNlIjpudWxsLCJsZ2J0cSI6bnVsbCwidmV0ZXJhbiI6bnVsbCwiZmNtX3Rva2VuIjpudWxsLCJwcm92aWRlcl9pZCI6IiIsInByb3ZpZGVyX25hbWUiOiJFbWFpbCIsInJvbGUiOiJ1c2VyIiwicG9pbnRzIjowLCJjcmVhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoifSwiaWF0IjoxNzA3ODE5MzIxLCJleHAiOjE3MzkzNTUzMjF9.ckAk6yGCMGAPVd92J1rhqb2a6XMwejpIIrZgS1K2EqQ"
+            const result = await fetch(Api.ApiUpdateProfile, {
+                method: 'post',
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify(postData)
             })
-            if (result){
+            if (result) {
+                console.log("result is ", result)
+
                 let json = await result.json()
-                if(json.status === true){
+                if (json.status === true) {
+                    setShowIndicater(false)
+                    console.log("result is ", json)
+                    console.log("post data is", postData)
+
                     props.navigation.navigate('WelcomeScreen')
 
                 }
             }
-        }catch (error) {
-            console.log("error finding ",error)
+        } catch (error) {
+            console.log("error finding ", error)
         }
     }
     //madals array data
@@ -146,272 +159,274 @@ const ProfileScreen = (props) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1, flexDirection: 'column', }}>
                 <TouchableWithoutFeedback style={globalStyles.container} onPress={Keyboard.dismiss}>
-                <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: '500', color: '#fff', }}>Let's complete your profile </Text>
-                    <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 50 / 924 * height }}>
-                        <Image source={require("../../assets/profileImage.png")}
-                            style={{ height: 80 / 924 * height, width: 80 / 924 * height, resizeMode: 'contain', }}
-                        />
-                    </TouchableOpacity>
+                   {showIndicater? <ActivityIndicator color="#fff" size={'large'} style ={{marginTop:height/2}}/> :
+                    <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 20, fontWeight: '500', color: '#fff', }}>Let's complete your profile </Text>
+                        <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 50 / 924 * height }}>
+                            <Image source={require("../../assets/profileImage.png")}
+                                style={{ height: 80 / 924 * height, width: 80 / 924 * height, resizeMode: 'contain', }}
+                            />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={{ marginTop: 15 / 924 * height }}>
-                        <Text style={{ color: 'red', fontSize: 15, fontWeight: '500' }}>Add Photo</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={{ marginTop: 15 / 924 * height }}>
+                            <Text style={{ color: 'red', fontSize: 15, fontWeight: '500' }}>Add Photo</Text>
+                        </TouchableOpacity>
 
-                    <View style={{ flexDirection: 'row', width: width }}>
-                        <Image source={require('../../assets/PageControl2.png')} style={{ height: 393 / 924 * height, width: 44 / 423 * width }} />
-                        <View style={{ flexDirection: 'column' }}>
+                        <View style={{ flexDirection: 'row', width: width }}>
+                            <Image source={require('../../assets/PageControl2.png')} style={{ height: 393 / 924 * height, width: 44 / 423 * width }} />
+                            <View style={{ flexDirection: 'column' }}>
 
-                            <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
-                                <Text style={globalStyles.inputText}>Name:</Text>
-                                <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
-                                    value={name}
-                                    onChangeText={(text) => setName(text)}
-                                />
+                                <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
+                                    <Text style={globalStyles.inputText}>Name:</Text>
+                                    <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
+                                        value={name}
+                                        onChangeText={(text) => setName(text)}
+                                    />
+                                </View>
+                                <View style={globalStyles.inputContainer}>
+                                    <Text style={globalStyles.inputText}>Title:</Text>
+                                    <TextInput placeholder='' style={globalStyles.inputPlacholder}
+                                        value={title}
+                                        onChangeText={(text) => setTitle(text)} />
+                                </View>
+                                <View style={globalStyles.inputContainer}>
+                                    <Text style={globalStyles.inputText}>Company:</Text>
+                                    <TextInput placeholder='' style={globalStyles.inputPlacholder}
+                                        value={company}
+                                        onChangeText={(text) => setCompany(text)} />
+                                </View>
+
+                                <View style={{ alignItems: 'center' }}>
+
+
+                                    {/* Industry modal */}
+
+                                    <View style={styles.btnMainView}>
+                                        <Text style={styles.text} >Industry:</Text>
+
+                                        <TouchableOpacity style={styles.btnStyle}
+                                            onPress={() => setShowModal1(true)}
+                                        >
+                                            <View style={styles.btnTextView}>
+                                                <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
+                                                    {selectedIndustry ? selectedIndustry : "Select"}
+                                                </Text>
+                                                <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                    <Modal transparent={true} visible={showModal1} style={{ height: 100 / 924 * height }} >
+                                        <View style={[styles.modalMainVeiw, { paddingTop: height / 2 - 100 }]} >
+
+                                            <FlatList data={industries}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.flatListView}>
+                                                        <TouchableOpacity style={{ margin: 10 }}
+                                                            onPress={() => {
+                                                                setShowModal1(false)
+                                                                setSelectedIndustry(item.name)
+                                                            }}>
+                                                            <Text style={styles.flatListText} >
+                                                                {item.name}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+
+                                            />
+                                        </View>
+
+                                    </Modal>
+
+
+                                    {/* Identity modal */}
+
+
+                                    <View style={styles.btnMainView}>
+                                        <Text style={styles.text} >Identity:</Text>
+
+                                        <TouchableOpacity style={styles.btnStyle}
+                                            onPress={() => setShowModal2(true)}
+                                        >
+                                            <View style={styles.btnTextView}>
+                                                <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
+                                                    {selectedIdentity ? selectedIdentity : "Select"}
+                                                </Text>
+                                                <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                    <Modal transparent={true} visible={showModal2} style={{ height: 100 / 924 * height }} >
+                                        <View style={[styles.modalMainVeiw, { paddingTop: height / 2 }]} >
+
+                                            <FlatList data={identity}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.flatListView}>
+                                                        <TouchableOpacity style={{ margin: 10 }}
+                                                            onPress={() => {
+                                                                setShowModal2(false)
+                                                                setSelectedIdentity(item.name)
+                                                            }}>
+                                                            <Text style={styles.flatListText} >
+                                                                {item.name}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+
+                                            />
+                                        </View>
+
+                                    </Modal>
+
+
+                                    {/* Race/Ethnticity modal */}
+
+
+                                    <View style={styles.btnMainView}>
+                                        <Text style={styles.text} >Race/Ethnicity:</Text>
+
+                                        <TouchableOpacity style={styles.btnStyle}
+                                            onPress={() => setShowModal3(true)}
+                                        >
+                                            <View style={styles.btnTextView}>
+                                                <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
+                                                    {selectedRace ? selectedRace : "Select"}
+                                                </Text>
+                                                <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <Modal transparent={true} visible={showModal3} style={{ height: 100 / 924 * height }} >
+                                        <View style={[styles.modalMainVeiw, { paddingTop: height / 2 - 50 }]} >
+
+                                            <FlatList data={Race}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.flatListView}>
+                                                        <TouchableOpacity style={{ margin: 10 }}
+                                                            onPress={() => {
+                                                                setShowModal3(false)
+                                                                setSelectedRace(item.name)
+                                                            }}>
+                                                            <Text style={styles.flatListText} >
+                                                                {item.name}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+
+                                            />
+                                        </View>
+
+                                    </Modal>
+
+
+
+                                    {/* LGBTQ+ modal */}
+
+                                    <View style={styles.btnMainView}>
+                                        <Text style={styles.text} >LGBTQ+:</Text>
+
+                                        <TouchableOpacity style={styles.btnStyle}
+                                            onPress={() => setShowModal4(true)}
+                                        >
+                                            <View style={styles.btnTextView}>
+                                                <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
+                                                    {selectedLGBTQ ? selectedLGBTQ : "Select"}
+                                                </Text>
+                                                <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                    <Modal transparent={true} visible={showModal4} style={{ height: 100 / 924 * height }} >
+                                        <View style={[styles.modalMainVeiw, { paddingTop: height / 2 }]} >
+
+                                            <FlatList data={LGBTQ}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.flatListView}>
+                                                        <TouchableOpacity style={{ margin: 10 }}
+                                                            onPress={() => {
+                                                                setShowModal4(false)
+                                                                setSelectedLGBTQ(item.name)
+                                                            }}>
+                                                            <Text style={styles.flatListText} >
+                                                                {item.name}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+
+                                            />
+                                        </View>
+
+                                    </Modal>
+
+                                    {/* Vateran status MODAL */}
+
+                                    <View style={styles.btnMainView}>
+                                        <Text style={styles.text} >Vateran status:</Text>
+
+                                        <TouchableOpacity style={styles.btnStyle}
+                                            onPress={() => setShowModal5(true)}
+                                        >
+                                            <View style={styles.btnTextView}>
+                                                <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
+                                                    {selectedVateran ? selectedVateran : "Select"}
+                                                </Text>
+                                                <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                    <Modal transparent={true} visible={showModal5} style={{ height: 100 / 924 * height }} >
+                                        <View style={[styles.modalMainVeiw, { paddingTop: height / 2 }]} >
+
+                                            <FlatList data={VateranStatus}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.flatListView}>
+                                                        <TouchableOpacity style={{ margin: 10 }}
+                                                            onPress={() => {
+                                                                setShowModal5(false)
+                                                                setSelectedVetran(item.name)
+                                                            }}>
+                                                            <Text style={styles.flatListText} >
+                                                                {item.name}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+
+                                            />
+                                        </View>
+
+                                    </Modal>
+
+                                </View>
+
+                                <TouchableOpacity style={[globalStyles.capsuleBtn,
+                                { marginTop: 100 / 924 * height, marginBottom: 30 / 924 * height, width: 345 / 426 * width }]}
+                                    onPress={nxtBtnHandle}
+                                >
+                                    <Text style={globalStyles.capsuleBtnText}>
+                                        Continoue
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
-                            <View style={globalStyles.inputContainer}>
-                                <Text style={globalStyles.inputText}>Title:</Text>
-                                <TextInput placeholder='' style={globalStyles.inputPlacholder}
-                                    value={title}
-                                    onChangeText={(text) => setTitle(text)} />
-                            </View>
-                            <View style={globalStyles.inputContainer}>
-                                <Text style={globalStyles.inputText}>Company:</Text>
-                                <TextInput placeholder='' style={globalStyles.inputPlacholder}
-                                    value={company}
-                                    onChangeText={(text) => setCompany(text)} />
-                            </View>
-
-                            <View style={{ alignItems: 'center' }}>
-
-
-                                {/* Industry modal */}
-
-                                <View style={styles.btnMainView}>
-                                    <Text style={styles.text} >Industry:</Text>
-
-                                    <TouchableOpacity style={styles.btnStyle}
-                                        onPress={() => setShowModal1(true)}
-                                    >
-                                        <View style={styles.btnTextView}>
-                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
-                                                {selectedIndustry ? selectedIndustry : "Select"}
-                                            </Text>
-                                            <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-
-                                <Modal transparent={true} visible={showModal1} style={{ height: 100 / 924 * height }} >
-                                    <View style={[styles.modalMainVeiw,{paddingTop:height/2-100}]} >
-
-                                        <FlatList data={industries}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.flatListView}>
-                                                    <TouchableOpacity style={{ margin: 10 }}
-                                                        onPress={() => {
-                                                            setShowModal1(false)
-                                                            setSelectedIndustry(item.name)
-                                                        }}>
-                                                        <Text style={styles.flatListText} >
-                                                            {item.name}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-
-                                        />
-                                    </View>
-
-                                </Modal>
-
-
-                                {/* Identity modal */}
-
-
-                                <View style={styles.btnMainView}>
-                                    <Text style={styles.text} >Identity:</Text>
-
-                                    <TouchableOpacity style={styles.btnStyle}
-                                        onPress={() => setShowModal2(true)}
-                                    >
-                                        <View style={styles.btnTextView}>
-                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
-                                                {selectedIdentity ? selectedIdentity : "Select"}
-                                            </Text>
-                                            <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-
-                                <Modal transparent={true} visible={showModal2} style={{ height: 100 / 924 * height }} >
-                                    <View style={[styles.modalMainVeiw, { paddingTop: height/2 }]} >
-
-                                        <FlatList data={identity}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.flatListView}>
-                                                    <TouchableOpacity style={{ margin: 10 }}
-                                                        onPress={() => {
-                                                            setShowModal2(false)
-                                                            setSelectedIdentity(item.name)
-                                                        }}>
-                                                        <Text style={styles.flatListText} >
-                                                            {item.name}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-
-                                        />
-                                    </View>
-
-                                </Modal>
-
-
-                                {/* Race/Ethnticity modal */}
-
-
-                                <View style={styles.btnMainView}>
-                                    <Text style={styles.text} >Race/Ethnicity:</Text>
-
-                                    <TouchableOpacity style={styles.btnStyle}
-                                        onPress={() => setShowModal3(true)}
-                                    >
-                                        <View style={styles.btnTextView}>
-                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
-                                                {selectedRace ? selectedRace : "Select"}
-                                            </Text>
-                                            <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-                                <Modal transparent={true} visible={showModal3} style={{ height: 100 / 924 * height }} >
-                                    <View style={[styles.modalMainVeiw, { paddingTop:height/2-50 }]} >
-
-                                        <FlatList data={Race}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.flatListView}>
-                                                    <TouchableOpacity style={{ margin: 10 }}
-                                                        onPress={() => {
-                                                            setShowModal3(false)
-                                                            setSelectedRace(item.name)
-                                                        }}>
-                                                        <Text style={styles.flatListText} >
-                                                            {item.name}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-
-                                        />
-                                    </View>
-
-                                </Modal>
-
-
-
-                                {/* LGBTQ+ modal */}
-
-                                <View style={styles.btnMainView}>
-                                    <Text style={styles.text} >LGBTQ+:</Text>
-
-                                    <TouchableOpacity style={styles.btnStyle}
-                                        onPress={() => setShowModal4(true)}
-                                    >
-                                        <View style={styles.btnTextView}>
-                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
-                                                {selectedLGBTQ ? selectedLGBTQ : "Select"}
-                                            </Text>
-                                            <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-
-                                <Modal transparent={true} visible={showModal4} style={{ height: 100 / 924 * height }} >
-                                    <View style={[styles.modalMainVeiw, { paddingTop: height/2 }]} >
-
-                                        <FlatList data={LGBTQ}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.flatListView}>
-                                                    <TouchableOpacity style={{ margin: 10 }}
-                                                        onPress={() => {
-                                                            setShowModal4(false)
-                                                            setSelectedLGBTQ(item.name)
-                                                        }}>
-                                                        <Text style={styles.flatListText} >
-                                                            {item.name}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-
-                                        />
-                                    </View>
-
-                                </Modal>
-
-                                {/* Vateran status MODAL */}
-
-                                <View style={styles.btnMainView}>
-                                    <Text style={styles.text} >Vateran status:</Text>
-
-                                    <TouchableOpacity style={styles.btnStyle}
-                                        onPress={() => setShowModal5(true)}
-                                    >
-                                        <View style={styles.btnTextView}>
-                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#fff', textAlign: 'center' }}>
-                                                {selectedVateran ? selectedVateran : "Select"}
-                                            </Text>
-                                            <Image source={require('../../assets/downArrow.png')} style={styles.btnImage} />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-
-                                <Modal transparent={true} visible={showModal5} style={{ height: 100 / 924 * height }} >
-                                    <View style={[styles.modalMainVeiw, {paddingTop:height/2}]} >
-
-                                        <FlatList data={VateranStatus}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.flatListView}>
-                                                    <TouchableOpacity style={{ margin: 10 }}
-                                                        onPress={() => {
-                                                            setShowModal5(false)
-                                                            setSelectedVetran(item.name)
-                                                        }}>
-                                                        <Text style={styles.flatListText} >
-                                                            {item.name}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-
-                                        />
-                                    </View>
-
-                                </Modal>
-
-                            </View>
-
-                            <TouchableOpacity style={[globalStyles.capsuleBtn,
-                            { marginTop: 100 / 924 * height, marginBottom: 30 / 924 * height, width: 345 / 426 * width }]}
-                                onPress={nxtBtnHandle}
-                            >
-                                <Text style={globalStyles.capsuleBtnText}>
-                                    Continoue
-                                </Text>
-                            </TouchableOpacity>
                         </View>
-                    </View>
 
-                </View>
+                    </View>
+}
                 </TouchableWithoutFeedback>
-                
-                </KeyboardAvoidingView>
+
+            </KeyboardAvoidingView>
 
 
         </SafeAreaView>
@@ -440,7 +455,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#25252585",
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: height/2,
+        paddingTop: height / 2,
         alignSelf: "center"
     },
     flatListView: {
