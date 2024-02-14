@@ -1,49 +1,38 @@
-import React, { useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Button,
+} from 'react-native';
+import Snackbar from 'react-native-snackbar-component';
 
-const TestScreen = () => {
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const data = [
-    {
-    id: 1,
-    name: 'Feel confident'
-},
-{
-    id: 2,
-    name: 'Boost energy'
-}, {
-    id: 3,
-    name: 'Build self-esteem'
-}, {
-    id: 4,
-    name: 'Reduce stress & anxiety'
-},
-];
-
-  const toggleItemSelection = (item) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(selectedItems.filter(selectedItem => selectedItem !== item));
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
-  };
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => toggleItemSelection(item.name)}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text>{item.name}</Text>
-        <Text>{selectedItems.includes(item.name) ? ' - Selected' : ''}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
+export default function TestScreen() {
+  const [isVisible, setIsVisible] = React.useState(false);
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}    />
+    <View style={styles.container}>
+      <Button
+        onPress={() => setIsVisible(!isVisible)}
+        title="Toggle snackbar"
+        accessibilityLabel="toggle"
+      />
+      <Snackbar
+        visible={isVisible}
+        textMessage="Hello There!"
+        // actionHandler={() => alert('its snack time!')}
+        // actionText="let's go again"
+        position='top'
+        autoHidingTime={1000}
+        top={20}
+        containerStyle={{backgroundColor:'red'}}
+      />
+    </View>
   );
-};
+}
 
-export default TestScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
