@@ -39,8 +39,6 @@ export default SettingsMainScreen = (props) => {
                             />
                         </View>
                     </TouchableOpacity>
-
-
                 </View>
 
                 <View style={styles.mainView}>
