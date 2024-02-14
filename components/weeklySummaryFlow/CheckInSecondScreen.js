@@ -39,8 +39,14 @@ export default CheckInSecondScreen = ({ route, navigation }) => {
         let messageData = [];
         messageData.push({
             role: "user",
-            content: `Generate me a list of ${process.env.EXPO_PUBLIC_API_MOODS_COUNT} single word moods that fall under this category. Category: ${route.params.mood.currentMood} .
-             Make sure the list is comma separate list and there is nothing extra on the list so that i can parse it easily in the code.And give me array item stated by fist capital letter` // this data is being sent to chatgpt so only message should be sent
+            content: `Generate me a list of 25 single word moods that fall under this category. Category: ${process.env.EXPO_PUBLIC_API_MOODS_COUNT}.
+            Make sure the list is a javascript object list and there is nothing extra on the list so that i can parse it easily in the code. 
+Each javascript object should consist of the following keys:
+{
+feeling: "feeling for the category goes here",
+"description": "description of the feeling word",
+pronunciation: "How to pronounce the word"
+}` // this data is being sent to chatgpt so only message should be sent
         });
         const APIKEY = process.env.EXPO_PUBLIC_API_OPENAI_API_KEY;
         // console.log(APIKEY)
@@ -63,7 +69,7 @@ export default CheckInSecondScreen = ({ route, navigation }) => {
             if (result.status === 200) {
                 let gptMessage = result.data.choices[0].message.content;
                 console.log("List of moods is ", gptMessage)
-                let listOfMoods = gptMessage.split(",")
+                let listOfMoods = JSON.parse(gptMessage)
                 setMoods(listOfMoods)
                 setShowIndicater(false)
                 console.log("Moods array is ", listOfMoods)
@@ -105,7 +111,8 @@ export default CheckInSecondScreen = ({ route, navigation }) => {
                     <Text style={{ fontSize: 16, fontWeight: '500', marginTop: 55 / 952 * height }}>How are you feeling?</Text>
                     <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', marginTop: 8 / 924 * height }}>{userMood.currentMood}</Text>
                     <View style={{ marginTop: 45 / 924 * height, height: 560 / 824 * height, }}>
-                        {showIndicater ? <ActivityIndicator color="#fff" size={'large'} /> : <FlatList
+                        {showIndicater ? <ActivityIndicator color="#fff" size={'large'} /> : 
+                        <FlatList
                             showsVerticalScrollIndicator={false}
                             columnWrapperStyle={{ gap: 10 / 423 * width, paddingBottom: 15 / 924 * height, }}
                             data={moods}
@@ -119,7 +126,7 @@ export default CheckInSecondScreen = ({ route, navigation }) => {
                                 }} onPress={() => { onpressHandle(item) }}
 
                                 >
-                                    <Text style={{ textAlign: 'center', fontSize: 12, fontWeight: '500' }}>{item}</Text>
+                                    <Text style={{ textAlign: 'center', fontSize: 12, fontWeight: '500' }}>{item.feeling}</Text>
 
                                 </TouchableOpacity >
                             )}
