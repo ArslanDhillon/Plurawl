@@ -8,5 +8,4 @@ const Api = {
     ApiGetProfile:`${BasePath}api/users/get_profile`,
 }
 
-
 export default Api;
