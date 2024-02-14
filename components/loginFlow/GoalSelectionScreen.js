@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, Image, TouchableOpacity, ScrollView,ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { globalStyles } from '../globalStyles/styles'
-import Api from '../Apis/ApiPaths'
+import Api from '../Apis/ApiPaths';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const { height, width } = Dimensions.get("window")
 
@@ -15,33 +16,43 @@ const GoalSelectionScreen = (props) => {
 
 
     const nxtBtnHandle = async () => {
-        setShowIndicater(true)
-        try {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJuYW1lIjoiQWxpIiwiZW1haWwiOiJBbGkxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJG1FNFRWVWp1Mmo4bGpqVUJZQ1piLy4ySlVMcmdQSnFWdThtY2NFVkEwdFF5Ymx5VVRNL0plIiwicHJvZmlsZV9pbWFnZSI6IiIsImNvbXBhbnkiOm51bGwsInRpdGxlIjpudWxsLCJjaXR5IjpudWxsLCJzdGF0ZSI6bnVsbCwiZ2VuZGVyIjpudWxsLCJyYWNlIjpudWxsLCJsZ2J0cSI6bnVsbCwidmV0ZXJhbiI6bnVsbCwiZmNtX3Rva2VuIjpudWxsLCJwcm92aWRlcl9pZCI6IiIsInByb3ZpZGVyX25hbWUiOiJFbWFpbCIsInJvbGUiOiJ1c2VyIiwicG9pbnRzIjowLCJjcmVhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoifSwiaWF0IjoxNzA3ODE5MzIxLCJleHAiOjE3MzkzNTUzMjF9.ckAk6yGCMGAPVd92J1rhqb2a6XMwejpIIrZgS1K2EqQ"
-            const result = await fetch(Api.ApiUpdateGoals, {
-                method: 'post',
-                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-                body: JSON.stringify({
-                    "goals": [
-                        { "id": 1, "name": "Feel confident" },
-                        { "id": 2, "name": "Boost energy" }
-                    ]
-                })
-            })
-            if (result) {
-                console.log("result is ", result)
+        // setShowIndicater(true)
+        // try {
 
-                let json = await result.json()
-                if (json.status === true) {
-                    setShowIndicater(false)
-                    console.log("result is ", json)
-                    props.navigation.navigate('ProfileScreen')
+            const data = await AsyncStorage.getItem("USER")
 
-                }
+            if(data){
+                 console.log('get data is',data)
+                 console.log('get data is',data.token)
+
             }
-        } catch (error) {
-            console.log("error finding ", error)
-        }
+
+
+        //     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJuYW1lIjoiQWxpIiwiZW1haWwiOiJBbGkxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJG1FNFRWVWp1Mmo4bGpqVUJZQ1piLy4ySlVMcmdQSnFWdThtY2NFVkEwdFF5Ymx5VVRNL0plIiwicHJvZmlsZV9pbWFnZSI6IiIsImNvbXBhbnkiOm51bGwsInRpdGxlIjpudWxsLCJjaXR5IjpudWxsLCJzdGF0ZSI6bnVsbCwiZ2VuZGVyIjpudWxsLCJyYWNlIjpudWxsLCJsZ2J0cSI6bnVsbCwidmV0ZXJhbiI6bnVsbCwiZmNtX3Rva2VuIjpudWxsLCJwcm92aWRlcl9pZCI6IiIsInByb3ZpZGVyX25hbWUiOiJFbWFpbCIsInJvbGUiOiJ1c2VyIiwicG9pbnRzIjowLCJjcmVhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoifSwiaWF0IjoxNzA3ODE5MzIxLCJleHAiOjE3MzkzNTUzMjF9.ckAk6yGCMGAPVd92J1rhqb2a6XMwejpIIrZgS1K2EqQ"
+        //     const result = await fetch(Api.ApiUpdateGoals, {
+        //         method: 'post',
+        //         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        //         body: JSON.stringify({
+        //             "goals": [
+        //                 { "id": 1, "name": "Feel confident" },
+        //                 { "id": 2, "name": "Boost energy" }
+        //             ]
+        //         })
+        //     })
+        //     if (result) {
+        //         console.log("result is ", result)
+
+        //         let json = await result.json()
+        //         if (json.status === true) {
+        //             setShowIndicater(false)
+        //             console.log("result is ", json)
+        //             props.navigation.navigate('ProfileScreen')
+
+        //         }
+        //     }
+        // } catch (error) {
+        //     console.log("error finding ", error)
+        // }
 
     }
 

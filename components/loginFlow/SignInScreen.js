@@ -1,12 +1,13 @@
 import {
     SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TextInput, TouchableOpacity,
-    Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, ActivityIndicator
+    Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, ActivityIndicator,
 
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import Api from '../Apis/ApiPaths';
 import { Snackbar } from 'react-native-paper';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height, width } = Dimensions.get('window');
 
@@ -37,33 +38,39 @@ const SignInScreen = (props) => {
     const nxtBtnHAndle = async () => {
         setVisible(true)
 
-        // setShowIndicater(true)
-        // if (!name || !email || !password) {
+        setShowIndicater(true)
+        if (!name || !email || !password) {
 
-        // }
-        // try {
-        //     const result = await fetch(Api.ApiRegisterUser, {
-        //         method: 'post',
-        //         headers: { "Content-Type": "application/json" },
-        //         body: JSON.stringify(postData)
-        //     })
-        //     if (result) {
-        //         let json = await result.json();
-        //         console.log(json)
-        //         if (json.status == true) {
-        //             setShowIndicater(false)
-        //             props.navigation.navigate("GoalSelectionScreen")
-        //         }
-        //         else {
-        //             setShowIndicater(false)
-        //             console.log(json.message)
-        //         }
+        }
+        try {
+            const result = await fetch(Api.ApiRegisterUser, {
+                method: 'post',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(postData)
+            })
+            if (result) {
+                let json = await result.json();
+                console.log(json)
+                if (json.status == true) {
+                    setShowIndicater(false)
+                    await AsyncStorage.setItem(
+                        "USER",
+                        JSON.stringify(json.data)
+                    )
+                    console.log("Stored user data in local is ", json.data)
+    
+                    props.navigation.navigate("GoalSelectionScreen")
+                }
+                else {
+                    setShowIndicater(false)
+                    console.log(json.message)
+                }
 
-        //     }
-        // } catch (error) {
+            }
+        } catch (error) {
 
-        //     console.log('error finding', error)
-        // }
+            console.log('error finding', error)
+        }
     };
 
     return (
