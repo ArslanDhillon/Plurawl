@@ -38,9 +38,9 @@ export default JournalSnapshotScreen = () => {
                         </View>
                     </View>
 
-                    <View style={{ backgroundColor: "#121212", borderRadius: 16 / 924 * height, width: 390 / 429 * width, padding: 30 / 924 * height, alignItems: "center", justifyContent: 'center', marginTop: 15 / 924 * height }}>
+                    <View style={{ backgroundColor: "#121212", borderRadius: 16 / 924 * height, width: 326 / 429 * width, padding: 30 / 924 * height,marginTop: 15 / 924 * height }}>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 924 * height ,width:326/429*width}}>
+                        <View style={{ flexDirection: 'row',  gap: 10 / 924 * height ,}}>
                             <Image source={require('../../assets/yellowCircle.png')}
                                 style={{ height: 18 / 924 * height, width: 18 / 924 * height, resizeMode: 'contain' }}
                             />
@@ -49,6 +49,11 @@ export default JournalSnapshotScreen = () => {
 
 
                         </View>
+                        <Text style={{ fontSize: 15, fontWeight: '500', color: "#F8EDDA50",marginTop:15/924*height}}>
+                            Intense unease, worry, or apprehension about future uncertainties or potential threats,
+                            often accompanied by physical symptoms.
+                        </Text>
+
                     </View>
                 </View>
 
