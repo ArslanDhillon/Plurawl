@@ -26,6 +26,7 @@ import SubscriptionsSettingsScreen from './components/settingsFlow/Subscriptions
 import PrivacyPolicyScreen from './components/settingsFlow/PrivacyPolicyScreen';
 import TermsAndConditionsScreen from './components/settingsFlow/TermsAndConditionsScreen';
 import profileSettingsScreen from './components/settingsFlow/profileSettingsScreen';
+import JournalSnapshotScreen from './components/journalFlow/JournalSnapshotScreen';
 
 
 
@@ -40,8 +41,8 @@ const App = () => {
 
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignInScreen" screenOptions={{ headerShown: false }}>
+      {/* <NavigationContainer>
+        <Stack.Navigator initialRouteName="CheckInFirstScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
           <Stack.Screen name='GoalSelectionScreen' component={GoalSelectionScreen} />
@@ -67,7 +68,7 @@ const App = () => {
 
         </Stack.Navigator>
 
-      </NavigationContainer>
+      </NavigationContainer> */}
 
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}
@@ -90,7 +91,7 @@ const App = () => {
       {/* <SubscriptionsSettingsScreen/> */}
       {/* <PrivacyPolicyScreen/> */}
       {/* <TermsAndConditionsScreen /> */}
-
+<JournalSnapshotScreen/>
 
     </View>
   )

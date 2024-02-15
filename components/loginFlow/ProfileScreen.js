@@ -1,10 +1,11 @@
 import {
     SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput,
-    Modal, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform,ActivityIndicator
+    Modal, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ActivityIndicator
 } from 'react-native'
 import React, { useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import Api from '../Apis/ApiPaths';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const { height, width } = Dimensions.get('window')
@@ -27,6 +28,7 @@ const ProfileScreen = (props) => {
     const [company, setCompany] = useState('');
 
     const [showIndicater, setShowIndicater] = useState(false);
+    const [user, setUser] = useState(null)
 
 
 
@@ -58,7 +60,15 @@ const ProfileScreen = (props) => {
     const nxtBtnHandle = async () => {
         setShowIndicater(true)
         try {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJuYW1lIjoiQWxpIiwiZW1haWwiOiJBbGkxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJG1FNFRWVWp1Mmo4bGpqVUJZQ1piLy4ySlVMcmdQSnFWdThtY2NFVkEwdFF5Ymx5VVRNL0plIiwicHJvZmlsZV9pbWFnZSI6IiIsImNvbXBhbnkiOm51bGwsInRpdGxlIjpudWxsLCJjaXR5IjpudWxsLCJzdGF0ZSI6bnVsbCwiZ2VuZGVyIjpudWxsLCJyYWNlIjpudWxsLCJsZ2J0cSI6bnVsbCwidmV0ZXJhbiI6bnVsbCwiZmNtX3Rva2VuIjpudWxsLCJwcm92aWRlcl9pZCI6IiIsInByb3ZpZGVyX25hbWUiOiJFbWFpbCIsInJvbGUiOiJ1c2VyIiwicG9pbnRzIjowLCJjcmVhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAyLTEzVDA4OjMyOjUxLjAwMFoifSwiaWF0IjoxNzA3ODE5MzIxLCJleHAiOjE3MzkzNTUzMjF9.ckAk6yGCMGAPVd92J1rhqb2a6XMwejpIIrZgS1K2EqQ"
+
+            const data =await AsyncStorage.getItem("USER")
+
+            if (data) {
+                let u = JSON.parse(data)
+                setUser(u)
+
+
+            const token = u.token;
             const result = await fetch(Api.ApiUpdateProfile, {
                 method: 'post',
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
@@ -77,6 +87,7 @@ const ProfileScreen = (props) => {
 
                 }
             }
+        }
         } catch (error) {
             console.log("error finding ", error)
         }
@@ -159,7 +170,6 @@ const ProfileScreen = (props) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1, flexDirection: 'column', }}>
                 <TouchableWithoutFeedback style={globalStyles.container} onPress={Keyboard.dismiss}>
-                   {showIndicater? <ActivityIndicator color="#fff" size={'large'} style ={{marginTop:height/2}}/> :
                     <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
                         <Text style={{ fontSize: 20, fontWeight: '500', color: '#fff', }}>Let's complete your profile </Text>
                         <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 50 / 924 * height }}>
@@ -410,20 +420,21 @@ const ProfileScreen = (props) => {
                                     </Modal>
 
                                 </View>
+                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 100/924*height ,}} /> :
 
-                                <TouchableOpacity style={[globalStyles.capsuleBtn,
-                                { marginTop: 100 / 924 * height, marginBottom: 30 / 924 * height, width: 345 / 426 * width }]}
-                                    onPress={nxtBtnHandle}
-                                >
-                                    <Text style={globalStyles.capsuleBtnText}>
-                                        Continoue
-                                    </Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity style={[globalStyles.capsuleBtn,
+                                    { marginTop: 100 / 924 * height, marginBottom: 30 / 924 * height, width: 345 / 426 * width }]}
+                                        onPress={nxtBtnHandle}
+                                    >
+                                        <Text style={globalStyles.capsuleBtnText}>
+                                            Continoue
+                                        </Text>
+                                    </TouchableOpacity>
+                                }
                             </View>
                         </View>
 
                     </View>
-}
                 </TouchableWithoutFeedback>
 
             </KeyboardAvoidingView>

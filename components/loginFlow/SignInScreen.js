@@ -125,7 +125,7 @@ const SignInScreen = (props) => {
                         </View>
 
                         {
-                            showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{}} /> :
+                            showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{marginTop:30/924*height}} /> :
                                 <TouchableOpacity style={[globalStyles.capsuleBtn, { width: 323 / 429 * width, marginTop: 25 / 926 * height }]}
                                     onPress={nxtBtnHAndle}
                                 >

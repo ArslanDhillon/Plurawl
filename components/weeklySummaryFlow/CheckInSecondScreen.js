@@ -46,7 +46,7 @@ Each javascript object should consist of the following keys:
 feeling: "feeling for the category goes here",
 "description": "description of the feeling word",
 pronunciation: "How to pronounce the word"
-}` // this data is being sent to chatgpt so only message should be sent
+}  Just give me a json object and no text so that i can parse it to json in code .Don’t add any extra text other than the json object. I just need json object to parse it to jason` // this data is being sent to chatgpt so only message should be sent
         });
         const APIKEY = process.env.EXPO_PUBLIC_API_OPENAI_API_KEY;
         // console.log(APIKEY)
