@@ -41,10 +41,11 @@ const App = () => {
 
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
-      {/* <NavigationContainer>
-        <Stack.Navigator initialRouteName="CheckInFirstScreen" screenOptions={{ headerShown: false }}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="ProfileScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
+          <Stack.Screen name='LoginScreen' component={LoginScreen} />
           <Stack.Screen name='GoalSelectionScreen' component={GoalSelectionScreen} />
           <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
           <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
@@ -64,11 +65,9 @@ const App = () => {
           <Stack.Screen name='TermsAndConditionsScreen' component={TermsAndConditionsScreen} />
 
 
-
-
         </Stack.Navigator>
 
-      </NavigationContainer> */}
+      </NavigationContainer>
 
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}
@@ -91,7 +90,7 @@ const App = () => {
       {/* <SubscriptionsSettingsScreen/> */}
       {/* <PrivacyPolicyScreen/> */}
       {/* <TermsAndConditionsScreen /> */}
-<JournalSnapshotScreen/>
+{/* <JournalSnapshotScreen/> */}
 
     </View>
   )

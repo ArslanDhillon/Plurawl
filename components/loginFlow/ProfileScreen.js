@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import Api from '../Apis/ApiPaths';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import * as ImagePicker from "expo-image-picker"
 
 const { height, width } = Dimensions.get('window')
 
@@ -28,7 +28,10 @@ const ProfileScreen = (props) => {
     const [company, setCompany] = useState('');
 
     const [showIndicater, setShowIndicater] = useState(false);
-    const [user, setUser] = useState(null)
+    const [showImageIndicater, setShowImageIndicater] = useState(false);
+    const [user, setUser] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImageNamwe, setSelectedImageName] = useState(null)
 
 
 
@@ -46,52 +49,143 @@ const ProfileScreen = (props) => {
 
     //     console.log(userData)
 
-    const postData = {
-        name: name,
-        title: title,
-        company: company,
-        race: selectedRace,
-        gender: selectedIdentity,
-        lgbtq: selectedLGBTQ,
-        veteran: selectedVateran,
-        industry: selectedIndustry
+
+
+
+
+
+    const uploadProfileImage = async (selectedImage, imageName) => {
+        setShowImageIndicater(true)
+        var formdata = new FormData()
+        console.log("Uploading image")
+
+        formdata.append('image', {
+            name: imageName,
+            type: 'JPEG',
+            uri: Platform.OS === "ios" ? selectedImage.replace("file://", '') : selectedImage
+        })
+        try {
+
+            const data = await AsyncStorage.getItem("USER")
+
+            if (data) {
+                console.log("Uploading image 2", Api.ApiUpdateProfile)
+                let u = JSON.parse(data)
+                setUser(u)
+
+
+                const token = u.token;
+                 fetch(Api.ApiUpdateProfile, {
+                    method: 'post',
+                    headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
+                    body: formdata
+                }).then((result) => {
+                    console.log("Uploaded profile image ", result)
+                })
+                    .catch((error) => {
+                        console.log("Exception ", error)
+                    })
+                // if (result) {
+                //     console.log("result profile upload is  ", result)
+
+                //     let json = await result.json()
+                //     if (json.status === true) {
+                //         setShowIndicater(false)
+                //         // console.log("result is ", json.data)
+                //         u.user = json.data;
+                //         //save user here
+
+                //         await AsyncStorage.setItem("USER", JSON.stringify(u.user))
+
+                //         console.log("update user data is ", data)
+
+                //         // props.navigation.navigate('WelcomeScreen')
+
+                //     }
+                // }
+            }
+        } catch (error) {
+            console.log("error finding ", error)
+        }
     }
+
+    const pickImage = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                quality: 0.4, // Define quality here
+            });
+
+            if (!result.canceled) {
+                console.log("result ", result.assets[0].uri);
+                setSelectedImageName(result.assets[0].fileName)
+                setSelectedImage(result.assets[0].uri);
+
+                //send profile image in user profile
+                uploadProfileImage(result.assets[0].uri, result.assets[0].fileName);
+            } else {
+                alert("You did not select any image.");
+            }
+        } catch (error) {
+            console.error("Error picking image:", error);
+        }
+    };
+
+
+
+
 
     const nxtBtnHandle = async () => {
         setShowIndicater(true)
+        const postData = {
+            // name: name,
+            title: title,
+            company: company,
+            race: selectedRace,
+            gender: selectedIdentity,
+            lgbtq: selectedLGBTQ,
+            veteran: selectedVateran,
+            industry: selectedIndustry
+        };
         try {
 
-            const data =await AsyncStorage.getItem("USER")
+            const data = await AsyncStorage.getItem("USER")
 
             if (data) {
                 let u = JSON.parse(data)
                 setUser(u)
 
 
-            const token = u.token;
-            const result = await fetch(Api.ApiUpdateProfile, {
-                method: 'post',
-                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-                body: JSON.stringify(postData)
-            })
-            if (result) {
-                console.log("result is ", result)
+                const token = u.token;
+                const result = await fetch(Api.ApiUpdateProfile, {
+                    method: 'post',
+                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                    body: JSON.stringify(postData)
+                })
+                if (result) {
+                    // console.log("result is ", result)
 
-                let json = await result.json()
-                if (json.status === true) {
-                    setShowIndicater(false)
-                    console.log("result is ", json)
-                    console.log("post data is", postData)
+                    let json = await result.json()
+                    if (json.status === true) {
+                        setShowIndicater(false)
+                        console.log("result is ", json.data)
+                        u.user = json.data;
+                        //save user here
 
-                    props.navigation.navigate('WelcomeScreen')
+                        await AsyncStorage.setItem("USER", JSON.stringify(u.user))
 
+                        console.log("update user data is ", data)
+                        console.log("post data is", postData)
+
+                        props.navigation.navigate('WelcomeScreen')
+
+                    }
                 }
             }
-        }
         } catch (error) {
             console.log("error finding ", error)
         }
-    }
+    };
     //madals array data
 
     const industries = [
@@ -173,12 +267,12 @@ const ProfileScreen = (props) => {
                     <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
                         <Text style={{ fontSize: 20, fontWeight: '500', color: '#fff', }}>Let's complete your profile </Text>
                         <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 50 / 924 * height }}>
-                            <Image source={require("../../assets/profileImage.png")}
-                                style={{ height: 80 / 924 * height, width: 80 / 924 * height, resizeMode: 'contain', }}
+                            <Image source={{ uri: selectedImage ? selectedImage : '' }}
+                                style={{ height: 80 / 924 * height, width: 80 / 924 * height, borderRadius: 40 / 924 * height }}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ marginTop: 15 / 924 * height }}>
+                        <TouchableOpacity style={{ marginTop: 15 / 924 * height }} onPress={pickImage}>
                             <Text style={{ color: 'red', fontSize: 15, fontWeight: '500' }}>Add Photo</Text>
                         </TouchableOpacity>
 
@@ -420,7 +514,7 @@ const ProfileScreen = (props) => {
                                     </Modal>
 
                                 </View>
-                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 100/924*height ,}} /> :
+                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 100 / 924 * height, }} /> :
 
                                     <TouchableOpacity style={[globalStyles.capsuleBtn,
                                     { marginTop: 100 / 924 * height, marginBottom: 30 / 924 * height, width: 345 / 426 * width }]}

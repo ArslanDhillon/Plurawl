@@ -1,20 +1,43 @@
-import React, { } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View, Dimensions, ImageBackground, Image, TouchableOpacity } from 'react-native'
+import Moods from '../../models/moods';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
+
 
 const { height, width } = Dimensions.get('window');
 
 export default CheckInFirstScreen = (props) => {
 
-    const onPressHandle = () => {
-    }
+    const [user,setUser] = useState(null)
 
+    useEffect(()=>{
 
+        const getUserData = async () =>{
+
+            const data =await AsyncStorage.getItem('USER')
+
+            if(data){
+                let u = JSON.parse(data)
+                if(u.user.lastcheckin !== null)
+                setUser(u)
+                console.log('user get data from local is ',u.user.lastcheckin)
+            }
+            
+        };
+        getUserData();
+
+    },[])
+
+    const dateTimeString = user?user.user.lastcheckin.updatedAt:'';
+    const formattedDateTime = moment(dateTimeString).format('hh:mm a MMMM DD, YYYY');
+    console.log(formattedDateTime)
     return (
         <View style={{ height: height, width: width }}>
             <ImageBackground style={{ height: height, width: width }} source={require('../../assets/yellowBg.png')}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60 }}>
-                        <Text style={{ fontSize: 12, fontWeight: '700', color: '#12121250' }}>Your last mood was</Text>
+                        {user?<Text style={{ fontSize: 12, fontWeight: '700', color: '#12121250' }}>Your last mood was</Text>:''}
                         <TouchableOpacity onPress={() => props.navigation.goBack()}>
                             <Image source={require('../../assets/crossBtn.png')}
                                 style={{ height: 40 / 924 * height, width: 40 / 924 * height, }} />
@@ -25,17 +48,17 @@ export default CheckInFirstScreen = (props) => {
                         flexDirection: 'row', width: width - 60, alignItems: 'flex-start', gap: 10 / 952 * height,
                         marginTop: 32 / 924 * height
                     }}>
-                        <Text style={{ fontSize: 30, fontWeight: '500' }}>Animated</Text>
-                        <Text style={{ fontSize: 12, fontWeight: '500', paddingTop: 15 / 924 * height }}>/ˈanəˌmādəd/</Text>
+                        <Text style={{ fontSize: 30, fontWeight: '500' }}>{user?user.user.lastcheckin.feeling:''}</Text>
+                        <Text style={{ fontSize: 12, fontWeight: '500', paddingTop: 15 / 924 * height }}>{user?user.user.lastcheckin.acronym:''}</Text>
                     </View>
 
 
                     <View style={{ width: width - 60, alignItems: 'flex-start', }}>
                         <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121250', marginTop: 16 / 952 * height, }}>
-                            Full of life, energy, or excitement; lively and spirited.
+                        {user?user.user.lastcheckin.description:''}
                         </Text>
                         <Text style={{ fontSize: 10, fontWeight: '500', color: '#12121235', marginTop: 16 / 952 * height, }}>
-                            Low Energy - Pleasant  9:43 pm December 17, 2023.
+                        {user?user.user.lastcheckin.mood:''}  {user?formattedDateTime:''}
                         </Text>
 
                     </View>
@@ -51,7 +74,7 @@ export default CheckInFirstScreen = (props) => {
                                     onPress={() => {
                                         props.navigation.navigate('CheckInSecondScreen',{
                                             mood:{
-                                                currentMood:'High energy , Pleasant'
+                                                currentMood: Moods.MoodHep
                                             }
                                         })
 
@@ -59,7 +82,7 @@ export default CheckInFirstScreen = (props) => {
                                     <Image source={require('../../assets/pleasantMoodCircle.png')}
                                         style={{ height: 62 / 924 * height, width: 64 / 924 * height, resizeMode: 'contain' }}
                                     />
-                                    <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>Heigh energy</Text>
+                                    <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>High energy</Text>
                                     <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff' }}>Pleasant</Text>
                                 </TouchableOpacity>
 
@@ -67,7 +90,7 @@ export default CheckInFirstScreen = (props) => {
                                      onPress={() => {
                                         props.navigation.navigate('CheckInSecondScreen',{
                                             mood:{
-                                                currentMood:'High energy , Unpleasant'
+                                                currentMood:Moods.MoodHeup
                                             }
                                         })
 
@@ -75,7 +98,7 @@ export default CheckInFirstScreen = (props) => {
                                     <Image source={require('../../assets/unpleasantMoodCircle.png')}
                                         style={{ height: 62 / 924 * height, width: 64 / 924 * height, resizeMode: 'contain' }}
                                     />
-                                    <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>Heigh energy</Text>
+                                    <Text style={{ fontSize: 10, fontWeight: '400', color: '#F8EDDA50', marginTop: 13 / 924 * height }}>High energy</Text>
                                     <Text style={{ fontSize: 16, fontWeight: '400', color: '#fff' }}>Unpleasant</Text>
                                 </TouchableOpacity>
                             </View>
@@ -85,7 +108,7 @@ export default CheckInFirstScreen = (props) => {
                                      onPress={() => {
                                         props.navigation.navigate('CheckInSecondScreen',{
                                             mood:{
-                                                currentMood:'Low energy , Pleasant'
+                                                currentMood: Moods.MoodLep
                                             }
                                         })
 
@@ -102,7 +125,7 @@ export default CheckInFirstScreen = (props) => {
                                      onPress={() => {
                                         props.navigation.navigate('CheckInSecondScreen',{
                                             mood:{
-                                                currentMood:'Low energy , Unpleasant'
+                                                currentMood: Moods.MoodLeup
                                             }
                                         })
 

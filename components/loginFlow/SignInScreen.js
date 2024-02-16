@@ -6,7 +6,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import Api from '../Apis/ApiPaths';
-import { Snackbar } from 'react-native-paper';
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height, width } = Dimensions.get('window');
@@ -20,14 +20,21 @@ const SignInScreen = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showIndicater, setShowIndicater] = useState(false);
+    const [error, setError] = useState(null)
 
-    const [visible, setVisible] = useState(false);
-
-    const onToggleSnackBar = () => setVisible(!visible);
-
-    const onDismissSnackBar = () => setVisible(false);
-
-
+    useEffect(() => {
+        const checkUserStatus = async () => {
+            try {
+                const data = await AsyncStorage.getItem("USER")
+                if (data) {
+                    props.navigation.navigate("WeeklySummaryMainScreen")
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        checkUserStatus();
+    }, [])
 
     const postData = {
         name: name,
@@ -36,40 +43,53 @@ const SignInScreen = (props) => {
     }
 
     const nxtBtnHAndle = async () => {
-        setVisible(true)
 
         setShowIndicater(true)
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const validEmail = emailRegex.test(email);
+
+
         if (!name || !email || !password) {
 
-        }
-        try {
-            const result = await fetch(Api.ApiRegisterUser, {
-                method: 'post',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(postData)
-            })
-            if (result) {
-                let json = await result.json();
-                console.log(json)
-                if (json.status == true) {
-                    setShowIndicater(false)
-                    await AsyncStorage.setItem(
-                        "USER",
-                        JSON.stringify(json.data)
-                    )
-                    console.log("Stored user data in local is ", json.data)
-    
-                    props.navigation.navigate("GoalSelectionScreen")
-                }
-                else {
-                    setShowIndicater(false)
-                    console.log(json.message)
-                }
+            setError("Enter all cridentials")
+            setShowIndicater(false)
 
+        } else if (!validEmail) {
+
+            setError('Enter Valid email')
+            setShowIndicater(false)
+
+        } else {
+            try {
+                const result = await fetch(Api.ApiRegisterUser, {
+                    method: 'post',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(postData)
+                })
+                if (result) {
+                    let json = await result.json();
+                    console.log(json)
+                    if (json.status == true) {
+                        setShowIndicater(false)
+                        await AsyncStorage.setItem(
+                            "USER",
+                            JSON.stringify(json.data)
+                        )
+                        console.log("Stored user data in local is ", json.data)
+
+                        props.navigation.navigate("GoalSelectionScreen")
+                    }
+                    else {
+                        setShowIndicater(false)
+                        setError(json.message)
+                    }
+
+                }
+            } catch (error) {
+
+                console.log('error finding', error)
             }
-        } catch (error) {
-
-            console.log('error finding', error)
         }
     };
 
@@ -83,21 +103,7 @@ const SignInScreen = (props) => {
 
 
                     <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center', justifyContent: 'center' }}>
-                        <View style = {{position:'absolute',top:10}}>
-                        <Snackbar
-                          
-                            visible={visible}
-                            onDismiss={onDismissSnackBar}
-                            action={{
-                                label: 'Undo',
-                                onPress: () => {
-                                    // Do something
-                                },
-                            }}>
-                            Hey there! I'm a Snackbar.
-                        </Snackbar>
-                        </View>
-                       
+
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}>
                             <Image
                                 source={require('../../assets/userIcon.png')} style={{ height: 20 / 926 * height, width: 20 / 429 * width, marginTop: 5 }}
@@ -108,24 +114,36 @@ const SignInScreen = (props) => {
                             <Text style={globalStyles.inputText}>Name:</Text>
                             <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
                                 value={name}
-                                onChangeText={(text) => setName(text)}
+                                onChangeText={(text) => {
+                                    setName(text)
+                                    setError(null)
+                                }}
                             />
                         </View>
                         <View style={globalStyles.inputContainer}>
                             <Text style={globalStyles.inputText}>Email:</Text>
                             <TextInput placeholder='' style={globalStyles.inputPlacholder}
+                                autoCapitalize='none'
                                 value={email}
-                                onChangeText={(text) => setEmail(text)} />
+                                onChangeText={(text) => {
+                                    setEmail(text)
+                                    setError(null)
+                                }} />
                         </View>
                         <View style={globalStyles.inputContainer}>
                             <Text style={globalStyles.inputText}>Password:</Text>
                             <TextInput placeholder='' style={globalStyles.inputPlacholder} secureTextEntry={true}
                                 value={password}
-                                onChangeText={(text) => setPassword(text)} />
+                                onChangeText={(text) => {
+                                    setPassword(text)
+                                    setError(null)
+                                }} />
                         </View>
 
+                        {error?error&&<Text style = {{color:'red'}}>{error}</Text>:''}
+
                         {
-                            showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{marginTop:30/924*height}} /> :
+                            showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height }} /> :
                                 <TouchableOpacity style={[globalStyles.capsuleBtn, { width: 323 / 429 * width, marginTop: 25 / 926 * height }]}
                                     onPress={nxtBtnHAndle}
                                 >
@@ -164,6 +182,16 @@ const SignInScreen = (props) => {
                                 <Text style={globalStyles.rectangularBtnText} >Log In with Facebook</Text>
                             </View>
                         </TouchableOpacity>
+
+                        <TouchableOpacity style={[globalStyles.rectangularBtn, { marginTop: 16 / 926 * height, backgroundColor: '#135FC2', }]}
+                            onPress={() => props.navigation.navigate("LoginScreen")}
+                        >
+                            <Text style={{ color: 'red' }}>login</Text>
+                        </TouchableOpacity>
+
+
+
+
 
 
 

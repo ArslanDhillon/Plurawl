@@ -1,5 +1,6 @@
 import React, { } from 'react'
-import { Text, StyleSheet, View, SafeAreaView, Dimensions, Image } from 'react-native'
+import { Text, StyleSheet, View, SafeAreaView, Dimensions, Image, TouchableOpacity } from 'react-native'
+import { globalStyles } from '../globalStyles/styles';
 
 export default JournalSnapshotScreen = () => {
 
@@ -55,6 +56,12 @@ export default JournalSnapshotScreen = () => {
                         </Text>
 
                     </View>
+                    <Text style={{ fontSize: 15, fontWeight: '500', color: "#fff" ,textAlign:'center',marginTop:130/924*height,width:278/429*width}}>Would you like to save as a check-in as well?</Text>
+
+                    <TouchableOpacity style = {[globalStyles.capsuleBtn,{width:326/429*width,marginTop:10}]}>
+                        <Text style = {globalStyles.capsuleBtnText}>Save as check-in</Text>
+                    </TouchableOpacity>
+
                 </View>
 
 

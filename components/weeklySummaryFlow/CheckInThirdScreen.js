@@ -1,19 +1,97 @@
-import React, { Component } from 'react'
-import { Text, StyleSheet, View,Image,ImageBackground,TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState } from 'react'
+import { Text, StyleSheet, View, Image, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { globalStyles } from '../globalStyles/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Api from '../Apis/ApiPaths';
 
-const {height,width} = Dimensions.get('window');
 
-export default CheckInThirdScreen = ({route,navigation}) => {
+const { height, width } = Dimensions.get('window');
+
+export default CheckInThirdScreen = ({ route, navigation }) => {
+
+    const [user, setUser] = useState(null);
+    const [showIndicater, setShowIndicater] = useState(false);
+    const [data, setData] = useState(null)
+
+
+
     const userMood = route.params.mood;
-    console.log('user feelings are ' ,userMood)
+    console.log('user feelings are ', userMood)
+
+    const saveCheckIn = async () => {
+
+        setShowIndicater(true)
+
+        const postData = {
+            mood: userMood.currentMood,
+            feeling: userMood.feelings.feeling,
+            acronym: userMood.feelings.pronunciation,
+            description: userMood.feelings.description,
+            type: "manual",
+        }
+
+        console.log(postData)
+
+        let u = ''
+
+        try {
+            try {
+                const data = await AsyncStorage.getItem("USER")
+                console.log("enter in try")
+                if (data) {
+                    console.log("enter in data")
+
+                    u = JSON.parse(data)
+                    setUser(u)
+                    console.log(u)
+                }
+            } catch (error) {
+                setShowIndicater(false)
+                console.log("fething error from getting data from local storage ", error)
+            }
+
+
+            const token = u.token;
+            const result = await fetch(Api.ApiCheckIn, {
+                method: 'post',
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify(postData)
+            })
+            if (result) {
+                // console.log("result is ", result)
+
+                let json = await result.json()
+                if (json.status === true) {
+
+                    setShowIndicater(false)
+                    setData(json.data)
+                    u.user = json.data
+
+                    await AsyncStorage.setItem("USER",JSON.stringify(u.user))
+                    console.log("result is ", json)
+
+                    console.log("post data is", postData)
+
+                    navigation.navigate('CheckInFourthScreen',{
+                        mood:json.data
+                    })
+
+                }
+            }
+        } catch (error) {
+            setShowIndicater(false)
+            console.log("error finding ", error)
+        }
+
+    }
+
     return (
         <View style={{ height: height, width: width }}>
             <ImageBackground style={{ height: height, width: width }} source={require('../../assets/CheckIn2Bg.png')}>
-                <View style={{marginTop:25/924*height, alignItems: 'center', height: height, width: width, }}>
+                <View style={{ marginTop: 25 / 924 * height, alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60, marginTop: 30 / 924 * height }}>
 
-                        <TouchableOpacity style={{ height: 36 / 924 * height, width: 85 / 429 * width, }} onPress={()=>navigation.goBack()}>
+                        <TouchableOpacity style={{ height: 36 / 924 * height, width: 85 / 429 * width, }} onPress={() => navigation.goBack()}>
                             <Image source={require('../../assets/backBtn.png')}
                                 style={{ height: 36 / 924 * height, width: 85 / 429 * width, resizeMode: 'contain' }}
                             />
@@ -23,23 +101,24 @@ export default CheckInThirdScreen = ({route,navigation}) => {
                             style={{ height: 24 / 924 * height, width: 64 / 429 * height, resizeMode: 'contain' }}
                         />
 
-                        <TouchableOpacity style={{ height: 36 / 924 * height, width: 85 / 429 * width, }} onPress={()=>navigation.navigate('WeeklySummaryMainScreen')}>
+                        <TouchableOpacity style={{ height: 36 / 924 * height, width: 85 / 429 * width, }} onPress={() => navigation.navigate('WeeklySummaryMainScreen')}>
                             <Image source={require('../../assets/cancelBtn.png')}
                                 style={{ height: 36 / 924 * height, width: 85 / 429 * width, resizeMode: 'contain' }}
                             />
                         </TouchableOpacity>
-                        
+
 
                     </View>
-                    <Text style={{ fontSize: 25, fontWeight: '500', marginTop: 55 / 952 * height }}>{userMood.feelings}</Text>
-                    <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', marginTop: 8 / 924 * height }}>/ˈanəˌmādəd/</Text>
-                    <Text style={{ fontSize: 20, fontWeight: '500', color: '#000', marginTop: 50 / 924 * height,width:314/426*width }}>Supreme happiness, joy, or a state of complete and utter contentment and peace.</Text>
+                    <Text style={{ fontSize: 25, fontWeight: '500', marginTop: 55 / 952 * height }}>{userMood.feelings.feeling}</Text>
+                    <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', marginTop: 8 / 924 * height }}>{userMood.feelings.pronunciation}</Text>
+                    <Text style={{ fontSize: 20, fontWeight: '500', color: '#000', marginTop: 50 / 924 * height, width: 314 / 426 * width }}>{userMood.feelings.description}</Text>
+                    {
+                        showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height }} /> :
 
-                    <TouchableOpacity style = {[globalStyles.capsuleBtn,{marginTop:300/924*height}]} onPress={()=>navigation.navigate('CheckInFourthScreen',{
-                        mood:userMood
-                    })}>
-                        <Text style = {globalStyles.capsuleBtnText}>Save</Text>
-                    </TouchableOpacity>
+                            <TouchableOpacity style={[globalStyles.capsuleBtn, { marginTop: 300 / 924 * height, backgroundColor: '#25252555' }]} onPress={saveCheckIn}>
+                                <Text style={globalStyles.capsuleBtnText}>Save</Text>
+                            </TouchableOpacity>
+                    }
                 </View>
             </ImageBackground>
         </View>

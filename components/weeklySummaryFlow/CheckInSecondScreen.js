@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Text, StyleSheet, View, ImageBackground, Dimensions, Image, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import axios from 'axios'
 import CheckInThirdScreen from './CheckInThirdScreen';
@@ -39,14 +39,14 @@ export default CheckInSecondScreen = ({ route, navigation }) => {
         let messageData = [];
         messageData.push({
             role: "user",
-            content: `Generate me a list of 25 single word moods that fall under this category. Category: ${process.env.EXPO_PUBLIC_API_MOODS_COUNT}.
+            content: `Generate me a list of 10 single word moods that fall under this category. Category: ${userMood}.
             Make sure the list is a javascript object list and there is nothing extra on the list so that i can parse it easily in the code. 
 Each javascript object should consist of the following keys:
 {
 feeling: "feeling for the category goes here",
 "description": "description of the feeling word",
 pronunciation: "How to pronounce the word"
-}  Just give me a json object and no text so that i can parse it to json in code .Don’t add any extra text other than the json object. I just need json object to parse it to jason` // this data is being sent to chatgpt so only message should be sent
+}  Just give me a json object and no extra text out of the json object so that i can parse it to json in code .Don't add any extra text other than the json object.` // this data is being sent to chatgpt so only message should be sent
         });
         const APIKEY = process.env.EXPO_PUBLIC_API_OPENAI_API_KEY;
         // console.log(APIKEY)
@@ -68,11 +68,14 @@ pronunciation: "How to pronounce the word"
             console.log("Api result is ", result)
             if (result.status === 200) {
                 let gptMessage = result.data.choices[0].message.content;
+                gptMessage = gptMessage.replace('```', '');
+                gptMessage = gptMessage.replace('json', '');
+                gptMessage = gptMessage.replace('```', '');
                 console.log("List of moods is ", gptMessage)
                 let listOfMoods = JSON.parse(gptMessage)
                 setMoods(listOfMoods)
                 setShowIndicater(false)
-                console.log("Moods array is ", listOfMoods)
+                console.log("Moods array is ", moods)
                 // return gptMessage;
             }
             else {
@@ -111,28 +114,28 @@ pronunciation: "How to pronounce the word"
                     <Text style={{ fontSize: 16, fontWeight: '500', marginTop: 55 / 952 * height }}>How are you feeling?</Text>
                     <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', marginTop: 8 / 924 * height }}>{userMood.currentMood}</Text>
                     <View style={{ marginTop: 45 / 924 * height, height: 560 / 824 * height, }}>
-                        {showIndicater ? <ActivityIndicator color="#fff" size={'large'} /> : 
-                        <FlatList
-                            showsVerticalScrollIndicator={false}
-                            columnWrapperStyle={{ gap: 10 / 423 * width, paddingBottom: 15 / 924 * height, }}
-                            data={moods}
-                            numColumns={3}
+                        {showIndicater ? <ActivityIndicator color="#fff" size={'large'} /> :
+                            <FlatList
+                                showsVerticalScrollIndicator={false}
+                                columnWrapperStyle={{ gap: 10 / 423 * width, paddingBottom: 15 / 924 * height, }}
+                                data={moods}
+                                numColumns={3}
 
-                            renderItem={({ item }) => (
+                                renderItem={({ item }) => (
 
-                                <TouchableOpacity style={{
-                                    height: 113 / 924 * height, width: 113 / 924 * height, backgroundColor: '#9EB4FF',
-                                    borderRadius: 57 / 952 * height, alignItems: 'center', justifyContent: 'center',
-                                }} onPress={() => { onpressHandle(item) }}
+                                    <TouchableOpacity style={{
+                                        height: 113 / 924 * height, width: 113 / 924 * height, backgroundColor: '#9EB4FF',
+                                        borderRadius: 57 / 952 * height, alignItems: 'center', justifyContent: 'center',
+                                    }} onPress={() => { onpressHandle(item) }}
 
-                                >
-                                    <Text style={{ textAlign: 'center', fontSize: 12, fontWeight: '500' }}>{item.feeling}</Text>
+                                    >
+                                        <Text style={{ textAlign: 'center', fontSize: 12, fontWeight: '500' }}>{item.feeling}</Text>
 
-                                </TouchableOpacity >
-                            )}
-                            keyExtractor={(item, index) => index.toString()}
+                                    </TouchableOpacity >
+                                )}
+                                keyExtractor={(item, index) => index.toString()}
 
-                        />}
+                            />}
                     </View>
                     {/* 
                     <View style = {{

@@ -6,7 +6,7 @@ const globalStyles = StyleSheet.create({
     capsuleBtn: {
         height: 52 / 926 * height,
         width: 381 / 429 * width,
-        backgroundColor: '#25252555',
+        backgroundColor: '#611F1C',
         borderRadius: 26 / 926 * height,
         alignItems: 'center',
         justifyContent: 'center',
