@@ -27,6 +27,7 @@ import PrivacyPolicyScreen from './components/settingsFlow/PrivacyPolicyScreen';
 import TermsAndConditionsScreen from './components/settingsFlow/TermsAndConditionsScreen';
 import profileSettingsScreen from './components/settingsFlow/profileSettingsScreen';
 import JournalSnapshotScreen from './components/journalFlow/JournalSnapshotScreen';
+import SplashScreen from './components/splashFlow/SplashScreen';
 
 
 
@@ -42,7 +43,8 @@ const App = () => {
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="ProfileScreen" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='SplashScreen' component={SplashScreen} />
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
           <Stack.Screen name='LoginScreen' component={LoginScreen} />
@@ -91,6 +93,7 @@ const App = () => {
       {/* <PrivacyPolicyScreen/> */}
       {/* <TermsAndConditionsScreen /> */}
 {/* <JournalSnapshotScreen/> */}
+{/* <SplashScreen/> */}
 
     </View>
   )

@@ -145,7 +145,7 @@ const WeeklySummaryMainScreen = (props) => {
 
                 </View>
                 <View style={{ width: width, height: 1, backgroundColor: '#0F0F0F', marginTop: 15 / 924 * height }}></View>
-              { checkIn? <TouchableOpacity>
+              { checkIn ? <TouchableOpacity>
                     <View style={{ overflow: 'hidden', height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 20 / 924 * height, }}>
                         <ImageBackground source={selectCheckInBg()} style={{ height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 30 / 924 * height, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15 / 924 * height }}>

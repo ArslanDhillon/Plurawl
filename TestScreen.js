@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 // import Snackbar from 'react-native-snackbar-component';
 import * as ImagePicker from 'expo-image-picker';
+import HighlightText from '@sanar/react-native-highlight-text';
 
 export default function TestScreen() {
   const [isVisible, setIsVisible] = React.useState(false);
-  const { height, width } = Dimensions.get('window')
+  const { height, width } = Dimensions.get('window');
 
-  const [selectedImage,setSelectedImage] = useState(null)
-  const [selectedImageNamwe,setSelectedImageName] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImageNamwe, setSelectedImageName] = useState(null)
 
 
   const pickImage = async () => {
@@ -27,7 +28,7 @@ export default function TestScreen() {
       });
 
       if (!result.canceled) {
-        console.log("result ",result.assets[0].uri);
+        console.log("result ", result.assets[0].uri);
         setSelectedImage(result.assets[0].uri);
       } else {
         alert("You did not select any image.");
@@ -38,15 +39,28 @@ export default function TestScreen() {
   };
   return (
 
-    <View style={{ height: height, backgroundColor: '#0f0f0f',paddingTop:50 }}>
-      <TouchableOpacity onPress={pickImage}>
+    <View style={{ height: height, backgroundColor: '#0f0f0f', paddingTop: 50 }}>
+
+      <HighlightText
+        style={{ color: 'white' }}
+        highlightStyle={{ backgroundColor: '#D4474055' }}
+        searchWords={['and', 'or', 'the']}
+        textToHighlight="The dog is chasing the cat. Or perhaps they're just playing?"
+      />
+
+
+
+
+
+
+      {/* <TouchableOpacity onPress={pickImage}>
         <Text style = {{color:'red'}}>add Image</Text>
       </TouchableOpacity>
 
       <Image source={{uri: selectedImage?selectedImage:''} }
         style = {{height:100,width:100}}
       />
-      {console.log('image is' ,selectedImage)}
+      {console.log('image is' ,selectedImage)} */}
     </View>
 
 

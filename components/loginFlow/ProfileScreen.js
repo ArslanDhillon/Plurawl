@@ -8,6 +8,9 @@ import Api from '../Apis/ApiPaths';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from "expo-image-picker"
 
+
+let placeholderImage = require("../../assets/yellowBg.png")
+
 const { height, width } = Dimensions.get('window')
 
 const ProfileScreen = (props) => {
@@ -111,15 +114,30 @@ const ProfileScreen = (props) => {
 
     const pickImage = async () => {
         try {
-            const result = await ImagePicker.launchImageLibraryAsync({
+
+
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
-                quality: 0.4, // Define quality here
-            });
+                aspect: [4, 3],
+                quality: 1,
+              });
+           
+              console.log(result);
+           
+            //   if (!result.cancelled) {
+            //     setImage(result.uri);
+            //   }
+
+            // const result = await ImagePicker.launchImageLibraryAsync({
+            //     allowsEditing: true,
+            //     quality: 0.4, // Define quality here
+            // });
 
             if (!result.canceled) {
-                console.log("result ", result.assets[0].uri);
-                setSelectedImageName(result.assets[0].fileName)
-                setSelectedImage(result.assets[0].uri);
+                console.log("result ", result.uri);
+                // setSelectedImageName(result.assets[0].fileName)
+                // setSelectedImage(result.assets[0].uri);
 
                 //send profile image in user profile
                 uploadProfileImage(result.assets[0].uri, result.assets[0].fileName);
@@ -267,7 +285,7 @@ const ProfileScreen = (props) => {
                     <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
                         <Text style={{ fontSize: 20, fontWeight: '500', color: '#fff', }}>Let's complete your profile </Text>
                         <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 50 / 924 * height }}>
-                            <Image source={{ uri: selectedImage ? selectedImage : '' }}
+                            <Image source={selectedImage ? { uri: selectedImage} : placeholderImage }
                                 style={{ height: 80 / 924 * height, width: 80 / 924 * height, borderRadius: 40 / 924 * height }}
                             />
                         </TouchableOpacity>
