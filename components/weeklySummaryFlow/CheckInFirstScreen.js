@@ -9,6 +9,12 @@ const { height, width } = Dimensions.get('window');
 
 export default CheckInFirstScreen = (props) => {
 
+    const hepBg = require('../../assets/hepBg.png')
+    const heupBg = require('../../assets/heupBg.png')
+    const lepBg = require('../../assets/lepBg.png')
+    const leupBg = require('../../assets/leupBg.png')
+    const greyBg = require('../../assets/greyBg.png')
+
     const [user,setUser] = useState(null)
 
     useEffect(()=>{
@@ -21,20 +27,56 @@ export default CheckInFirstScreen = (props) => {
                 let u = JSON.parse(data)
                 if(u.user.lastcheckin !== null)
                 setUser(u)
-                console.log('user get data from local is ',u.user.lastcheckin)
+                console.log('user get data from local is ',u.user.lastWeekVibe.checkins)
             }
             
         };
         getUserData();
 
-    },[])
+    },[]);
+
+    const getBg = ()=>{
+        if(user === null){
+            return greyBg
+        }
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodHep.toLowerCase()){
+            return hepBg
+        } 
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodHeup.toLowerCase()){
+            return heupBg
+        }
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodLep.toLowerCase()){
+            return lepBg
+        }
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodLeup.toLowerCase()){
+            return leupBg
+        }
+    };
+
+    const getColor = ()=>{
+        if(user === null){
+            return "#1c1c1c"
+        }
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodHep.toLowerCase()){
+            return '#FCD860';
+        } 
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodHeup.toLowerCase()){
+            return "#ED9F01";
+        }
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodLep.toLowerCase()){
+            return lepBg
+        }
+        if( user.user.lastcheckin.mood.toLowerCase() === Moods.MoodLeup.toLowerCase()){
+            return leupBg
+        }
+    };
 
     const dateTimeString = user?user.user.lastcheckin.updatedAt:'';
     const formattedDateTime = moment(dateTimeString).format('hh:mm a MMMM DD, YYYY');
     console.log(formattedDateTime)
     return (
         <View style={{ height: height, width: width }}>
-            <ImageBackground style={{ height: height, width: width }} source={require('../../assets/yellowBg.png')}>
+            <ImageBackground style={{ height: height, width: width }} source={getBg()}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60 }}>
                         {user?<Text style={{ fontSize: 12, fontWeight: '700', color: '#12121250' }}>Your last mood was</Text>:''}
@@ -64,7 +106,7 @@ export default CheckInFirstScreen = (props) => {
                     </View>
 
                     <View style={{
-                        height: 431 / 924 * height, width: 394 / 426 * width, backgroundColor: '#a68f4c', justifyContent: 'center',
+                        height: 431 / 924 * height, width: 394 / 426 * width, backgroundColor: "#25252555", justifyContent: 'center',
                         borderRadius: 32 / 924 * height, marginTop: 200 / 924 * height, alignItems: 'center'
                     }}>
                         <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff' }}>What’s your current mood?</Text>

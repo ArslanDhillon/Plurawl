@@ -8,6 +8,10 @@ const Api = {
     ApiUpdateGoals:`${BasePath}api/users/update_goals`,
     ApiGetProfile:`${BasePath}api/users/get_profile`,
     ApiCheckIn:`${BasePath}api/users/checkin`,
+    ApiAddJournal:`${BasePath}api/journal/add_journal`,
+    ApiGetUserJournal:`${BasePath}api/journal/get_user_journals`,
+    ApiGetMoodsList:`${BasePath}api/journal/get_moods_list`,
+    ApiAnalyzeJournal:`${BasePath}api/journal/analyze_journal`,
 }
 
 export default Api;

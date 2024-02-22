@@ -2,7 +2,7 @@ import {
     SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput,
     Modal, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ActivityIndicator
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import Api from '../Apis/ApiPaths';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -54,6 +54,18 @@ const ProfileScreen = (props) => {
 
 
 
+    useEffect(() => {
+        const getUser = async () => {
+            console.log("Loading user")
+            const data = await AsyncStorage.getItem("USER")
+            let u = JSON.parse(data)
+            console.log("User in local storage is ", u)
+            setUser(u)
+            setName(u.user.name)
+        }
+
+        getUser()
+    }, [])
 
 
 
@@ -75,10 +87,10 @@ const ProfileScreen = (props) => {
                 console.log("Uploading image 2", Api.ApiUpdateProfile)
                 let u = JSON.parse(data)
                 setUser(u)
-
-
+                setName(u.user.name)
+                console.log("User obtained")
                 const token = u.token;
-                 fetch(Api.ApiUpdateProfile, {
+                fetch(Api.ApiUpdateProfile, {
                     method: 'post',
                     headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
                     body: formdata
@@ -98,12 +110,11 @@ const ProfileScreen = (props) => {
                 //         u.user = json.data;
                 //         //save user here
 
-                //         await AsyncStorage.setItem("USER", JSON.stringify(u.user))
+                //         await AsyncStorage.setItem("USER", JSON.stringify(u))
 
                 //         console.log("update user data is ", data)
 
-                //         // props.navigation.navigate('WelcomeScreen')
-
+                //       
                 //     }
                 // }
             }
@@ -121,10 +132,10 @@ const ProfileScreen = (props) => {
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 1,
-              });
-           
-              console.log(result);
-           
+            });
+
+            console.log(result);
+
             //   if (!result.cancelled) {
             //     setImage(result.uri);
             //   }
@@ -190,9 +201,9 @@ const ProfileScreen = (props) => {
                         u.user = json.data;
                         //save user here
 
-                        await AsyncStorage.setItem("USER", JSON.stringify(u.user))
+                        await AsyncStorage.setItem("USER", JSON.stringify(u))
 
-                        console.log("update user data is ", data)
+                        console.log("update user data is ", u)
                         console.log("post data is", postData)
 
                         props.navigation.navigate('WelcomeScreen')
@@ -277,15 +288,21 @@ const ProfileScreen = (props) => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#0f0f0f' }}>
+        <SafeAreaView style={{ height: height, backgroundColor: '#0f0f0f' }}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1, flexDirection: 'column', }}>
                 <TouchableWithoutFeedback style={globalStyles.container} onPress={Keyboard.dismiss}>
-                    <View style={{ backgroundColor: '#0f0f0f', alignItems: "center", width: width, justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 20, fontWeight: '500', color: '#fff', }}>Let's complete your profile </Text>
-                        <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 50 / 924 * height }}>
-                            <Image source={selectedImage ? { uri: selectedImage} : placeholderImage }
+                    <View style={{ flex: 1, backgroundColor: '#0f0f0f', alignItems: "center", width: width, }}>
+                        <Text style={{ fontSize: 42 / 924 * height, fontWeight: '500', color: '#fff', width: 340 / 429 * width }}>A bit more about who you are </Text>
+                        <Text numberOfLines={2} style={{
+                            color: '#F8EDDA75', fontWeight: "500", fontSize: 17, marginTop: 15 / 924 * height,
+
+                        }}>
+                            Lorem ipsum dolor sit amet consectetur.
+                        </Text>
+                        <TouchableOpacity style={{ borderRadius: 40 / 924 * height, marginTop: 25 / 924 * height }}>
+                            <Image source={selectedImage ? { uri: selectedImage } : placeholderImage}
                                 style={{ height: 80 / 924 * height, width: 80 / 924 * height, borderRadius: 40 / 924 * height }}
                             />
                         </TouchableOpacity>
@@ -298,20 +315,20 @@ const ProfileScreen = (props) => {
                             <Image source={require('../../assets/PageControl2.png')} style={{ height: 393 / 924 * height, width: 44 / 423 * width }} />
                             <View style={{ flexDirection: 'column' }}>
 
-                                <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
+                                <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height, backgroundColor: '#1C1C1C25', borderColor: "#1C1C1C25" }]}>
                                     <Text style={globalStyles.inputText}>Name:</Text>
-                                    <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
+                                    <TextInput placeholder='' style={[globalStyles.inputPlacholder,]} autoFocus={true}
                                         value={name}
                                         onChangeText={(text) => setName(text)}
                                     />
                                 </View>
-                                <View style={globalStyles.inputContainer}>
+                                <View style={[globalStyles.inputContainer, { backgroundColor: '#1C1C1C25', borderColor: "#1C1C1C25" }]}>
                                     <Text style={globalStyles.inputText}>Title:</Text>
                                     <TextInput placeholder='' style={globalStyles.inputPlacholder}
                                         value={title}
                                         onChangeText={(text) => setTitle(text)} />
                                 </View>
-                                <View style={globalStyles.inputContainer}>
+                                <View style={[globalStyles.inputContainer, { backgroundColor: '#1C1C1C25', borderColor: "#1C1C1C25" }]}>
                                     <Text style={globalStyles.inputText}>Company:</Text>
                                     <TextInput placeholder='' style={globalStyles.inputPlacholder}
                                         value={company}
@@ -323,7 +340,7 @@ const ProfileScreen = (props) => {
 
                                     {/* Industry modal */}
 
-                                    <View style={styles.btnMainView}>
+                                    <View style={[styles.btnMainView, { marginTop: 25 / 924 * height }]}>
                                         <Text style={styles.text} >Industry:</Text>
 
                                         <TouchableOpacity style={styles.btnStyle}
@@ -532,10 +549,10 @@ const ProfileScreen = (props) => {
                                     </Modal>
 
                                 </View>
-                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 100 / 924 * height, }} /> :
+                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 10 / 924 * height, }} /> :
 
                                     <TouchableOpacity style={[globalStyles.capsuleBtn,
-                                    { marginTop: 100 / 924 * height, marginBottom: 30 / 924 * height, width: 345 / 426 * width }]}
+                                    { marginTop: 30 / 924 * height, width: 345 / 426 * width }]}
                                         onPress={nxtBtnHandle}
                                     >
                                         <Text style={globalStyles.capsuleBtnText}>
@@ -598,7 +615,7 @@ const styles = StyleSheet.create({
         // gap: 10,
         alignItems: 'center',
         // justifyContent: 'center',
-        marginTop: 25 / 924 * height,
+        marginTop: 10 / 924 * height,
         width: width
     },
     btnTextView: {

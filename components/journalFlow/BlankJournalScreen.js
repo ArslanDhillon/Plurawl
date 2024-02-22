@@ -11,8 +11,9 @@ import HighlightText from '@sanar/react-native-highlight-text';
 const { height, width } = Dimensions.get('window')
 
 export default BlankJournalScreen = (props) => {
-  
 
+
+    const [title , setTitle] = useState('')
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
     const [buttonPosition, setButtonPosition] = useState(Dimensions.get('window').height - 100); // Initially set to bottomy
@@ -123,10 +124,12 @@ export default BlankJournalScreen = (props) => {
                 // return gptMessage;
             }
             else {
+                setShowIndicator(false)
                 return null;
             }
         }
         catch (error) {
+            setShowIndicator(false)
             console.log("Exception in open ai call ", error)
         }
 
@@ -135,6 +138,16 @@ export default BlankJournalScreen = (props) => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
 
+
+    const doneBtnHandle = () =>{
+        props.navigation.navigate("JournalSnapshotScreen",{
+            journal:{
+                title:title,
+                detail:inputValue,
+                snapShot:snapShot
+            }
+        })
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: "#0f0f0f", height: height }}>
@@ -153,7 +166,9 @@ export default BlankJournalScreen = (props) => {
 
                                 <Text style={{ fontSize: 17, fontWeight: '700', color: '#FFFFFF50', textAlign: 'center' }}>Journal</Text>
                             </View>
-                            {inputValue ? <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }}>
+                            {inputValue ? <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }} 
+                                onPress={doneBtnHandle}
+                            >
                                 < View
                                     style={{ height: 36 / 924 * height, width: 72 / 429 * width, backgroundColor: '#FFFFFF30', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}
                                 >
@@ -164,6 +179,8 @@ export default BlankJournalScreen = (props) => {
                         </View>
 
                         <TextInput placeholder='New Journal' placeholderTextColor={"#fff"}
+                            value={title}
+                            onChangeText={(text)=>setTitle(text)}
                             style={{ fontSize: 34, fontWeight: '500', marginTop: 30 / 925 * height, color: '#fff', width: 380 / 429 * width, alignSelf: "center" }} />
 
                         <ScrollView
@@ -186,9 +203,10 @@ export default BlankJournalScreen = (props) => {
                                 textAlignVertical="top"
                                 value={inputValue}
                                 onChangeText={setInputValue}
-                                maxLength={10000} // Allow up to 1000 characters
-                                multiline={true} // Enable multiline input
-                                autoFocus={true} // Set to false to prevent auto focus on input
+                                maxLength={10000} 
+                                multiline={true} 
+                                autoFocus={true} 
+                            
                                 onFocus={() => scrollViewRef.current.scrollTo({ y: 0, animated: true })} // Scroll to top when input is focused
                             />}
                         </ScrollView>

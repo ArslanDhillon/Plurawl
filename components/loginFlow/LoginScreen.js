@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TextInput, TouchableWithoutFeedback, TouchableOpacity, Keyboard, KeyboardAvoidingView, Platform,ActivityIndicator } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, Dimensions, Image, TextInput, TouchableWithoutFeedback, TouchableOpacity, Keyboard, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { globalStyles } from '../globalStyles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,35 +13,42 @@ const LoginScreen = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showIndicater, setShowIndicater] = useState(false);
-    const [error,setError] = useState(null);
+    const [error, setError] = useState(null);
 
 
     const loginUser = async () => {
-        setShowIndicater(true)
-        try {
 
-            let d = JSON.stringify({ email: email, password: password })
-            const result = await fetch(Api.ApiLoginUser, {
-                method: 'post',
-                headers: { "Content-Type": "application/json" },
-                body: d
-            })
-            if (result) {
-                let json = await result.json();
-                console.log("data is ", json)
-                if (json.status === true) {
-                    await AsyncStorage.setItem("USER",JSON.stringify(json.data))
-                    
-                    setShowIndicater(false)
-                    props.navigation.navigate("WeeklySummaryMainScreen")
-                } else{
-                    setShowIndicater(false)
-                    setError(json.message)
+        setShowIndicater(true)
+
+        if (!email || !password) {
+            setError("Please enter all cridentials ")
+            setShowIndicater(false)
+        } else {
+            try {
+
+                let d = JSON.stringify({ email: email, password: password })
+                const result = await fetch(Api.ApiLoginUser, {
+                    method: 'post',
+                    headers: { "Content-Type": "application/json" },
+                    body: d
+                })
+                if (result) {
+                    let json = await result.json();
+                    console.log("data is ", json)
+                    if (json.status === true) {
+                        await AsyncStorage.setItem("USER", JSON.stringify(json.data))
+
+                        setShowIndicater(false)
+                        props.navigation.navigate("WeeklySummaryMainScreen")
+                    } else {
+                        setShowIndicater(false)
+                        setError(json.message)
+                    }
                 }
             }
-        }
-        catch (error) {
-            console.log('fetching error is', error)
+            catch (error) {
+                console.log('fetching error is', error)
+            }
         }
     };
 
@@ -53,13 +60,15 @@ const LoginScreen = (props) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1, flexDirection: 'column', }}>
                 <TouchableWithoutFeedback style={globalStyles.container} onPress={Keyboard.dismiss}>
-                    <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center', justifyContent: 'center' }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}>
-                            <Image
-                                source={require('../../assets/userIcon.png')} style={{ height: 20 / 926 * height, width: 20 / 429 * width, marginTop: 5 }}
-                            />
-                            <Text style={{ fontSize: 20, fontWeight: '500', color: "#fff" }}>Sign In</Text>
-                        </View>
+                    <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center', }}>
+                        {/* <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}> */}
+                        <Image
+                            source={require('../../assets/userIcon.png')} style={{ height: 33 / 926 * height, width: 33 / 429 * width, marginTop: 50 / 924 * height }}
+                        />
+                        <Text style={{ fontSize: 28, fontWeight: '500', color: "#fff" }}>Sign In</Text>
+                        <Text style={{ fontSize: 15, fontWeight: '500', color: "#F8EDDA75", marginTop: 15 / 924 * height }}>Welcome back! Please sign in to your account. </Text>
+
+                        {/* </View> */}
 
                         <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
 
@@ -82,7 +91,8 @@ const LoginScreen = (props) => {
                                 }}
                             />
                         </View>
-                        {error?error&& <Text style = {{color:'red'}}>{error}</Text> : ''}
+                        {error ? error && <Text style={{ color: 'red',marginTop:10/924*height }}>{error}</Text> : ''}
+
                         {
                             showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height }} /> :
 
@@ -95,8 +105,12 @@ const LoginScreen = (props) => {
                                 </TouchableOpacity>
                         }
 
-
-                        <TouchableOpacity style={[globalStyles.rectangularBtn, { marginTop: 235 / 926 * height, backgroundColor: '#000', }]}>
+                        <TouchableOpacity style={{ marginTop: 30 / 924 * height }} >
+                            <Text style={[globalStyles.capsuleBtnText, { color: '#D44740', fontSize: 17 }]}>
+                                Forget password?
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[globalStyles.rectangularBtn, { marginTop: 50 / 926 * height, backgroundColor: '#000', }]}>
                             <View style={{ flexDirection: 'row', gap: 8 }}>
                                 <Image source={require("../../assets/appleIcon.png")} style={globalStyles.rectangularBtnImage} />
                                 <Text style={globalStyles.rectangularBtnText} >Sign In with Apple</Text>
@@ -116,8 +130,6 @@ const LoginScreen = (props) => {
                                 <Text style={globalStyles.rectangularBtnText} >Log In with Facebook</Text>
                             </View>
                         </TouchableOpacity>
-
-
 
                     </View>
                 </TouchableWithoutFeedback>

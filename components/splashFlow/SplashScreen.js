@@ -5,6 +5,7 @@ import { Video, ResizeMode } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SignInScreen from '../loginFlow/SignInScreen';
 import Api from '../Apis/ApiPaths';
+import SlideScreen1 from './SlideScreen1';
 
 
 
@@ -30,10 +31,12 @@ export default function SplashScreen(props) {
                     props.navigation.navigate("WeeklySummaryMainScreen")
                 }
                 else{
-                    props.navigation.navigate("SignInScreen")
+                    props.navigation.navigate("SlideScreen1")
                     console.log("NO data saved. Take user to login screen")
                 }
             } catch (error) {
+                // props.navigation.navigate("SlideScreen1")
+
                 console.log("Exception", error)
             }
         };
@@ -63,7 +66,7 @@ export default function SplashScreen(props) {
 
                         u.user = json.data
 
-                        await AsyncStorage.setItem("USER",JSON.stringify(u.user))
+                        await AsyncStorage.setItem("USER",JSON.stringify(u))
                         
                     }
                 }

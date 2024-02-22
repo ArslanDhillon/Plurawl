@@ -87,6 +87,7 @@ const SignInScreen = (props) => {
 
                 }
             } catch (error) {
+                setShowIndicater(false)
 
                 console.log('error finding', error)
             }
@@ -104,12 +105,13 @@ const SignInScreen = (props) => {
 
                     <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center', justifyContent: 'center' }}>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}>
-                            <Image
-                                source={require('../../assets/userIcon.png')} style={{ height: 20 / 926 * height, width: 20 / 429 * width, marginTop: 5 }}
-                            />
-                            <Text style={{ fontSize: 20, fontWeight: '500', color: "#fff" }}>Create account</Text>
-                        </View>
+                        {/* <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}> */}
+                        <Image
+                            source={require('../../assets/userIcon.png')} style={{ height: 33 / 926 * height, width: 33 / 429 * width, marginTop: 5 }}
+                        />
+                        <Text style={{ fontSize: 28, fontWeight: '500', color: "#fff" }}>Create account</Text>
+                        <Text style={{ fontSize: 15, fontWeight: '500', color: "#F8EDDA75", marginTop: 15 / 924 * height }}>Lorem ipsum dolor sit amet consectetur. </Text>
+                        {/* </View> */}
                         <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
                             <Text style={globalStyles.inputText}>Name:</Text>
                             <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
@@ -140,7 +142,8 @@ const SignInScreen = (props) => {
                                 }} />
                         </View>
 
-                        {error?error&&<Text style = {{color:'red'}}>{error}</Text>:''}
+                        {error ? error && <Text style={{ color: 'red' }}>{error}</Text> : ''}
+
 
                         {
                             showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height }} /> :
@@ -154,7 +157,7 @@ const SignInScreen = (props) => {
                         }
 
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 163 / 926 * height }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 25 / 926 * height }}>
                             <Image source={line} style={{ width: 109 / 426 * width, height: 1 }} />
                             <Text style={{ fontSize: 11, fontWeight: '500', color: '#fff', marginLeft: 24 / 429 * width, marginRight: 24 / 429 * width }}>or sign up with </Text>
                             <Image source={line} style={{ width: 109 / 426 * width, height: 1 }} />
@@ -183,10 +186,10 @@ const SignInScreen = (props) => {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[globalStyles.rectangularBtn, { marginTop: 16 / 926 * height, backgroundColor: '#135FC2', }]}
+                        <TouchableOpacity style={{ marginTop: 85 / 924 * height, marginBottom: 50 }}
                             onPress={() => props.navigation.navigate("LoginScreen")}
                         >
-                            <Text style={{ color: 'red' }}>login</Text>
+                            <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>Already a user? Sign in</Text>
                         </TouchableOpacity>
 
 

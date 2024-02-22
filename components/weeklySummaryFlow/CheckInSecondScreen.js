@@ -1,17 +1,66 @@
 import React, {  useEffect, useState } from 'react';
 import { Text, StyleSheet, View, ImageBackground, Dimensions, Image, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import axios from 'axios'
-import CheckInThirdScreen from './CheckInThirdScreen';
+import Moods from '../../models/moods';
+import Api from '../Apis/ApiPaths';
+
 const { height, width } = Dimensions.get('window');
 
+
+
+const hepBg = require('../../assets/hepBg.png')
+const heupBg = require('../../assets/heupBg.png')
+const lepBg = require('../../assets/lepBg.png')
+const leupBg = require('../../assets/leupBg.png')
+const greyBg = require('../../assets/greyBg.png')
+
+
 export default CheckInSecondScreen = ({ route, navigation }) => {
+
+    const userMood = route.params.mood;
+    console.log(userMood)
+
+    const getBg = ()=>{
+        if(userMood === null){
+            return greyBg
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodHep.toLowerCase()){
+            return hepBg
+        } 
+        if( userMood.currentMood.toLowerCase() === Moods.MoodHeup.toLowerCase()){
+            return heupBg
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodLep.toLowerCase()){
+            return lepBg
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodLeup.toLowerCase()){
+            return leupBg
+        }
+    };
+
+    const getColor = ()=>{
+        if(userMood === null){
+            return "#1c1c1c50"
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodHep.toLowerCase()){
+            return '#FCD87050';
+        } 
+        if( userMood.currentMood.toLowerCase() === Moods.MoodHeup.toLowerCase()){
+            return "#ED9F0120";
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodLep.toLowerCase()){
+            return '#6084FC50';
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodLeup.toLowerCase()){
+            return "#39399450";
+        }
+    };
 
     const [moods, setMoods] = useState([]);
     const [showIndicater, setShowIndicater] = useState(true);
     const [selectedFeelings, setSelectedFeelings] = useState(null);
 
-    const userMood = route.params.mood;
-    // console.log(userMood)
+    
 
     const onpressHandle = (selectedMood) => {
         setSelectedFeelings(selectedMood); // Update selected feelings
@@ -35,52 +84,40 @@ export default CheckInSecondScreen = ({ route, navigation }) => {
 
 
     async function generateListOfMoods() {
-        console.log("Fetching moods from gpt")
-        let messageData = [];
-        messageData.push({
-            role: "user",
-            content: `Generate me a list of 10 single word moods that fall under this category. Category: ${userMood}.
-            Make sure the list is a javascript object list and there is nothing extra on the list so that i can parse it easily in the code. 
-Each javascript object should consist of the following keys:
-{
-feeling: "feeling for the category goes here",
-"description": "description of the feeling word",
-pronunciation: "How to pronounce the word"
-}  Just give me a json object and no extra text out of the json object so that i can parse it to json in code .Don't add any extra text other than the json object.` // this data is being sent to chatgpt so only message should be sent
-        });
-        const APIKEY = process.env.EXPO_PUBLIC_API_OPENAI_API_KEY;
-        // console.log(APIKEY)
-        // console.log(messageData)
-        const headers = {}
+        
+        console.log("Loading moods api ", Api.ApiGetMoodsList)
         const data = {
-            model: "gpt-4-1106-preview",
-            messages: messageData,
+            mood: userMood,
             // max_tokens: 1000,
         }
         try {
-            const result = await axios.post("https://api.openai.com/v1/chat/completions", data, {
+            axios.get(Api.ApiGetMoodsList, data, {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Bearer ${APIKEY}`
                 }
-            });
+            }).then((result)=>{
+                // console.log("Api result is ", result)
+                if (result.status === 200) {
+                    let gptMessage = result.data.data
+                    // gptMessage = gptMessage.replace('```', '');
+                    // gptMessage = gptMessage.replace('json', '');
+                    // gptMessage = gptMessage.replace('```', '');
+                    console.log("List of moods is ", gptMessage)
+                    // let listOfMoods = JSON.parse(gptMessage)
+                    setMoods(gptMessage)
+                    setShowIndicater(false)
+                    // console.log("Moods array is ", gptMessage)
+                    // return gptMessage;
+                }
+                else {
+                    return null;
+                }
+            })
+            .catch((error)=>{
+                console.log("Error in Mood Api ", error)
+            })
 
-            console.log("Api result is ", result)
-            if (result.status === 200) {
-                let gptMessage = result.data.choices[0].message.content;
-                gptMessage = gptMessage.replace('```', '');
-                gptMessage = gptMessage.replace('json', '');
-                gptMessage = gptMessage.replace('```', '');
-                console.log("List of moods is ", gptMessage)
-                let listOfMoods = JSON.parse(gptMessage)
-                setMoods(listOfMoods)
-                setShowIndicater(false)
-                console.log("Moods array is ", moods)
-                // return gptMessage;
-            }
-            else {
-                return null;
-            }
+            
         }
         catch (error) {
             console.log("Exception in open ai call ", error)
@@ -90,7 +127,7 @@ pronunciation: "How to pronounce the word"
 
     return (
         <View style={{ height: height, width: width }}>
-            <ImageBackground style={{ height: height, width: width }} source={require('../../assets/CheckIn2Bg.png')}>
+            <ImageBackground style={{ height: height, width: width }} source={getBg()}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60, marginTop: 30 / 924 * height }}>
 
@@ -112,9 +149,9 @@ pronunciation: "How to pronounce the word"
 
                     </View>
                     <Text style={{ fontSize: 16, fontWeight: '500', marginTop: 55 / 952 * height }}>How are you feeling?</Text>
-                    <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', marginTop: 8 / 924 * height }}>{userMood.currentMood}</Text>
+                    <Text style={{ fontSize: 12, fontWeight: '500', color: '#FFFFFF20', marginTop: 8 / 924 * height }}>{userMood.currentMood}</Text>
                     <View style={{ marginTop: 45 / 924 * height, height: 560 / 824 * height, }}>
-                        {showIndicater ? <ActivityIndicator color="#fff" size={'large'} /> :
+                        {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style ={{marginTop:height/4.5}} /> :
                             <FlatList
                                 showsVerticalScrollIndicator={false}
                                 columnWrapperStyle={{ gap: 10 / 423 * width, paddingBottom: 15 / 924 * height, }}
@@ -124,7 +161,7 @@ pronunciation: "How to pronounce the word"
                                 renderItem={({ item }) => (
 
                                     <TouchableOpacity style={{
-                                        height: 113 / 924 * height, width: 113 / 924 * height, backgroundColor: '#9EB4FF',
+                                        height: 113 / 924 * height, width: 113 / 924 * height, backgroundColor:"#f2f2f250",
                                         borderRadius: 57 / 952 * height, alignItems: 'center', justifyContent: 'center',
                                     }} onPress={() => { onpressHandle(item) }}
 

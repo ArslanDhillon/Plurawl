@@ -28,6 +28,10 @@ import TermsAndConditionsScreen from './components/settingsFlow/TermsAndConditio
 import profileSettingsScreen from './components/settingsFlow/profileSettingsScreen';
 import JournalSnapshotScreen from './components/journalFlow/JournalSnapshotScreen';
 import SplashScreen from './components/splashFlow/SplashScreen';
+import JournalsList from './components/journalFlow/JournalsList';
+import JournalSnapshotSaveScreen from './components/journalFlow/JournalSnapshotSaveScreen';
+import SelectedWeekVibes from './components/journalFlow/SelectedWeekVibes';
+import LastWeekVibes from './components/journalFlow/LastWeekVibes';
 
 
 
@@ -53,6 +57,12 @@ const App = () => {
           <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
           <Stack.Screen name='WeeklySummaryMainScreen' component={WeeklySummaryMainScreen} />
           <Stack.Screen name='BlankJournalScreen' component={BlankJournalScreen} />
+          <Stack.Screen name='JournalsList' component={JournalsList} />
+          <Stack.Screen name='JournalSnapshotScreen' component={JournalSnapshotScreen} />
+          <Stack.Screen name='JournalSnapshotSaveScreen' component={JournalSnapshotSaveScreen} />
+          <Stack.Screen name='SelectedWeekVibes' component={SelectedWeekVibes} />
+          <Stack.Screen name='LastWeekVibes' component={LastWeekVibes} />
+          <Stack.Screen name='TestScreen' component={TestScreen} />
 
           <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} />
           <Stack.Screen name='CheckInSecondScreen' component={CheckInSecondScreen} />
@@ -70,6 +80,8 @@ const App = () => {
         </Stack.Navigator>
 
       </NavigationContainer>
+      
+      {/* Lorem ipsum dolor sit amet consectetur. */}
 
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}

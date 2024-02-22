@@ -17,6 +17,7 @@ const GoalSelectionScreen = (props) => {
 
 
     const nxtBtnHandle = async () => {
+        return
         setShowIndicater(true)
         try {
 
@@ -33,7 +34,7 @@ const GoalSelectionScreen = (props) => {
                     method: 'post',
                     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                     body: JSON.stringify({
-                        "goals":[selected]
+                        "goals": [selected]
                     })
                 })
                 if (result) {
@@ -45,6 +46,8 @@ const GoalSelectionScreen = (props) => {
                         console.log("result is ", json)
                         props.navigation.navigate('ProfileScreen')
 
+                    } else {
+                        setShowIndicater(false)
                     }
                 }
             }
@@ -92,60 +95,63 @@ const GoalSelectionScreen = (props) => {
 
     ];
 
-    const goalsSelection = (itemId) =>{
+    const goalsSelection = (itemId) => {
         const updatedSelectedItems = selected.includes(itemId)
-        ? selected.filter((id) => id !== itemId)
-        : [...selected, itemId];
-  
-      setSelected(updatedSelectedItems);
+            ? selected.filter((id) => id !== itemId)
+            : [...selected, itemId];
+
+        setSelected(updatedSelectedItems);
     };
 
-    const renderItem = ({item})=>(
-        <TouchableOpacity key={item.id} onPress={()=> goalsSelection(item.id)}
-        >
-            <View style={{
-                flexDirection: 'row', gap: 8, height: 56 / 926 * height, width: 370 / 429 * width, marginTop: 8 / 926 * height,
-                backgroundColor: selected.includes(item.id) ?  "#d4473f" : '#0f0f0f', borderRadius: 16 / 924 * height, alignItems: 'center', paddingLeft: 50 / 429 * width
-            }}>
-                <Image source={selected.includes(item.id )? filledCircle : blankCircle} style={{ height: 20 / 924 * height, width: 20 / 429 * width, resizeMode: 'contain', }} />
-                <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff', }}>{item.name}</Text>
+    const renderItem = ({ item }) => (
+        // <View style = {{ height: 550 / 924 * height, width: 360 / 429 * width}}>
+            <TouchableOpacity key={item.id} onPress={() => goalsSelection(item.id)}
+                style={{
+                    margin: 8 / 926 * height, paddingRight: 15 / 429 * width, paddingBottom: 10 / 924 * height, paddingTop: 10 / 924 * height, borderWidth: 1, paddingLeft: 15 / 429 * width,
+                    borderColor: '#F8EDDA25',
+                    backgroundColor: selected.includes(item.id) ? "#d4473f" : '#0f0f0f', borderRadius: 50 / 924 * height, alignItems: 'center',
+                }}>
+                {/* <Image source={selected.includes(item.id) ? filledCircle : blankCircle} style={{ height: 20 / 924 * height, width: 20 / 429 * width, resizeMode: 'contain', }} /> */}
+                <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff',textAlign:'center',alignSelf:'center' }}>{item.name}</Text>
 
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        // </View>
+
     )
 
 
     return (
         <SafeAreaView style={{ backgroundColor: '#0f0f0f', height: height }}>
 
-            <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center' }}>
-                <Text style={{ color: '#fff', fontWeight: "500", fontSize: 25, marginTop: 40 / 924 * height }}>
+            <View style={{ flex: 1, backgroundColor: '#0f0f0f', alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ color: '#fff', fontWeight: "500", fontSize: 40, width: 325 / 429 * width }}>
                     What are your goals?
                 </Text>
 
                 <Text numberOfLines={2} style={{
-                    color: '#fff', fontWeight: "500", fontSize: 12, marginTop: 15 / 924 * height,
-                    width: 325 / 429 * width, textAlign: 'center'
-                }}>
+                    color: '#F8EDDA75', fontWeight: "500", fontSize: 17, marginTop: 15 / 924 * height,
 
-                    What would you like Plurawl to help you improve on?
-                    Select all that apply
+                }}>
+                    Lorem ipsum dolor sit amet consectetur.
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={require('../../assets/PageControl1.png')} style={{ height: 393 / 924 * height, width: 44 / 423 * width }} />
                     {/* <ScrollView style={{ height: 550 / 924 * height, marginTop: 50 / 926 * height }}> */}
-                       <FlatList
-                            data={goals}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id.toString()}
-                        />
+                    <FlatList
+
+                        numColumns={"2"}
+                        style={{ height: 550 / 924 * height, width: 200 / 429 * width }}
+                        data={goals}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id.toString()}
+                    />
                     {/* </ScrollView> */}
 
                 </View>
 
 
-                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{marginTop:30/924*height }} /> :
-                    <TouchableOpacity style={[globalStyles.capsuleBtn, { marginTop: 30 / 924 * height }]}
+                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height }} /> :
+                    <TouchableOpacity style={[globalStyles.capsuleBtn, { marginTop: 10 / 924 * height }]}
                         onPress={nxtBtnHandle}
                     >
                         <Text style={globalStyles.capsuleBtnText}>
@@ -153,6 +159,10 @@ const GoalSelectionScreen = (props) => {
                         </Text>
                     </TouchableOpacity>
                 }
+
+                <Text style={[globalStyles.capsuleBtnText, { color: '#F8EDDA75', marginTop: 10 / 924 * height }]}>
+                    Next step: Complete your profile
+                </Text>
 
             </View>
         </SafeAreaView>

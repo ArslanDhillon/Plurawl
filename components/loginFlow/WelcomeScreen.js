@@ -58,15 +58,15 @@ const WelcomeScreen = (props) => {
                     style={{ height: 155 / 924 * height, width: 155 / 924 * height, borderRadius: 77 / 924 * height, marginTop: 20 / 924 * height, resizeMode: 'contain' }}
                 />
                 <Text style={{ color: "#fff", fontSize: 15, fontWeight: '500', marginTop: 200 / 924 * height }}>Let's get started with a check-in. </Text>
-                <TouchableOpacity style={[globalStyles.capsuleBtn, { marginTop: 60 / 924 * height, width: 345 / 426 * width }]}
+                <TouchableOpacity style={[globalStyles.capsuleBtn, { marginTop: 40 / 924 * height, width: 345 / 426 * width }]}
                     onPress={checkinHandle}
                 >
-                    <Text style={globalStyles.capsuleBtnText}>check-in</Text>
+                    <Text style={globalStyles.capsuleBtnText}>Check-in</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ marginTop: 16 / 924 * height, }}
                     onPress={exploreHandle}
                 >
-                    <Text style={{ color: "red", fontSize: 13, fontWeight: "500" }}>Explore</Text>
+                    <Text style={{ color: "red", fontSize: 15, fontWeight: "500" }}>Skip</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

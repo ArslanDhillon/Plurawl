@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,  } from 'react'
+import { useFocusEffect } from '@react-navigation/native';
 import { Text, StyleSheet, View, SafeAreaView, Image, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
 import Api from '../Apis/ApiPaths'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Moods from '../../models/moods'
+
+
 
 
 const { height, width } = Dimensions.get('window')
@@ -16,6 +19,30 @@ const WeeklySummaryMainScreen = (props) => {
 
     const [checkIn, setCheckIn] = useState(null);
     const [user, setUser] = useState(null)
+
+
+    const getLocalProfile = async () => {
+        let data = await AsyncStorage.getItem("USER")
+        console.log("Local profile ", data)
+        if (data) {
+            let json = JSON.parse(data)
+            setUser(json)
+            setCheckIn(json.user)
+        }
+    }
+
+
+    // useEffect(()=>{
+    //     if(profileUpdated){
+    //         setProfileUpdated(false)
+    //         getLocalProfile()
+    //     }
+    //     else{
+
+    //     }
+    // }, [profileUpdated])
+
+
     useEffect(() => {
         const getUserProfile = async () => {
             try {
@@ -25,7 +52,7 @@ const WeeklySummaryMainScreen = (props) => {
                 if (data) {
                     let u = JSON.parse(data)
                     setUser(u)
-                    console.log('user profile is', u)
+                    console.log('user saved profile is', u)
                     const token = u.token
                     const result = await fetch(Api.ApiGetProfile, {
                         method: 'post',
@@ -36,9 +63,12 @@ const WeeklySummaryMainScreen = (props) => {
 
                         let json = await result.json()
                         if (json.status === true) {
-                            console.log("result is ", json)
+                            // setProfile(json.data)
+
                             if (json.data.lastcheckin !== null) {
                                 setCheckIn(json.data)
+                                console.log("get profile data is ", checkIn)
+
                             }
                         }
                     }
@@ -50,33 +80,45 @@ const WeeklySummaryMainScreen = (props) => {
         };
         // selectChickInColor();
         getUserProfile();
+
+       
     }, [])
 
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log("Use Focus Effect")
+            getLocalProfile()
+        }, [])
+      );
+
+    
+
     const checkInPressHandle = () => {
+        // eventEmitter.emit(PlurawlEvents.EventProfileUpdated, {data: "Hello Profile updated"});
         props.navigation.navigate('CheckInFirstScreen')
     };
 
 
     const selectCheckInBg = () => {
         if (checkIn === null) {
-            console.log("Gray")
-            return 
+            // console.log("Gray")
+            return
         }
         if (checkIn.lastcheckin.mood === Moods.MoodHep) {
-            console.log("hep")
+            // console.log("hep")
             return hep;
         }
 
         if (checkIn.lastcheckin.mood === Moods.MoodHeup) {
-            console.log("heup")
+            // console.log("heup")
             return heup;
         }
         if (checkIn.lastcheckin.mood === Moods.MoodLep) {
-            console.log("lep")
+            // console.log("lep")
             return lep;
         }
         if (checkIn.lastcheckin.mood === Moods.MoodLeup) {
-            console.log("leup")
+            // console.log("leup")
             return leup;
         }
 
@@ -84,24 +126,24 @@ const WeeklySummaryMainScreen = (props) => {
 
     const selectChekInColor = () => {
         if (checkIn === null) {
-            console.log("Gray")
+            // console.log("Gray")
             return "gray"
         }
         if (checkIn.lastcheckin.mood === Moods.MoodHep) {
-            console.log("hep c")
+            // console.log("hep c")
             return '#FCD860';
         }
 
         if (checkIn.lastcheckin.mood === Moods.MoodHeup) {
-            console.log("heup c")
+            // console.log("heup c")
             return "#ED9F01";
         }
         if (checkIn.lastcheckin.mood === Moods.MoodLep) {
-            console.log("lep c")
+            // console.log("lep c")
             return '#6084FC';
         }
         if (checkIn.lastcheckin.mood === Moods.MoodLeup) {
-            console.log("leup c")
+            // console.log("leup c")
             return "#393994";
         }
 
@@ -110,7 +152,7 @@ const WeeklySummaryMainScreen = (props) => {
 
     const selectChekInText = () => {
         if (checkIn === null) {
-            console.log("Gray")
+            // console.log("Gray")
             return "Check In"
         }
         else {
@@ -128,7 +170,7 @@ const WeeklySummaryMainScreen = (props) => {
                             Good morning,
                         </Text>
                         <Text style={{ fontSize: 30, fontWeight: '500', color: '#fff', }}>
-                            Pabel
+                            {user ? user.user.name : ""}
                         </Text>
 
                     </View>
@@ -145,13 +187,13 @@ const WeeklySummaryMainScreen = (props) => {
 
                 </View>
                 <View style={{ width: width, height: 1, backgroundColor: '#0F0F0F', marginTop: 15 / 924 * height }}></View>
-              { checkIn ? <TouchableOpacity>
+                {checkIn ? <TouchableOpacity onPress={()=>props.navigation.navigate("LastWeekVibes")}>
                     <View style={{ overflow: 'hidden', height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 20 / 924 * height, }}>
                         <ImageBackground source={selectCheckInBg()} style={{ height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 30 / 924 * height, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15 / 924 * height }}>
                                 <View style={{ flexDirection: 'column', }}>
                                     <Text style={{ fontSize: 18, fontWeight: '500', }}>Last week's vibe</Text>
-                                    <Text style={{ fontSize: 12, fontWeight: "500", color: '#000' }}>Dec 17 - 23</Text>
+                                    <Text style={{ fontSize: 12, fontWeight: "500", color: '#000' }}>{user?user.user.lastWeekVibe.dateString:''}</Text>
                                     <Text style={{ fontSize: 12, fontWeight: "500", color: '#000', marginTop: 23 / 924 * height }}>Summary • Tips • Soundtrack</Text>
                                 </View>
 
@@ -162,30 +204,27 @@ const WeeklySummaryMainScreen = (props) => {
                         </ImageBackground>
                     </View>
 
-                </TouchableOpacity>:defaultWeeklyVibeView()}
+                </TouchableOpacity> : defaultWeeklyVibeView()}
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, marginTop: 10 / 924 * height, width: width - 40 / 429 * width, marginTop: 20 / 924 * height }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, width: width - 40 / 429 * width, marginTop: 20 / 924 * height }}>
+
+                    <View
+                        style={{
+                            height: 174 / 924 * height, width: 191 / 426 * width, backgroundColor: '#1C1C1C', alignItems: 'center',
+                            padding: 15 / 924 * height, justifyContent: 'center', borderRadius: 15 / 924 * height
+                        }}>
+
+                        <Text style={{ fontSize: 18, fontWeight: '500', color: '#fff' }}>{user ? user.user.quote_of_day.quote : ''}</Text>
+                    </View>
+
                     <TouchableOpacity>
-                        <View style={{ overflow: 'hidden', height: 174 / 924 * height, width: 191 / 426 * width, borderRadius: 15 / 924 * height }}>
-                            <ImageBackground
-                                style={{ height: 174 / 924 * height, width: 191 / 426 * width, }}
-                                source={require('../../assets/QOTDbgImage.png')}>
-                                <View style={{ padding: 18 / 924 * height }}>
-                                    <Text style={{ fontSize: 18, fontWeight: '500', color: '#fff' }}>Quote of the Day</Text>
-
-                                </View>
-                            </ImageBackground>
-                        </View>
-
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={{ height: 174 / 924 * height, width: 191 / 429 * width, backgroundColor: '#1C1C1C', borderRadius: 16 / 924 * height, padding: 15 / 924 * height }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 / 426 * width }}>
-                                <Image source={require('../../assets/focusImage.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
+                        <View style={{ height: 174 / 924 * height, width: 191 / 429 * width, backgroundColor: '#1C1C1C', borderRadius: 16 / 924 * height, padding: 18 / 924 * height }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 / 426 * width, justifyContent: 'space-between' }}>
                                 <Text style={{ color: '#fff', fontSize: 14, fontWeight: '500' }}>Focus</Text>
+                                <Image source={require('../../assets/focusImage.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
 
                             </View>
-                            <Text style={{ color: '#fff', fontSize: 14, fontWeight: '500', marginTop: 15 / 924 * height, }}>Recenter before your next meeting?</Text>
+                            <Text style={{ color: '#fff', fontSize: 15, fontWeight: '500', marginTop: 15 / 924 * height, }}>Recenter before your next meeting?</Text>
 
                         </View>
                     </TouchableOpacity>
@@ -211,7 +250,7 @@ const WeeklySummaryMainScreen = (props) => {
                     </TouchableOpacity>
                     {/* comment */}
                     <TouchableOpacity style={{ height: 56 / 924 * height, width: 191 / 423 * width, backgroundColor: "#1c1c1c", borderRadius: 16 / 924 * height, }}
-                        onPress={() => props.navigation.navigate("BlankJournalScreen")}
+                        onPress={() => { props.navigation.navigate("JournalsList") }}
                     >
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 17 / 952 * height }}>
@@ -240,7 +279,10 @@ const WeeklySummaryMainScreen = (props) => {
                 </View>
 
 
-                <TouchableOpacity style={{ marginTop: 50 / 924 * height, }}>
+                <TouchableOpacity style={{ marginTop: 50 / 924 * height, }}
+                    onPress={() => props.navigation.navigate("BlankJournalScreen")}
+
+                >
                     <Image source={require('../../assets/addBtn.png')} style={{ height: 58 / 924 * height, width: 58 / 924 * height, resizeMode: 'contain' }} />
                 </TouchableOpacity>
 
@@ -250,14 +292,14 @@ const WeeklySummaryMainScreen = (props) => {
     );
     function defaultWeeklyVibeView() {
         return <View style={{ padding: 25 / 924 * height, borderWidth: 1, borderColor: '#F8EDDA25', borderRadius: 16 / 924 * height, width: 390 / 429 * width, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: 20, fontWeight: '500', color: '#F8EDDA50', }}>Your weekly vibe</Text>
-          <Text style={{ fontSize: 12, fontWeight: '500', color: '#F8EDDA50', textAlign: 'center', width: 290 / 429 * width }}> A weekly summary of your journals featuring tips, reflection, and music trends.</Text>
-    
-          <TouchableOpacity style={{ marginTop: 32 / 924 * height, }}>
-            <Text style={{ fontSize: 12, fontWeight: '500', color: '#D44740' }}>Create your first journal</Text>
-          </TouchableOpacity>
+            <Text style={{ fontSize: 20, fontWeight: '500', color: '#F8EDDA50', }}>Your weekly vibe</Text>
+            <Text style={{ fontSize: 12, fontWeight: '500', color: '#F8EDDA50', textAlign: 'center', width: 290 / 429 * width }}> A weekly summary of your journals featuring tips, reflection, and music trends.</Text>
+
+            <TouchableOpacity style={{ marginTop: 32 / 924 * height, }}>
+                <Text style={{ fontSize: 12, fontWeight: '500', color: '#D44740' }}>Create your first journal</Text>
+            </TouchableOpacity>
         </View>;
-      }
+    }
 }
 
 

@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import { Text, StyleSheet, View, Image, ImageBackground, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+
+
 import { globalStyles } from '../globalStyles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Api from '../Apis/ApiPaths';
+import Moods from '../../models/moods';
 
 
 const { height, width } = Dimensions.get('window');
+
+const hepBg = require('../../assets/hepBg.png')
+const heupBg = require('../../assets/heupBg.png')
+const lepBg = require('../../assets/lepBg.png')
+const leupBg = require('../../assets/leupBg.png')
+const greyBg = require('../../assets/greyBg.png')
+
 
 export default CheckInThirdScreen = ({ route, navigation }) => {
 
@@ -16,7 +26,26 @@ export default CheckInThirdScreen = ({ route, navigation }) => {
 
 
     const userMood = route.params.mood;
-    console.log('user feelings are ', userMood)
+    console.log('user feelings are ', userMood);
+
+    const getBg = ()=>{
+        if(userMood === null){
+            return greyBg
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodHep.toLowerCase()){
+            return hepBg
+        } 
+        if( userMood.currentMood.toLowerCase() === Moods.MoodHeup.toLowerCase()){
+            return heupBg
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodLep.toLowerCase()){
+            return lepBg
+        }
+        if( userMood.currentMood.toLowerCase() === Moods.MoodLeup.toLowerCase()){
+            return leupBg
+        }
+    };
+
 
     const saveCheckIn = async () => {
 
@@ -29,7 +58,7 @@ export default CheckInThirdScreen = ({ route, navigation }) => {
             description: userMood.feelings.description,
             type: "manual",
         }
-
+console.log("Post Data")
         console.log(postData)
 
         let u = ''
@@ -39,9 +68,10 @@ export default CheckInThirdScreen = ({ route, navigation }) => {
                 const data = await AsyncStorage.getItem("USER")
                 console.log("enter in try")
                 if (data) {
-                    console.log("enter in data")
+                    
 
                     u = JSON.parse(data)
+                    console.log("enter in data", u)
                     setUser(u)
                     console.log(u)
                 }
@@ -67,11 +97,11 @@ export default CheckInThirdScreen = ({ route, navigation }) => {
                     setData(json.data)
                     u.user = json.data
 
-                    await AsyncStorage.setItem("USER",JSON.stringify(u.user))
+                    await AsyncStorage.setItem("USER",JSON.stringify(u))
                     console.log("result is ", json)
 
                     console.log("post data is", postData)
-
+                   
                     navigation.navigate('CheckInFourthScreen',{
                         mood:json.data
                     })
@@ -87,7 +117,7 @@ export default CheckInThirdScreen = ({ route, navigation }) => {
 
     return (
         <View style={{ height: height, width: width }}>
-            <ImageBackground style={{ height: height, width: width }} source={require('../../assets/CheckIn2Bg.png')}>
+            <ImageBackground style={{ height: height, width: width }} source={getBg()}>
                 <View style={{ marginTop: 25 / 924 * height, alignItems: 'center', height: height, width: width, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: width - 60, marginTop: 30 / 924 * height }}>
 
@@ -113,7 +143,7 @@ export default CheckInThirdScreen = ({ route, navigation }) => {
                     <Text style={{ fontSize: 12, fontWeight: '500', color: '#12121235', marginTop: 8 / 924 * height }}>{userMood.feelings.pronunciation}</Text>
                     <Text style={{ fontSize: 20, fontWeight: '500', color: '#000', marginTop: 50 / 924 * height, width: 314 / 426 * width }}>{userMood.feelings.description}</Text>
                     {
-                        showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height }} /> :
+                        showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 300 / 924 * height }} /> :
 
                             <TouchableOpacity style={[globalStyles.capsuleBtn, { marginTop: 300 / 924 * height, backgroundColor: '#25252555' }]} onPress={saveCheckIn}>
                                 <Text style={globalStyles.capsuleBtnText}>Save</Text>

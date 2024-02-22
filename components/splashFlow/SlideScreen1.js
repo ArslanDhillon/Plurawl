@@ -9,7 +9,7 @@ const { height, width } = Dimensions.get('window')
 
 const SlideScreen1 = (props) => {
 
-    const nxtBtnAction = () =>{
+    const nxtBtnAction = () => {
         props.navigation.navigate('SignInScreen')
     }
 
@@ -19,18 +19,18 @@ const SlideScreen1 = (props) => {
     useEffect(() => {
         let interval = setInterval(() => {
             if (active === images.length - 1) {
-                mapRef.current.scrollTo({x: width * 0, animated: true});
+                mapRef.current.scrollTo({ x: width * 0, animated: true });
             } else {
-                mapRef.current.scrollTo({x: width * (active + 1), animated: true});
+                mapRef.current.scrollTo({ x: width * (active + 1), animated: true });
             }
         }, 4000);
-        return()=>clearInterval(interval)
+        return () => clearInterval(interval)
     });
 
     const getItemLayout = (data, index) => ({
         length: width,
         offset: width * index,
-        index:index ,
+        index: index,
 
     })
 
@@ -57,7 +57,7 @@ const SlideScreen1 = (props) => {
         },
     ];
 
-    
+
 
 
     const change = ({ nativeEvent }) => {
@@ -68,9 +68,8 @@ const SlideScreen1 = (props) => {
         }
     }
     return (
-        <SafeAreaView style={{ backgroundColor: '#0f0f0f' }}>
-            <View style={{ height: height }}>
-                <View style={{ height: 700 / 926 * height, }}>
+        <SafeAreaView style={{ backgroundColor: '#0f0f0f',height: height }}>
+           
                     <ScrollView
                         ref={mapRef}
                         getItemLayout={getItemLayout}
@@ -78,13 +77,13 @@ const SlideScreen1 = (props) => {
                         horizontal
                         onScroll={change}
                         showsHorizontalScrollIndicator={false}
-                        style={{ height: 550 / 926 * height }}
+                        style={{height:500/924*height}}
                     >
                         {images.map((item, index) => {
                             return (
-                                <View key={index} style={{ height: 450 / 926 * height, alignItems: 'center' }}>
+                                <View key={index} style={{  alignItems: 'center' }}>
                                     <View style={{
-                                        width: width - 40 / 429 * width, height: 509 / 926 * height, backgroundColor: '#141414', borderRadius: 16 / 926 * height,
+                                        width: width - 40 / 429 * width, backgroundColor: '#141414', borderRadius: 16 / 926 * height,
                                         marginRight: 20 / 429 * width, marginLeft: 20 / 429 * width, marginTop: 60 / 925 * height, alignItems: 'center'
                                     }}>
                                         <Image
@@ -92,45 +91,46 @@ const SlideScreen1 = (props) => {
                                             style={{ height: 509 / 926 * height, width: 389 / 429 * width, resizeMode: "contain", }}
                                         />
 
-                                    </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: index === 0 ? 50 / 926 * height : 35 / 926 * width, gap: 10 }}>
-                                        <Image source={item.sideImage}
-                                            style={{ height: 18 / 852 * height, width: 18 / 429 * width, resizeMode: 'contain' }}
-                                        />
-                                        <Text style={{ color: '#fff', fontSize: 20, fontWeight: '500' }}>{item.uperText}</Text>
 
-                                    </View>
-                                    <Text numberOfLines={3} style={{
-                                        color: '#fff', width: index === 0 ? 300 / 429 * width : 357 / 429 * width, textAlign: 'center',
-                                        fontSize: index === 0 ? 10 : 12, marginTop: 15 / 926 * height
-                                    }}>
-                                        {item.subUperTExt}
-                                    </Text>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 35 / 926 * width, gap: 10 }}>
+                                            <Image source={item.sideImage}
+                                                style={{ height: 18 / 852 * height, width: 18 / 429 * width, resizeMode: 'contain' }}
+                                            />
+                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: '500' }}>{item.uperText}</Text>
 
+                                        </View>
+                                        <Text numberOfLines={3} style={{
+                                            color: '#fff', width: index === 0 ? 300 / 429 * width : 357 / 429 * width, textAlign: 'center',
+                                            fontSize: 12, marginTop: 15 / 926 * height,paddingBottom:30
+                                        }}>
+                                            {item.subUperTExt}
+                                        </Text>
+                                    </View>
                                 </View>
 
                             )
                         })}
 
                     </ScrollView>
-                </View>
-                <View style={[styles.pagination, { marginTop: active === 0 ? 20 / 926 * height : 0 }]}>
+
+
+                <View style={[styles.pagination]}>
                     {images.map((i, k) => {
                         return (
-                            <Text key={k} style={k == active ? styles.activeDot : styles.dot}>.</Text>
+                            <View key={k} style ={{height:8,width:8,borderRadius:5,backgroundColor:k == active ?'#fff':'#535353',margin:3}}></View>
+                           
                         )
                     })}
                 </View>
 
-                {active !== 0 ?
-                    <TouchableOpacity style={[globalStyles.capsuleBtn, { alignSelf: 'center', marginTop: 24 / 926 * height }]}
-                        onPress={nxtBtnAction}
-                    >
-                        <Text style={globalStyles.capsuleBtnText}>
-                            Sign Up
-                        </Text>
-                    </TouchableOpacity> : ''}
-            </View>
+                <TouchableOpacity style={[globalStyles.capsuleBtn, { alignSelf: 'center', marginTop: 0 / 926 * height }]}
+                    onPress={nxtBtnAction}
+                >
+                    <Text style={globalStyles.capsuleBtnText}>
+                        Sign Up
+                    </Text>
+                </TouchableOpacity>
+
         </SafeAreaView>
     )
 }
@@ -143,18 +143,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         alignSelf: 'center',
-        height: 40 / 926 * height,
+        height: 20 / 926 * height,
         width: width,
+        // backgroundColor:'red'
 
     },
     dot: {
         color: '#535353',
-        fontSize: 50,
-        height: 100
+        fontSize: 70/924*height,
+        height: 100,
+        // backgroundColor:'blue'
     },
     activeDot: {
         color: '#fff',
         height: 100,
-        fontSize: 50,
+        fontSize: 70/924*height,
     }
 })

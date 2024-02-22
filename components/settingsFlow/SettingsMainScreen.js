@@ -1,6 +1,8 @@
 import React, { } from 'react'
 import { Text, StyleSheet, View, SafeAreaView, Dimensions, Image, TouchableOpacity } from 'react-native';
 import WeeklySummaryMainScreen from '../weeklySummaryFlow/WeeklySummmaryStartScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import SplashScreen from '../splashFlow/SplashScreen';
 
 
 
@@ -26,6 +28,18 @@ export default SettingsMainScreen = (props) => {
     const termsBtnHandle = () =>{
         props.navigation.navigate("TermsAndConditionsScreen")
     };
+
+    const logoutUser =async () =>{
+        try{
+         await AsyncStorage.removeItem("USER")
+          
+            props.navigation.replace("SplashScreen")
+           
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: '#0f0f0f' }}>
@@ -123,7 +137,9 @@ export default SettingsMainScreen = (props) => {
 
                 </View>
 
-
+                <TouchableOpacity style = {{marginTop:50/924*height}} onPress={()=> logoutUser()}>
+                    <Text style = {{color:'red'}}>Log out</Text>
+                </TouchableOpacity>
 
             </View>
         </SafeAreaView>
