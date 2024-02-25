@@ -32,6 +32,7 @@ import JournalsList from './components/journalFlow/JournalsList';
 import JournalSnapshotSaveScreen from './components/journalFlow/JournalSnapshotSaveScreen';
 import SelectedWeekVibes from './components/journalFlow/SelectedWeekVibes';
 import LastWeekVibes from './components/journalFlow/LastWeekVibes';
+import AiChatScreen from './components/AiChatFlow/AiChatScreen';
 
 
 
@@ -106,6 +107,7 @@ const App = () => {
       {/* <TermsAndConditionsScreen /> */}
 {/* <JournalSnapshotScreen/> */}
 {/* <SplashScreen/> */}
+  <AiChatScreen/>
 
     </View>
   )
