@@ -73,7 +73,7 @@ const LoginScreen = (props) => {
                         <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
 
                             <Text style={globalStyles.inputText}>Email:</Text>
-                            <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
+                            <TextInput placeholder='' style={globalStyles.inputPlacholder} autoCapitalize='none'
                                 value={email}
                                 onChangeText={(text) => {
                                     setEmail(text)

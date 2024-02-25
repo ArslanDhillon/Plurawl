@@ -114,7 +114,7 @@ const SignInScreen = (props) => {
                         {/* </View> */}
                         <View style={[globalStyles.inputContainer, { marginTop: 30 / 924 * height }]}>
                             <Text style={globalStyles.inputText}>Name:</Text>
-                            <TextInput placeholder='' style={globalStyles.inputPlacholder} autoFocus={true}
+                            <TextInput placeholder='' style={globalStyles.inputPlacholder}
                                 value={name}
                                 onChangeText={(text) => {
                                     setName(text)

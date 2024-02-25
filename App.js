@@ -33,6 +33,7 @@ import JournalSnapshotSaveScreen from './components/journalFlow/JournalSnapshotS
 import SelectedWeekVibes from './components/journalFlow/SelectedWeekVibes';
 import LastWeekVibes from './components/journalFlow/LastWeekVibes';
 import AiChatScreen from './components/AiChatFlow/AiChatScreen';
+import GoogleCalenderScreen from './components/googleCalender/GoogleCalenderScreen';
 
 
 
@@ -47,8 +48,8 @@ const App = () => {
 
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+      {/* <NavigationContainer>
+        <Stack.Navigator initialRouteName="WeeklySummaryMainScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SplashScreen' component={SplashScreen} />
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
@@ -57,6 +58,7 @@ const App = () => {
           <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
           <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
           <Stack.Screen name='WeeklySummaryMainScreen' component={WeeklySummaryMainScreen} />
+          <Stack.Screen name='GoogleCalenderScreen' component={GoogleCalenderScreen} />
           <Stack.Screen name='BlankJournalScreen' component={BlankJournalScreen} />
           <Stack.Screen name='JournalsList' component={JournalsList} />
           <Stack.Screen name='JournalSnapshotScreen' component={JournalSnapshotScreen} />
@@ -80,16 +82,16 @@ const App = () => {
 
         </Stack.Navigator>
 
-      </NavigationContainer>
+      </NavigationContainer> */}
       
       {/* Lorem ipsum dolor sit amet consectetur. */}
-
+          
       {/* <SlideScreen1/> */}
       {/* <SignInScreen/> */}
       {/* <LoginScreen/> */}
       {/* <GoalSelectionScreen/> */}
       {/* <ProfileScreen/> */}
-    
+      
       {/* <TestScreen/> */}
       {/* <WelcomeScreen/> */}
       {/* <WeeklySummaryMainScreen/> */}
@@ -105,9 +107,10 @@ const App = () => {
       {/* <SubscriptionsSettingsScreen/> */}
       {/* <PrivacyPolicyScreen/> */}
       {/* <TermsAndConditionsScreen /> */}
-{/* <JournalSnapshotScreen/> */}
-{/* <SplashScreen/> */}
-  <AiChatScreen/>
+      {/* <JournalSnapshotScreen/> */}
+      {/* <SplashScreen/> */}
+      <AiChatScreen/>
+      {/* <GoogleCalenderScreen/> */}
 
     </View>
   )

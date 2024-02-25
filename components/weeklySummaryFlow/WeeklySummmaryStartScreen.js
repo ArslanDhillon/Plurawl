@@ -218,7 +218,7 @@ const WeeklySummaryMainScreen = (props) => {
                         <Text style={{ fontSize: 18, fontWeight: '500', color: '#fff' }}>{user ? user.user.quote_of_day.quote : ''}</Text>
                     </View>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>props.navigation.navigtion("GoogleCalenderScreen")}>
                         <View style={{ height: 174 / 924 * height, width: 191 / 429 * width, backgroundColor: '#1C1C1C', borderRadius: 16 / 924 * height, padding: 18 / 924 * height }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 / 426 * width, justifyContent: 'space-between' }}>
                                 <Text style={{ color: '#fff', fontSize: 14, fontWeight: '500' }}>Focus</Text>
