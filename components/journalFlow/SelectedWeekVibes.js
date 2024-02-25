@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, SafeAreaView, StatusBar } from "react-native";
+import { FlatList, ImageBackground, SafeAreaView, SectionList } from "react-native";
 import { StyleSheet, Text, Image, View, Dimensions, TouchableOpacity } from 'react-native';
 
 const { height, width } = Dimensions.get("window")
@@ -13,171 +13,141 @@ const lodingCircal = require("../../assets/All_Images/lodingCircal_3x.png")
 
 const Data = [
     {
-        id: 1,                         //Journal enteries
-        Name: "Journal enteries",
-        Date: "DEc 21",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: true,
+        title: 'Journal entries',      //Journal enteries
+        data: [
+            {
+                id: 1,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: EmotionalReasoning,
+            }, {
+                id: 2,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: EmotionalReasoning,
+            }, {
+                id: 3,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: EmotionalReasoning,
+            }, {
+                id: 4,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: EmotionalReasoning,
+            },
+        ],
     },
     {
-        id: 2,
-        Name: "Doubting Myself",
-        Date: "12/17/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
+        title: 'AI Chats',
+        data: [
+            {
+                id: 1,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: lodingCircal,
+            }, {
+                id: 2,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: lodingCircal,
+            },
+        ],
     },
     {
-        id: 3,
-        Name: "Doubting Myself",
-        Date: "12/18/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
+        title: 'Drats',
+        data: [
+            {
+                id: 1,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: EmotionalReasoning,
+            }, {
+                id: 2,
+                Name: "Doubting Myself",
+                Date: "Dec 21",
+                ArrowImage: WhiteNextArrow,
+                Imageicon: EmotionalReasoning,
+            },
+        ],
     },
     {
-        id: 4,
-        Name: "Doubting Myself",
-        Date: "Dec 19",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
+        title: 'Check Ins',
+        data: [
+            {
+                id: 1,
+                color: '#FCD86085',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            },
+            {
+                id: 2,
+                color: '#FCD86085',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            },
+            {
+                id: 3,
+                color: '#FCD86085',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            },
+            {
+                id: 4,
+                color: '#6084FC',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            },
+            {
+                id: 5,
+                color: '#6084FC',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            },
+            {
+                id: 6,
+                color: '#FCD86085',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            }, {
+                id: 7,
+                color: '#6084FC',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            }, {
+                id: 8,
+                color: '#6084FC',
+                feeling: 'Bliss',
+                data: '27 Feb'
+            },
+        ],
     },
-    {
-        id: 5,
-        Name: "Doubting Myself",
-        Date: "DEc 21",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
-    },
-    {
-        id: 6,
-        Name: "AI Chats",                    //AI Chats
-        Date: "12/17/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: true,
-    },
-    {
-        id: 7,
-        Name: "Doubting Myself",
-        Date: "12/17/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
-    },
-    {
-        id: 8,
-        Name: "Doubting Myself",
-        Date: "12/18/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
-    },
-    {
-        id: 9,
-        Name: "Drafts",                      //Drafts
-        Date: "DEc 21",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: true,
-    },
-    {
-        id: 10,
-        Name: "Doubting Myself",
-        Date: "12/17/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
-    },
-    {
-        id: 11,
-        Name: "Doubting Myself",
-        Date: "12/18/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: false,
-    },
-    {
-        id: 12,
-        Name: "Check ins",
-        Date: "12/18/23",
-        ArrowImage: WhiteNextArrow,
-        Imageicon1: EmotionalReasoning,
-        Imageicon2: FortuneTelling,
-        Imageicon3: LabelingMind,
-        Imageicon4: diagramIcon,
-        Imageicon5: lodingCircal,
-        headers: true,
-    },
-
-
-
-]
+];
 
 
 export default function SelectedWeekVibes(props) {
     return (
         <SafeAreaView style={styles.container} >
-            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 24 / 426 * width, alignSelf: "flex-start", marginTop: 25 / 924 * height }} 
-                onPress={()=>props.navigation.goBack()}
+            <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 24 / 426 * width, alignSelf: "flex-start", marginTop: 25 / 924 * height }}
+                onPress={() => props.navigation.goBack()}
             >
-                <Image style={{ height: 20 / 924 * height, width: 13 / 426 * width,resizeMode:'contain' }} source={require("../../assets/All_Images/RedBackArrow_3x.png")} />
+                <Image style={{ height: 20 / 924 * height, width: 13 / 426 * width, resizeMode: 'contain' }} source={require("../../assets/All_Images/RedBackArrow_3x.png")} />
                 <Text style={{ color: "#D44740", fontSize: 17 }} >  Journal</Text>
             </TouchableOpacity>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 24, marginBottom: 0 }}>
                 <TouchableOpacity>
-                    <Image style={{ height: 20 / 924 * height, width: 20 / 426 * width,resizeMode:'contain' }} source={require("../../assets/All_Images/WhiteLeftBackArrow_3x.png")} />
+                    <Image style={{ height: 20 / 924 * height, width: 20 / 426 * width, resizeMode: 'contain' }} source={require("../../assets/All_Images/WhiteLeftBackArrow_3x.png")} />
                 </TouchableOpacity>
                 <Text style={{ color: "#fff", fontSize: 17 }} > Dec 17 -Dec 23 </Text>
                 <TouchableOpacity>
-                    <Image style={{ height: 20 / 924 * height, width: 20 / 426 * width,resizeMode:'contain' }} source={require("../../assets/All_Images/WhiteRightNextArrow_3x.png")} />
+                    <Image style={{ height: 20 / 924 * height, width: 20 / 426 * width, resizeMode: 'contain' }} source={require("../../assets/All_Images/WhiteRightNextArrow_3x.png")} />
                 </TouchableOpacity>
             </View>
             {/* <View style={{alignItems:"center",}}>
@@ -192,7 +162,7 @@ export default function SelectedWeekVibes(props) {
 
 
             <TouchableOpacity style={{ alignItems: "center", marginTop: 10 / 924 * height }}
-              onPress={()=>props.navigation.navigate("LastWeekVibes")}
+                onPress={() => props.navigation.navigate("LastWeekVibes")}
 
             >
                 <View style={{ overflow: 'hidden', height: 70 / 924 * height, width: 390 / 429 * width, borderRadius: 16 / 924 * height, }}>
@@ -209,27 +179,34 @@ export default function SelectedWeekVibes(props) {
             </TouchableOpacity>
 
             <View style={{ marginTop: 24 / 924 * height, height: height / 1.5, alignItems: "center" }} >
-                <FlatList
-                    data={Data}
-                    renderItem={({ item }) =>
+
+                <SectionList
+                    sections={Data}
+                    keyExtractor={(item, index) => item + index}
+
+                    renderItem={({ item, index }) => (
                         <View>
-                        <View style={item.headers ? styles.headers : styles.item} >
-                            <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
+                            {<View style={{ flexDirection: "row", justifyContent: "space-between", padding: 16 / 924 * height, backgroundColor: '#ffffff15', width: 390 / 429 * width, borderRadius: 10 / 924 * height, margin: 8 / 924 * height }} >
                                 <View>
                                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 / 924 * height }}>
-                                        <Text style={{ color: item.headers ? "#f8f7e8" : "#fff", }} >{item.Name}</Text>
-                                        <Image source={item.headers ? "" : item.Imageicon1} style={{ height: 16 / 924 * height, width: 16 / 924 * height,resizeMode:'contain' }} />
+                                        <Text style={{ color: "#fff", }} >{item.Name}</Text>
+                                        <Image source={item.Imageicon} style={{ height: 16 / 924 * height, width: 16 / 924 * height, resizeMode: 'contain' }} />
                                     </View>
-                                    <Text style={{ fontSize: 12, marginTop: 5 / 924 * height,color:"#fff" }} >{item.headers ? "" : item.Date}</Text>
+                                    <Text style={{ fontSize: 12, marginTop: 5 / 924 * height, color: "#fff" }} >{item.Date}</Text>
                                 </View>
                                 <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }}>
-                                    <Image source={item.headers ? "" : item.ArrowImage} style={{ height: 24 / 924 * height, width: 24 / 924 * height ,resizeMode:'contain' }} />
+                                    <Image source={item.ArrowImage} style={{ height: 24 / 924 * height, width: 24 / 924 * height, resizeMode: 'contain' }} />
                                 </TouchableOpacity>
                             </View>
+                            }
+                        </View>
+                    )}
+                    renderSectionHeader={({ section: { title } }) => (
+                        <View style={{ backgroundColor: '#0f0f0f', width: width, height: 45 }}>
+                            <Text style={{ color: "#F8F7E850", fontSize: 17, fontWeight: '800', marginLeft: 12 / 429 * width, marginTop: 25 / 924 * height }}>{title}</Text>
                         </View>
 
-                        </View>
-                    }
+                    )}
                 />
 
             </View>

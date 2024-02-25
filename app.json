@@ -15,7 +15,7 @@
     "slug": "Plurawl",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appicon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -38,6 +38,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3242fd6c-3000-48f9-958f-938a0948e643"
+      }
     }
   }
 }

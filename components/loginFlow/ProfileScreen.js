@@ -549,7 +549,7 @@ const ProfileScreen = (props) => {
                                     </Modal>
 
                                 </View>
-                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 10 / 924 * height, }} /> :
+                                {showIndicater ? <ActivityIndicator color="#fff" size={'large'} style={{ marginTop: 30 / 924 * height, }} /> :
 
                                     <TouchableOpacity style={[globalStyles.capsuleBtn,
                                     { marginTop: 30 / 924 * height, width: 345 / 426 * width }]}
@@ -601,8 +601,8 @@ const styles = StyleSheet.create({
     flatListView: {
         width: 254 / 429 * width,
         backgroundColor: "#252525",
-        borderBottomWidth: 1,
-        borderColor: '#000'
+        // borderBottomWidth: 1,
+        // borderColor: '#000'
     },
     flatListText: {
         fontSize: 13,

@@ -26,6 +26,7 @@ const WeeklySummaryMainScreen = (props) => {
         console.log("Local profile ", data)
         if (data) {
             let json = JSON.parse(data)
+            console.log("User is ", json)
             setUser(json)
             setCheckIn(json.user)
         }

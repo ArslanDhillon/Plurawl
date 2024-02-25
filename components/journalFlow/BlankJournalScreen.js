@@ -166,7 +166,7 @@ export default BlankJournalScreen = (props) => {
 
                                 <Text style={{ fontSize: 17, fontWeight: '700', color: '#FFFFFF50', textAlign: 'center' }}>Journal</Text>
                             </View>
-                            {inputValue ? <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }} 
+                            {snapShot ? <TouchableOpacity style={{ height: 36 / 924 * height, width: 72 / 429 * width, alignSelf: 'center' }} 
                                 onPress={doneBtnHandle}
                             >
                                 < View

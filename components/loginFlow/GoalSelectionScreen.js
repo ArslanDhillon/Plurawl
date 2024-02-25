@@ -17,7 +17,7 @@ const GoalSelectionScreen = (props) => {
 
 
     const nxtBtnHandle = async () => {
-        return
+
         setShowIndicater(true)
         try {
 
@@ -103,21 +103,12 @@ const GoalSelectionScreen = (props) => {
         setSelected(updatedSelectedItems);
     };
 
-    const renderItem = ({ item }) => (
-        // <View style = {{ height: 550 / 924 * height, width: 360 / 429 * width}}>
-            <TouchableOpacity key={item.id} onPress={() => goalsSelection(item.id)}
-                style={{
-                    margin: 8 / 926 * height, paddingRight: 15 / 429 * width, paddingBottom: 10 / 924 * height, paddingTop: 10 / 924 * height, borderWidth: 1, paddingLeft: 15 / 429 * width,
-                    borderColor: '#F8EDDA25',
-                    backgroundColor: selected.includes(item.id) ? "#d4473f" : '#0f0f0f', borderRadius: 50 / 924 * height, alignItems: 'center',
-                }}>
-                {/* <Image source={selected.includes(item.id) ? filledCircle : blankCircle} style={{ height: 20 / 924 * height, width: 20 / 429 * width, resizeMode: 'contain', }} /> */}
-                <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff',textAlign:'center',alignSelf:'center' }}>{item.name}</Text>
+    // const renderItem = ({ item }) => (
+    //     // <View style = {{ height: 550 / 924 * height, width: 360 / 429 * width}}>
 
-            </TouchableOpacity>
-        // </View>
+    //     // </View>
 
-    )
+    // )
 
 
     return (
@@ -136,16 +127,32 @@ const GoalSelectionScreen = (props) => {
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={require('../../assets/PageControl1.png')} style={{ height: 393 / 924 * height, width: 44 / 423 * width }} />
-                    {/* <ScrollView style={{ height: 550 / 924 * height, marginTop: 50 / 926 * height }}> */}
-                    <FlatList
+                    <ScrollView style={{ height: 550 / 924 * height, marginTop: 50 / 926 * height }}>
+                    <View style={{ width: width-40, flexWrap: 'wrap',flexDirection:'row' ,alignItems:'center'}} >
 
-                        numColumns={"2"}
-                        style={{ height: 550 / 924 * height, width: 200 / 429 * width }}
-                        data={goals}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id.toString()}
-                    />
-                    {/* </ScrollView> */}
+                        {
+                            goals.map((item) => 
+                                <TouchableOpacity key={item.id} onPress={() => goalsSelection(item.id)}
+                                    style={{
+                                        margin: 8 / 926 * height, paddingRight: 15 / 429 * width, paddingBottom: 10 / 924 * height, paddingTop: 10 / 924 * height, borderWidth: 1, paddingLeft: 15 / 429 * width,
+                                        borderColor: '#F8EDDA25',
+                                        backgroundColor: selected.includes(item.id) ? "#d4473f" : '#0f0f0f', borderRadius: 50 / 924 * height, alignItems: 'center',
+                                    }}>
+                                    {/* <Image source={selected.includes(item.id) ? filledCircle : blankCircle} style={{ height: 20 / 924 * height, width: 20 / 429 * width, resizeMode: 'contain', }} /> */}
+                                    <Text style={{ fontSize: 15, fontWeight: '500', color: '#fff', textAlign: 'center', alignSelf: 'center' }}>{item.name}</Text>
+
+                                </TouchableOpacity>
+                            )
+                        }
+                        {/* numColumns={"2"}
+                            style={{}}
+                            data={goals}
+                            renderItem={renderItem}
+                            keyExtractor={(item) => item.id.toString()} */}
+
+                    </View>
+
+                    </ScrollView>
 
                 </View>
 

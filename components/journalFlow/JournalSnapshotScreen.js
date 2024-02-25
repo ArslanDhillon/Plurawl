@@ -49,7 +49,12 @@ export default JournalSnapshotScreen = ({ route, navigation }) => {
                     if (json.status === true) {
                         console.log("journal add data", json.data)
                         setShowIndecater(false)
-                        navigation.navigate("JournalSnapshotSaveScreen")
+                        navigation.navigate("JournalSnapshotSaveScreen", {
+                            checkIn: {
+                                saveCheckIn: savAsCheckIn
+
+                            }
+                        })
                     } else {
                         console.log("journal add message", json.message)
 
@@ -63,26 +68,26 @@ export default JournalSnapshotScreen = ({ route, navigation }) => {
     };
 
     const getColor = () => {
-        console.log("enter in function",journal.snapShot.feeling.title)
-        
-        if ( journal.snapShot.mood === null) {
+        console.log("enter in function", journal.snapShot.feeling.title)
+
+        if (journal.snapShot.mood === null) {
             console.log("Gray")
             return "gray"
         }
-        if ( journal.snapShot.mood.toLowerCase() === Moods.MoodHep.toLowerCase()) {
+        if (journal.snapShot.mood.toLowerCase() === Moods.MoodHep.toLowerCase()) {
             console.log("hep c")
             return '#FCD860';
         }
 
-        if ( journal.snapShot.mood.toLowerCase() === Moods.MoodHeup.toLowerCase()) {
+        if (journal.snapShot.mood.toLowerCase() === Moods.MoodHeup.toLowerCase()) {
             console.log("heup c")
             return "#ED9F01";
         }
-        if ( journal.snapShot.mood.toLowerCase() === Moods.MoodLep.toLowerCase()) {
+        if (journal.snapShot.mood.toLowerCase() === Moods.MoodLep.toLowerCase()) {
             console.log("lep c")
             return '#6084FC';
         }
-        if ( journal.snapShot.mood.toLowerCase() === Moods.MoodLeup.toLowerCase()) {
+        if (journal.snapShot.mood.toLowerCase() === Moods.MoodLeup.toLowerCase()) {
             console.log("leup c")
             return "#393994";
         }
@@ -99,7 +104,7 @@ export default JournalSnapshotScreen = ({ route, navigation }) => {
                         />
                         <Text style={{ fontSize: 20, fontWeight: '500', color: "#fff" }}>Jopurnal Snapshot</Text>
                     </View>
-                    <View style={{ flexDirection: 'column', width: 320 / 429 * width,marginTop:15/924*height }}>
+                    <View style={{ flexDirection: 'column', width: 320 / 429 * width, marginTop: 15 / 924 * height }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, fontWeight: '500', color: '#fff' }}>We discussed </Text>
                             <Text style={{ fontSize: 14, fontWeight: '500', color: '#D44740' }}>emotional reasoning </Text>
@@ -122,14 +127,14 @@ export default JournalSnapshotScreen = ({ route, navigation }) => {
                     <View style={{ backgroundColor: "#121212", borderRadius: 16 / 924 * height, width: 326 / 429 * width, padding: 30 / 924 * height, marginTop: 15 / 924 * height }}>
 
                         <View style={{ flexDirection: 'row', gap: 10 / 924 * height, }}>
-                          <View style = {{height:18/924*height,width:18/924*height,borderRadius:10/924*height,backgroundColor: getColor() }}></View>
+                            <View style={{ height: 18 / 924 * height, width: 18 / 924 * height, borderRadius: 10 / 924 * height, backgroundColor: getColor() }}></View>
                             <Text style={{ fontSize: 15, fontWeight: '500', color: "#fff" }}>{journal.snapShot.feeling.title}</Text>
                             <Text style={{ fontSize: 14, fontWeight: '500', color: "#F8EDDA25", textAlign: 'center', }}>( {journal.snapShot.feeling.pronunciation} )</Text>
 
 
                         </View>
                         <Text style={{ fontSize: 15, fontWeight: '500', color: "#F8EDDA50", marginTop: 15 / 924 * height }}>
-                           {journal.snapShot.feeling.description}
+                            {journal.snapShot.feeling.description}
                         </Text>
 
                     </View>
@@ -137,26 +142,17 @@ export default JournalSnapshotScreen = ({ route, navigation }) => {
                     {showIndecater ?
                         <ActivityIndicator size={'large'} style={{ color: '#fff', marginTop: 10 / 924 * height }} />
                         : (<>
-                          < TouchableOpacity style={[globalStyles.capsuleBtn, { width: 326 / 429 * width, marginTop: 10 / 924 * height }]}
-                            onPress={() => saveCheckIn(true)}
-                        >
-                            <Text style={globalStyles.capsuleBtnText}>Save as check-in</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[globalStyles.capsuleBtn, { width: 326 / 429 * width, marginTop: 10, backgroundColor: '#121212' }]}
-                        onPress={() => saveCheckIn(false)} >
-                        <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>No,just as journal entery</Text>
-                    </TouchableOpacity>
+                            < TouchableOpacity style={[globalStyles.capsuleBtn, { width: 326 / 429 * width, marginTop: 10 / 924 * height }]}
+                                onPress={() => saveCheckIn(true)}
+                            >
+                                <Text style={globalStyles.capsuleBtnText}>Save as check-in</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[globalStyles.capsuleBtn, { width: 326 / 429 * width, marginTop: 10, backgroundColor: '#121212' }]}
+                                onPress={() => saveCheckIn(false)} >
+                                <Text style={[globalStyles.capsuleBtnText, { color: '#D44740' }]}>No,just as journal entery</Text>
+                            </TouchableOpacity>
                         </>
-                      )}
-
-
-
-
-
-                   
-
-
-
+                        )}
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[globalStyles.capsuleBtnText, { color: '#F8EDDA50' }]}>You’ll receive</Text>
