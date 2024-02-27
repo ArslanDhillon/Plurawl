@@ -1,4 +1,4 @@
-const BasePath = "http://178.16.143.212:8003/";
+const BasePath = "http://13.58.134.250:8003/";
 
 
 const Api = {

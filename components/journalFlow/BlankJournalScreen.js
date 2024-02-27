@@ -25,6 +25,7 @@ export default BlankJournalScreen = (props) => {
     const [showRecognizeText, setShowRecognizeText] = useState(false);
     const [snapShot, setSnapShot] = useState(null);
     const [showIndicator, setShowIndicator] = useState(false);
+    const [error,setError] = useState(false)
 
     const scrollViewRef = useRef(null);
 
@@ -140,6 +141,9 @@ export default BlankJournalScreen = (props) => {
 
 
     const doneBtnHandle = () =>{
+        if(!title ){
+            setError(true)
+        } else{
         props.navigation.navigate("JournalSnapshotScreen",{
             journal:{
                 title:title,
@@ -147,7 +151,7 @@ export default BlankJournalScreen = (props) => {
                 snapShot:snapShot
             }
         })
-    }
+    }}
 
     return (
         <SafeAreaView style={{ backgroundColor: "#0f0f0f", height: height }}>
@@ -176,12 +180,16 @@ export default BlankJournalScreen = (props) => {
                                 </View>
                             </TouchableOpacity> : ''}
 
+
                         </View>
+                        {error?<Text style = {{color:'red',alignSelf:'center',marginTop:10}}>Enter all cridentials</Text>:''}
 
                         <TextInput placeholder='New Journal' placeholderTextColor={"#fff"}
                             value={title}
-                            onChangeText={(text)=>setTitle(text)}
-                            style={{ fontSize: 34, fontWeight: '500', marginTop: 30 / 925 * height, color: '#fff', width: 380 / 429 * width, alignSelf: "center" }} />
+                            onChangeText={(text)=>{
+                                setTitle(text) 
+                                setError(false)}}
+                            style={{ fontSize: 34, fontWeight: '500', marginTop: 10 / 925 * height, color: '#fff', width: 380 / 429 * width, alignSelf: "center" }} />
 
                         <ScrollView
                             ref={scrollViewRef}
@@ -202,7 +210,10 @@ export default BlankJournalScreen = (props) => {
                                 numberOfLines={500}
                                 textAlignVertical="top"
                                 value={inputValue}
-                                onChangeText={setInputValue}
+                                onChangeText={(text)=>{
+                                    setInputValue(text)
+                                    setError(false)
+                                }}
                                 maxLength={10000} 
                                 multiline={true} 
                                 autoFocus={true} 

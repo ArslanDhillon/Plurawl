@@ -48,8 +48,8 @@ const App = () => {
 
     <View style={{ height: height }}>
       <StatusBar barStyle={'light-content'} />
-      {/* <NavigationContainer>
-        <Stack.Navigator initialRouteName="WeeklySummaryMainScreen" screenOptions={{ headerShown: false }}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SignInScreen" screenOptions={{ headerShown: false }}>
           <Stack.Screen name='SplashScreen' component={SplashScreen} />
           <Stack.Screen name='SlideScreen1' component={SlideScreen1} />
           <Stack.Screen name='SignInScreen' component={SignInScreen} />
@@ -82,7 +82,7 @@ const App = () => {
 
         </Stack.Navigator>
 
-      </NavigationContainer> */}
+      </NavigationContainer>
       
       {/* Lorem ipsum dolor sit amet consectetur. */}
           
@@ -109,7 +109,7 @@ const App = () => {
       {/* <TermsAndConditionsScreen /> */}
       {/* <JournalSnapshotScreen/> */}
       {/* <SplashScreen/> */}
-      <AiChatScreen/>
+      {/* <AiChatScreen/> */}
       {/* <GoogleCalenderScreen/> */}
 
     </View>

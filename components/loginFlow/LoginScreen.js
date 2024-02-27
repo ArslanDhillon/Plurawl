@@ -63,7 +63,7 @@ const LoginScreen = (props) => {
                     <View style={{ height: height, backgroundColor: '#0f0f0f', alignItems: 'center', }}>
                         {/* <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}> */}
                         <Image
-                            source={require('../../assets/userIcon.png')} style={{ height: 33 / 926 * height, width: 33 / 429 * width, marginTop: 50 / 924 * height }}
+                            source={require('../../assets/userIcon.png')} style={{ resizeMode:'contain'  ,height: 33 / 926 * height, width: 33 / 429 * width, marginTop: 50 / 924 * height }}
                         />
                         <Text style={{ fontSize: 28, fontWeight: '500', color: "#fff" }}>Sign In</Text>
                         <Text style={{ fontSize: 15, fontWeight: '500', color: "#F8EDDA75", marginTop: 15 / 924 * height }}>Welcome back! Please sign in to your account. </Text>

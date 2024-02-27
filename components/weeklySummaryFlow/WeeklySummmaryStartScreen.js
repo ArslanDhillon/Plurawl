@@ -4,6 +4,8 @@ import { Text, StyleSheet, View, SafeAreaView, Image, Dimensions, ImageBackgroun
 import Api from '../Apis/ApiPaths'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Moods from '../../models/moods'
+import GoogleCalenderScreen from '../googleCalender/GoogleCalenderScreen';
+import BlankJournalScreen from '../journalFlow/BlankJournalScreen';
 
 
 
@@ -101,7 +103,7 @@ const WeeklySummaryMainScreen = (props) => {
 
 
     const selectCheckInBg = () => {
-        if (checkIn === null) {
+        if (checkIn === null || checkIn.lastcheckin === null) {
             // console.log("Gray")
             return
         }
@@ -126,7 +128,7 @@ const WeeklySummaryMainScreen = (props) => {
     };
 
     const selectChekInColor = () => {
-        if (checkIn === null) {
+        if (checkIn === null || checkIn.lastcheckin === null) {
             // console.log("Gray")
             return "gray"
         }
@@ -152,7 +154,7 @@ const WeeklySummaryMainScreen = (props) => {
 
 
     const selectChekInText = () => {
-        if (checkIn === null) {
+        if (checkIn === null || checkIn.lastcheckin === null) {
             // console.log("Gray")
             return "Check In"
         }
@@ -188,7 +190,7 @@ const WeeklySummaryMainScreen = (props) => {
 
                 </View>
                 <View style={{ width: width, height: 1, backgroundColor: '#0F0F0F', marginTop: 15 / 924 * height }}></View>
-                {checkIn ? <TouchableOpacity onPress={()=>props.navigation.navigate("LastWeekVibes")}>
+                {(checkIn && checkIn.lastcheckin) ? <TouchableOpacity onPress={()=>props.navigation.navigate("LastWeekVibes")}>
                     <View style={{ overflow: 'hidden', height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 20 / 924 * height, }}>
                         <ImageBackground source={selectCheckInBg()} style={{ height: 121 / 924 * height, width: width - 40 / 429 * width, borderRadius: 30 / 924 * height, }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15 / 924 * height }}>
@@ -218,16 +220,8 @@ const WeeklySummaryMainScreen = (props) => {
                         <Text style={{ fontSize: 18, fontWeight: '500', color: '#fff' }}>{user ? user.user.quote_of_day.quote : ''}</Text>
                     </View>
 
-                    <TouchableOpacity onPress={()=>props.navigation.navigtion("GoogleCalenderScreen")}>
-                        <View style={{ height: 174 / 924 * height, width: 191 / 429 * width, backgroundColor: '#1C1C1C', borderRadius: 16 / 924 * height, padding: 18 / 924 * height }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 / 426 * width, justifyContent: 'space-between' }}>
-                                <Text style={{ color: '#fff', fontSize: 14, fontWeight: '500' }}>Focus</Text>
-                                <Image source={require('../../assets/focusImage.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
-
-                            </View>
-                            <Text style={{ color: '#fff', fontSize: 15, fontWeight: '500', marginTop: 15 / 924 * height, }}>Recenter before your next meeting?</Text>
-
-                        </View>
+                    <TouchableOpacity >
+                        <GoogleCalenderScreen/>
                     </TouchableOpacity>
                 </View>
 
@@ -296,7 +290,7 @@ const WeeklySummaryMainScreen = (props) => {
             <Text style={{ fontSize: 20, fontWeight: '500', color: '#F8EDDA50', }}>Your weekly vibe</Text>
             <Text style={{ fontSize: 12, fontWeight: '500', color: '#F8EDDA50', textAlign: 'center', width: 290 / 429 * width }}> A weekly summary of your journals featuring tips, reflection, and music trends.</Text>
 
-            <TouchableOpacity style={{ marginTop: 32 / 924 * height, }}>
+            <TouchableOpacity style={{ marginTop: 32 / 924 * height, }} onPress={()=>props.navigation.navigate("BlankJournalScreen")}>
                 <Text style={{ fontSize: 12, fontWeight: '500', color: '#D44740' }}>Create your first journal</Text>
             </TouchableOpacity>
         </View>;

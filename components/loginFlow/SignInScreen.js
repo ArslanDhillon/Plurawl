@@ -107,7 +107,7 @@ const SignInScreen = (props) => {
 
                         {/* <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, justifyContent: 'center', }}> */}
                         <Image
-                            source={require('../../assets/userIcon.png')} style={{ height: 33 / 926 * height, width: 33 / 429 * width, marginTop: 5 }}
+                            source={require('../../assets/userIcon.png')} style={{ height: 33 / 926 * height, width: 33 / 429 * width, marginTop: 5,resizeMode:'contain' }}
                         />
                         <Text style={{ fontSize: 28, fontWeight: '500', color: "#fff" }}>Create account</Text>
                         <Text style={{ fontSize: 15, fontWeight: '500', color: "#F8EDDA75", marginTop: 15 / 924 * height }}>Lorem ipsum dolor sit amet consectetur. </Text>

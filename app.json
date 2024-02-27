@@ -6,8 +6,7 @@
         {
           "photosPermission": "Allow $(PRODUCT_NAME) to open the Photos",
           "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
-          "//": "Disables the microphone permission",
-          "microphonePermission": false
+          "microphonePermission": "Allow $(PRODUCT_NAME) to open the camera"
         }
       ]
     ],
@@ -28,7 +27,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.e8labs.plurawl",
-      "buildNumber": "1.0"
+      "buildNumber": "1.8"
     },
     "android": {
       "adaptiveIcon": {

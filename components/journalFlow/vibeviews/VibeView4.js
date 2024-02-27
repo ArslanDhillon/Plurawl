@@ -66,7 +66,7 @@ function VibeView4() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}  style={{}} >
           {
             Data.map((item)=>
-            <View style={{height:77/924*height,width:325/426*width,flexDirection:"row",backgroundColor:"#FFFFFF20",gap:10/924*height,borderRadius:200/924*height,alignItems:"center",padding:15/924*height,marginTop:70/924*height,marginLeft:5/426*height}}>
+            <View key={item.id} style={{height:77/924*height,width:325/426*width,flexDirection:"row",backgroundColor:"#FFFFFF20",gap:10/924*height,borderRadius:200/924*height,alignItems:"center",padding:15/924*height,marginTop:70/924*height,marginLeft:5/426*height}}>
               
               <Image source={item.SongImage} style={{height:61/924*height,width:61/924*height}} />
               <View  >

@@ -72,14 +72,14 @@ const ProfileScreen = (props) => {
     const uploadProfileImage = async (selectedImage, imageName) => {
         setShowImageIndicater(true)
         var formdata = new FormData()
-        console.log("Uploading image")
+        console.log("Uploading image", selectedImage)
 
         formdata.append('image', {
-            name: imageName,
+            name: "imageName",
             type: 'JPEG',
-            uri: Platform.OS === "ios" ? selectedImage.replace("file://", '') : selectedImage
+            uri: selectedImage //Platform.OS === "ios" ? selectedImage.replace("file://", '') : selectedImage
         })
-        try {
+        // try {
 
             const data = await AsyncStorage.getItem("USER")
 
@@ -88,39 +88,40 @@ const ProfileScreen = (props) => {
                 let u = JSON.parse(data)
                 setUser(u)
                 setName(u.user.name)
-                console.log("User obtained")
+                console.log("User obtained", u.token)
                 const token = u.token;
                 fetch(Api.ApiUpdateProfile, {
                     method: 'post',
                     headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
                     body: formdata
-                }).then((result) => {
-                    console.log("Uploaded profile image ", result)
+                }).then(async (result) => {
+                    console.log("Uploaded profile image ", result.status)
+                    if (result) {
+                        console.log("result profile upload is  ", result)
+    
+                        setShowIndicater(false)
+                        // console.log("result is ", json.data)
+                        let json = await result.json()
+                        if (json.status === true) {
+                            u.user = json.data;
+                            //save user here
+    
+                            await AsyncStorage.setItem("USER", JSON.stringify(u))
+    
+                            console.log("update user data is ", data)
+    
+    
+                        }
+                    }
                 })
                     .catch((error) => {
                         console.log("Exception ", error)
                     })
-                // if (result) {
-                //     console.log("result profile upload is  ", result)
-
-                //     let json = await result.json()
-                //     if (json.status === true) {
-                //         setShowIndicater(false)
-                //         // console.log("result is ", json.data)
-                //         u.user = json.data;
-                //         //save user here
-
-                //         await AsyncStorage.setItem("USER", JSON.stringify(u))
-
-                //         console.log("update user data is ", data)
-
-                //       
-                //     }
-                // }
+                
             }
-        } catch (error) {
-            console.log("error finding ", error)
-        }
+        // } catch (error) {
+        //     console.log("error finding ", error)
+        // }
     }
 
     const pickImage = async () => {
@@ -131,10 +132,10 @@ const ProfileScreen = (props) => {
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 1,
+                quality: 0.7,
             });
 
-            console.log(result);
+            // console.log(result);
 
             //   if (!result.cancelled) {
             //     setImage(result.uri);
@@ -146,9 +147,9 @@ const ProfileScreen = (props) => {
             // });
 
             if (!result.canceled) {
-                console.log("result ", result.uri);
-                // setSelectedImageName(result.assets[0].fileName)
-                // setSelectedImage(result.assets[0].uri);
+                console.log("result ", result.assets[0].uri);
+                console.log(result.assets[0].fileName)
+                setSelectedImage(result.assets[0].uri);
 
                 //send profile image in user profile
                 uploadProfileImage(result.assets[0].uri, result.assets[0].fileName);

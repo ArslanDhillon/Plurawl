@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
@@ -12,10 +12,10 @@ import SlideScreen1 from './SlideScreen1';
 const { height, width } = Dimensions.get('window')
 
 export default function SplashScreen(props) {
-    const video =useRef(null);
-    const [status, setStatus] =useState({});
-    const [user ,setUser] = useState(null)
- 
+    const video = useRef(null);
+    const [status, setStatus] = useState({});
+    const [user, setUser] = useState(null)
+
     useEffect(() => {
         const checkUserStatus = async () => {
             console.log("enter in function")
@@ -27,10 +27,15 @@ export default function SplashScreen(props) {
                     console.log(u)
                     //get user latest profile and set it in local
                     getUserProfile();
-                
-                    props.navigation.navigate("WeeklySummaryMainScreen")
+                    if (u.user.profile_image === null) {
+                        props.navigation.navigate("ProfileScreen")
+                    }
+                    else {
+                        props.navigation.navigate("WeeklySummaryMainScreen")
+                    }
+                    
                 }
-                else{
+                else {
                     props.navigation.navigate("SlideScreen1")
                     console.log("NO data saved. Take user to login screen")
                 }
@@ -66,8 +71,8 @@ export default function SplashScreen(props) {
 
                         u.user = json.data
 
-                        await AsyncStorage.setItem("USER",JSON.stringify(u))
-                        
+                        await AsyncStorage.setItem("USER", JSON.stringify(u))
+
                     }
                 }
             }
@@ -79,7 +84,7 @@ export default function SplashScreen(props) {
 
     return (
 
-        <View style = {{height:height,backgroundColor:'#000'}}>
+        <View style={{ height: height, backgroundColor: '#000' }}>
             <Video
                 source={require("../../assets/video/splashGif.mp4")}
                 style={styles.backgroundVideo}
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     backgroundVideo: {
-        height:height,
-        width:width
+        height: height,
+        width: width
     },
 });

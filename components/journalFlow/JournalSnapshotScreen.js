@@ -48,6 +48,10 @@ export default JournalSnapshotScreen = ({ route, navigation }) => {
                     let json = await result.json();
                     if (json.status === true) {
                         console.log("journal add data", json.data)
+
+                        d.user = json.data
+                        await AsyncStorage.setItem('USER',JSON.stringify(d))
+
                         setShowIndecater(false)
                         navigation.navigate("JournalSnapshotSaveScreen", {
                             checkIn: {
