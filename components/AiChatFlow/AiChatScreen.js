@@ -5,16 +5,14 @@ import {
     FlatList, Modal, Platform,
     SafeAreaView
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { LinearGradient } from 'expo-linear-gradient';
-import MaskedView from '@react-native-masked-view/masked-view';
-//   import {LinearGradient} from 'expo-linear-gradient'
-import React, { useState } from 'react';
-//  import ApiPath from '../../ApiPath';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import ChatSentMessage from './Chat/ChatSentMessage';
 import ChatGptMessage from './Chat/ChatGptMessage';
+import Api from '../Apis/ApiPaths';
 
 
 
@@ -23,7 +21,9 @@ const screenWidth = Dimensions.get('window').width;
 
 
 
-function ChatController(props) {
+function AiChatScreen({ route, navigation }) {
+
+
     let listViewRef;
 
     const [messages, setMessages] = React.useState([
@@ -40,6 +40,7 @@ function ChatController(props) {
 
     ])
     const [message, setMessage] = React.useState("")
+    const [user, setUser] = useState(null)
 
     const prompt = [
         { id: 1, promptText: 'Ai generated text here' },
@@ -49,6 +50,18 @@ function ChatController(props) {
     ];
 
     const text = 'Create check-in'
+
+
+    const title = route.params.title
+    console.log('title from last screen ', title)
+
+    useEffect(() => {
+        
+
+        // createChat();
+
+    }, [])
+
 
     return (
         <View style={Styles.container}>
@@ -104,7 +117,7 @@ function ChatController(props) {
 
                     {/* here ai genrated prompt */}
 
-                    
+
                     {/* <View style={{ margin: 10, marginTop: 10 }}>
                         <FlatList horizontal showsHorizontalScrollIndicator={false}
                             data={prompt}
@@ -130,7 +143,7 @@ function ChatController(props) {
                                 width: 361 / 429 * screenWidth
 
                             }} onChangeText={setMessage} ></TextInput>
-                      
+
                         <TouchableOpacity>
                             <View style={{
                                 backgroundColor: '#1c1c1c', borderRadius: 23, width: 45, height: 45,
@@ -186,4 +199,4 @@ const Styles = StyleSheet.create({
     }
 })
 
-export default ChatController
+export default AiChatScreen

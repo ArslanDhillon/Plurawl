@@ -12,6 +12,7 @@ const Api = {
     ApiGetUserJournal:`${BasePath}api/journal/get_user_journals`,
     ApiGetMoodsList:`${BasePath}api/journal/get_moods_list`,
     ApiAnalyzeJournal:`${BasePath}api/journal/analyze_journal`,
+    ApiCreateChat:`${BasePath}api/chat/create_chat`,
 }
 
 export default Api;

@@ -4,7 +4,9 @@ import {
 } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { globalStyles } from '../globalStyles/styles';
+import Api from '../Apis/ApiPaths';
 import HighlightText from '@sanar/react-native-highlight-text';
 
 //hello world
@@ -26,6 +28,7 @@ export default BlankJournalScreen = (props) => {
     const [snapShot, setSnapShot] = useState(null);
     const [showIndicator, setShowIndicator] = useState(false);
     const [error,setError] = useState(false)
+    const [user,setUser] = useState(false)
 
     const scrollViewRef = useRef(null);
 
@@ -151,7 +154,36 @@ export default BlankJournalScreen = (props) => {
                 snapShot:snapShot
             }
         })
-    }}
+    }};
+
+    const createChat = async () => {
+        try {
+
+            const data = await AsyncStorage.getItem('USER')
+
+            if (data) {
+                let u = JSON.parse(data)
+                setUser(u)
+                // console.log('user saved profile is', u)
+                const token = u.token
+                const result = await fetch(Api.ApiCreateChat, {
+                    method: 'post',
+                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                    body:JSON.stringify({"title" : title}) 
+                })
+                if (result) {
+                    console.log("result is ", result)
+                    let json = await result.json()
+                    if (json.status === true) {
+
+                        console.log("create chat api data",json.data)
+                    }
+                }
+            }
+        } catch (error) {
+            console.log('error fetching ', error)
+        }
+    };
 
     return (
         <SafeAreaView style={{ backgroundColor: "#0f0f0f", height: height }}>
@@ -195,14 +227,14 @@ export default BlankJournalScreen = (props) => {
                             ref={scrollViewRef}
                             style={{ width: '100%', maxHeight: screenHeight - (isKeyboardVisible ? keyboardHeight + 50 : 50) }}
                         >
-                            {snapShot ?
+                            {/* {snapShot ?
                                 <HighlightText
                                 
                                 style={{ color: 'white', width: 380 / 429 * width, alignSelf: 'center', height: 600 / 924 * height }}
                                 highlightStyle={{ backgroundColor: '#D4474055' }}
                                 searchWords={snapShot.texthighlight}
                                 textToHighlight= {inputValue}
-                              /> :
+                              /> : */}
                             <TextInput placeholder='Jot your thoughts down here...'
                                 placeholderTextColor={"#fff"}
                                 style={{ fontSize: 17, fontWeight: '500', margin: 15 / 925 * height, color: '#fff', width: 380 / 429 * width, alignSelf: 'center', height: 600 / 924 * height }}
@@ -219,7 +251,8 @@ export default BlankJournalScreen = (props) => {
                                 autoFocus={true} 
                             
                                 onFocus={() => scrollViewRef.current.scrollTo({ y: 0, animated: true })} // Scroll to top when input is focused
-                            />}
+                            />
+                            {/* } */}
                         </ScrollView>
                         <View style={[styles.buttonContainer, { bottom: isKeyboardVisible ? buttonPosition : 30 }]}>
                             {showIndicator?<ActivityIndicator  color="#fff" size={'large'}/> :
@@ -296,7 +329,9 @@ export default BlankJournalScreen = (props) => {
                 <Text style={globalStyles.capsuleBtnText}>Help me understand</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[globalStyles.capsuleBtn, { backgroundColor: '#121212', marginTop: 12 / 924 * height }]}>
+            <TouchableOpacity style={[globalStyles.capsuleBtn, { backgroundColor: '#121212', marginTop: 12 / 924 * height }]}
+                onPress={createChat}
+            >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                     <Image source={require('../../assets/colorfullCircle.png')}
                         style={{ height: 20 / 924 * height, width: 20 / 924 * height, resizeMode: 'contain' }} />

@@ -58,6 +58,7 @@ const App = () => {
           <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
           <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
           <Stack.Screen name='WeeklySummaryMainScreen' component={WeeklySummaryMainScreen} />
+          <Stack.Screen name='AiChatScreen' component={AiChatScreen} />
           <Stack.Screen name='GoogleCalenderScreen' component={GoogleCalenderScreen} />
           <Stack.Screen name='BlankJournalScreen' component={BlankJournalScreen} />
           <Stack.Screen name='JournalsList' component={JournalsList} />
@@ -66,7 +67,6 @@ const App = () => {
           <Stack.Screen name='SelectedWeekVibes' component={SelectedWeekVibes} />
           <Stack.Screen name='LastWeekVibes' component={LastWeekVibes} />
           <Stack.Screen name='TestScreen' component={TestScreen} />
-
           <Stack.Screen name='CheckInFirstScreen' component={CheckInFirstScreen} />
           <Stack.Screen name='CheckInSecondScreen' component={CheckInSecondScreen} />
           <Stack.Screen name='CheckInThirdScreen' component={CheckInThirdScreen} />

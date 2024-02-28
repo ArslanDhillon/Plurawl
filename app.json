@@ -8,6 +8,12 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
           "microphonePermission": "Allow $(PRODUCT_NAME) to open the camera"
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.447203522675-prf3ds94an41lq557pj2np42qoqbd629"
+        }
       ]
     ],
     "name": "Plurawl",
@@ -25,15 +31,29 @@
       "**/*"
     ],
     "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "bundleIdentifier": "com.e8labs.plurawl",
-      "buildNumber": "1.8"
+      "iosClientId": "com.googleusercontent.apps.447203522675-prf3ds94an41lq557pj2np42qoqbd629",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.447203522675-prf3ds94an41lq557pj2np42qoqbd629"
+            ]
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.e8labs.plurawl"
     },
     "web": {
       "favicon": "./assets/favicon.png"

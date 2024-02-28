@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Moods from '../../models/moods'
 import GoogleCalenderScreen from '../googleCalender/GoogleCalenderScreen';
 import BlankJournalScreen from '../journalFlow/BlankJournalScreen';
+import AiChatScreen from '../AiChatFlow/AiChatScreen';
 
 
 
@@ -161,7 +162,11 @@ const WeeklySummaryMainScreen = (props) => {
         else {
             return checkIn.lastcheckin.feeling
         }
-    }
+    };
+
+    const AiChatHandle = () =>{
+        // console.log("user data fo ai chat screen ",user.user)
+        }
 
     return (
         <SafeAreaView style={{ backgroundColor: '#0f0f0f', flex: 1, }}>
@@ -225,7 +230,9 @@ const WeeklySummaryMainScreen = (props) => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={{ width: 390 / 426 * width, height: 87 / 924 * height, borderRadius: 16 / 924 * height, backgroundColor: "#1c1c1c", marginTop: 10 / 924 * height }}>
+                <TouchableOpacity style={{ width: 390 / 426 * width, height: 87 / 924 * height, borderRadius: 16 / 924 * height, backgroundColor: "#1c1c1c", marginTop: 10 / 924 * height }} 
+                   
+                >
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 / 426 * width, padding: 15 / 924 * height, paddingBottom: 10 / 924 * height }}>
 
                         <Image source={require('../../assets/colorfullCircle.png')} style={{ height: 24 / 924 * height, width: 24 / 924 * height }} />
