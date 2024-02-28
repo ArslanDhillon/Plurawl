@@ -12,6 +12,7 @@ function VibeView1() {
   return (
     <View style={{ height: height, width: width, overflow: "hidden", borderRadius: 24 / 924 * height, alignSelf: 'center', backgroundColor: 'red' }} >
       <ImageBackground source={HEPF} style={{ height: height, width: width, overflow: "hidden", alignItems: "center", }} >
+     
         <Text style={{ fontSize: 34, fontWeight: "500", marginTop: 90 / 924 * height }} > Last Week's Vibe </Text>
         <Text style={{ fontSize: 22, color: "#12121290" }} >December 17 - 23</Text>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: width - 17, marginTop: 27 / 924 * height }} >

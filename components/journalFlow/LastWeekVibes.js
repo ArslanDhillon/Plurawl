@@ -14,32 +14,38 @@ const HEPF = require("../../assets/All_Images/HEPFullscreen_3x.png")
 export default function LastWeekVibes() {
   return (
     <View style={styles.container} >
+       
       <ScrollView pagingEnabled showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
-        // nestedScrollEnabled
+      // nestedScrollEnabled
       >
-      <View style={[styles.page, { backgroundColor: 'transparent' }]}>
-        <VibeView1 />
-      </View>
+        <View style = {{flexDirection:'column'}}>
 
-      <View style={[styles.page, { backgroundColor: 'transparent' }]}>
-        <VibeView2 />
-      </View>
+       
 
-      <View style={[styles.page, { backgroundColor: 'transparent' }]}>
-        <VibeView3 />
-      </View>
+          <View style={[styles.page, { backgroundColor: 'transparent' }]}>
+            <VibeView1 />
+          </View>
 
-      <View style={[styles.page, { backgroundColor: 'transparent' }]}>
-        <VibeView4 />
-      </View>
+          <View style={[styles.page, { backgroundColor: 'transparent' }]}>
+            <VibeView2 />
+          </View>
 
-      <View style={[styles.page, { backgroundColor: 'transparent' }]}>
-        <VibeView5 />
-      </View>
+          <View style={[styles.page, { backgroundColor: 'transparent' }]}>
+            <VibeView3 />
+          </View>
 
+          <View style={[styles.page, { backgroundColor: 'transparent' }]}>
+            <VibeView4 />
+          </View>
+
+          <View style={[styles.page, { backgroundColor: 'transparent' }]}>
+            <VibeView5 />
+          </View>
+        </View>
       </ScrollView>
-   </View>
+    </View>
+
   );
 }
 
